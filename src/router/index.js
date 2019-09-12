@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import home from '@/components/home/home'
 import individualBusiness from '@/components/home/individualBusiness'
 import personalStore from '@/components/home/personalStore'
+import idInfo from '@/components/home/enterprise/idInfo'
 
 Vue.use(Router)
 
@@ -26,7 +27,11 @@ export default new Router({
         {
             path:'/individualBusiness',
             name:'individualBusiness',
-            component: individualBusiness
+            component: individualBusiness},
+        {
+            path: '/idInfo',
+            name: 'idInfo',
+            component: idInfo
         }
     ]
 

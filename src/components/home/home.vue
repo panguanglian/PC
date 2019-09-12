@@ -9,11 +9,29 @@
             <div>{{ item.title }}</div>
             <div>{{ item.text }}</div>
           </div>
-          <div class="btn">
-            下一步
-          </div>
+          <div class="selectBtn">下一步</div>
         </el-tab-pane>
-        <el-tab-pane><div slot="label">企业店</div><div slot="label" class="aa">适合公司/企业开店提供营业执照等资料即可开店</div>配置管理</el-tab-pane>
+        <el-tab-pane>
+          <div slot="label">企业店</div>
+          <div slot="label" class="aa">适合公司/企业开店提供营业执照等资料即可开店</div>
+          <div class="individual" style="margin-top: 50px;" @click="idinfo">
+            <div>旗舰店</div>
+            <div>经营1个自有品牌或1级授权品牌旗舰店</div>
+          </div>
+          <div class="individual">
+            <div>专卖店</div>
+            <div>经营1个自有品牌或授权销售专卖店</div>
+          </div>
+          <div class="individual">
+            <div>专营店</div>
+            <div>经营1个或多个自有/他人品牌的专营店</div>
+          </div>
+          <div class="individual">
+            <div>普通店</div>
+            <div>普通企业店铺</div>
+          </div>
+          <div class="selectBtns">下一步</div>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -39,8 +57,13 @@ export default {
     }
   },
   methods: {
+<<<<<<< HEAD
     _otherPage(data) {
       this.$router.push({ path: data.link })
+=======
+    idinfo(){
+      this.$router.push({path: '/idInfo'})
+>>>>>>> 322e7e7bfc16b93ad2d435ede7e345e4f955c20f
     }
   }
 };
@@ -58,29 +81,55 @@ export default {
   width: 50%;
   margin: 0 auto;
 }
-.el-tabs__nav{
+.el-tabs__nav {
   width: 100%;
   display: flex;
 }
-.el-tabs__nav div{
+.el-tabs__nav div {
   flex: 1;
   text-align: center;
   height: 60px;
 }
-.aa{
+.aa {
   position: absolute;
   top: 20px;
   width: 100%;
   left: 0;
   font-size: 12px;
 }
-.el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
+.el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
   height: 60px;
 }
-.individual{
+.individual {
   margin: 0 auto;
   border: 1px solid #dddddd;
-  width: 60%;
+  width: 50%;
+  border-radius: 5px;
+  margin-top: 20px;
+  padding: 5px 30px;
+  font-size: 14px;
+}
+.individual div:last-child {
+  color: #dddddd;
+}
+.selectBtn {
+  margin: 0 auto;
+  width: 20%;
+  text-align: center;
+  background: #0090fa;
+  margin-top: 174px;
+  padding: 10px 5px;
+  color: white;
+  border-radius: 5px;
+}
+.selectBtns {
+  margin: 0 auto;
+  width: 20%;
+  text-align: center;
+  background: #0090fa;
+  margin-top: 30px;
+  padding: 10px 5px;
+  color: white;
   border-radius: 5px;
 }
 </style>

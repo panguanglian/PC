@@ -29,6 +29,9 @@ export default {
 *{
   margin: 0;
 }
+html{
+  background: #EFF8FB;
+}
 .nav{
         width: 90%;
         height: 80px;
