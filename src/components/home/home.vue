@@ -65,7 +65,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 .title {
   width: 100%;
   text-align: center;
@@ -76,15 +76,7 @@ export default {
   width: 50%;
   margin: 0 auto;
 }
-.el-tabs__nav {
-  width: 100%;
-  display: flex;
-}
-.el-tabs__nav div {
-  flex: 1;
-  text-align: center;
-  height: 60px;
-}
+
 .aa {
   position: absolute;
   top: 20px;
@@ -92,9 +84,7 @@ export default {
   left: 0;
   font-size: 12px;
 }
-.el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
-  height: 60px;
-}
+
 .individual {
   margin: 0 auto;
   border: 1px solid #dddddd;
@@ -105,7 +95,7 @@ export default {
   font-size: 14px;
 }
 .individual div:last-child {
-  color: #dddddd;
+  color: #707070;
 }
 .selectBtn {
   margin: 0 auto;
@@ -126,5 +116,19 @@ export default {
   padding: 10px 5px;
   color: white;
   border-radius: 5px;
+}
+</style>
+<style>
+  .el-tabs__nav {
+  width: 100%;
+  display: flex;
+}
+.el-tabs__nav div {
+  flex: 1;
+  text-align: center;
+  height: 60px;
+}
+.el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
+  height: 60px;
 }
 </style>
