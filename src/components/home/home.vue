@@ -57,13 +57,8 @@ export default {
     }
   },
   methods: {
-<<<<<<< HEAD
     _otherPage(data) {
       this.$router.push({ path: data.link })
-=======
-    idinfo(){
-      this.$router.push({path: '/idInfo'})
->>>>>>> 322e7e7bfc16b93ad2d435ede7e345e4f955c20f
     }
   }
 };

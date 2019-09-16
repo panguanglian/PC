@@ -44,7 +44,7 @@
         <div class="TableTitle">
           <div class="TitleContent">
             <span>2</span>
-            <p>店铺信息</p>
+            <p>开店人基本信息</p>
           </div>
 
           <div class="TableInput">
@@ -163,7 +163,6 @@ export default {
     .personalStore{
       width: 100%;
       height: 100%;
-      background-color:turquoise;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -172,7 +171,6 @@ export default {
     .StoreTable{
       margin-top: 20px;
       width: 50%;
-      height: 1100px;
       background-color: white;
       padding: 40px 100px 0px 100px;
     }
