@@ -6,6 +6,7 @@ import individualBusiness from '@/components/home/individualBusiness'
 import personalStore from '@/components/home/personalStore'
 import idInfo from '@/components/home/enterprise/idInfo'
 import storeInfo from '@/components/home/enterprise/storeInfo'
+import flagShip from '@/components/home/flagShip'
 
 Vue.use(Router)
 
@@ -38,6 +39,11 @@ export default new Router({
             path: '/storeInfo',
             name: 'storeInfo',
             component: storeInfo
+        },
+        {
+            path: '/flagShip',
+            name: 'flagShip',
+            component: flagShip
         }
     ]
 
