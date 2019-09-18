@@ -5,7 +5,7 @@
         <div class="tab">1</div>
         <div>身份信息</div>
       </div>
-      <div class="step1 active">
+      <div class="step1">
         <div class="progress"></div>
         <div class="tab">2</div>
         <div>店铺信息</div>
@@ -119,7 +119,7 @@
         </div>
         <div style="flex:2;" class="date">
           <div class="block">
-            <el-date-picker v-model="value3" type="date" placeholder="选择日"></el-date-picker>
+            <el-date-picker v-model="value2" type="date" placeholder="选择日"></el-date-picker>
           </div>
           <el-checkbox v-model="checkeds">长期</el-checkbox>
         </div>
@@ -127,7 +127,7 @@
     </div>
     <div class="operate">
         <div class="last" @click="last">上一步</div>
-        <div class="next">下一步</div>
+        <div class="next" @click="next">下一步</div>
     </div>
   </div>
 </template>
@@ -140,6 +140,7 @@ export default {
       checked: true,
       checkeds: true,
       value3: "",
+      value2: "",
       radio: "1",
      
     };
@@ -147,7 +148,10 @@ export default {
   methods: {
       last(){
           this.$router.go(-1)
-      }
+      },
+      next(){
+           this.$router.push({path: 'storeInfo'})
+      },
   }
 };
 </script>
@@ -237,6 +241,7 @@ export default {
   width: 100%;
   justify-content: center;
   margin-top: 20px;
+  color: #030303;
 }
 .list strong {
   color: red;
