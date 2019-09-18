@@ -35,7 +35,7 @@ export default {
         {
           title: '个人店',
           text: '个人身份开店（无营业执照）',
-          link: 'flagShip'
+          link: 'generalStore'
         },
         {
           title: '个人店',
