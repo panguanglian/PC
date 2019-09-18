@@ -51,10 +51,10 @@
         </div>
         <div style="flex:2;" class="papers">
           <div class="upPapers">
-              <div class="UP">点击上传</div>
+            <div class="UP">点击上传</div>
           </div>
           <div class="upPapers">
-              <div class="UP">点击上传</div>
+            <div class="UP">点击上传</div>
           </div>
         </div>
       </div>
@@ -106,10 +106,10 @@
         </div>
         <div style="flex:2;" class="papers">
           <div class="upPapers">
-              <div class="UP">点击上传</div>
+            <div class="UP">点击上传</div>
           </div>
           <div class="upPapers">
-              <div class="UP">点击上传</div>
+            <div class="UP">点击上传</div>
           </div>
         </div>
       </div>
@@ -126,8 +126,8 @@
       </div>
     </div>
     <div class="operate">
-        <div class="last" @click="last">上一步</div>
-        <div class="next" @click="next">下一步</div>
+      <div class="last" @click="last">上一步</div>
+      <div class="next" @click="next">下一步</div>
     </div>
   </div>
 </template>
@@ -141,17 +141,16 @@ export default {
       checkeds: true,
       value3: "",
       value2: "",
-      radio: "1",
-     
+      radio: "1"
     };
   },
   methods: {
-      last(){
-          this.$router.go(-1)
-      },
-      next(){
-           this.$router.push({path: 'storeInfo'})
-      },
+    last() {
+      this.$router.go(-1);
+    },
+    next() {
+      this.$router.push({ path: "storeInfo" });
+    }
   }
 };
 </script>
@@ -166,28 +165,28 @@ export default {
   border-radius: 5px;
   box-shadow: 5px 5px 2px #888888;
 }
-.operate{
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    padding: 50px 0;
+.operate {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 50px 0;
 }
-.operate div{
-    width: 200px;
-    height: 40px;
-    text-align: center;
-    line-height: 40px;
-    border-radius: 5px;
-    margin: 0 20px;
+.operate div {
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 5px;
+  margin: 0 20px;
 }
-.last{
-    border: 1px solid #030303;
-    background: white;
+.last {
+  border: 1px solid #030303;
+  background: white;
 }
-.next{
-    border: 1px solid #0090FA;
-    background: #0090FA;
-    color: white;
+.next {
+  border: 1px solid #0090fa;
+  background: #0090fa;
+  color: white;
 }
 .block {
   margin-right: 20px;
@@ -271,18 +270,18 @@ export default {
 .date {
   display: flex;
 }
-.upPapers{
-    position: relative;
+.upPapers {
+  position: relative;
 }
-.papers .UP{
-    width: 80px;
-    height: 22px;
-    border-radius: 10px;
-    border: 1px solid #030303;
-    text-align: center;
-    line-height: 22px;
-    position: absolute;
-    bottom: 10px;
-    left: 50px;
+.papers .UP {
+  width: 80px;
+  height: 22px;
+  border-radius: 10px;
+  border: 1px solid #030303;
+  text-align: center;
+  line-height: 22px;
+  position: absolute;
+  bottom: 10px;
+  left: 50px;
 }
 </style>

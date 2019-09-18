@@ -34,8 +34,8 @@
           <strong>*</strong>是否三证合一
         </div>
         <div style="flex:2;  margin-left: 15px;">
-          <el-radio v-model="radios" label="1">是</el-radio>
-          <el-radio v-model="radios" label="2">否</el-radio>
+          <el-radio v-model="radio" label="1">是</el-radio>
+          <el-radio v-model="radio" label="2">否</el-radio>
         </div>
       </div>
       <div class="list">
@@ -89,10 +89,109 @@
       <div class="title">
         <strong class="blue">2</strong> 商标信息上传
       </div>
+      <div class="brand">
+        <div class="list">
+          <div style="flex:1; text-align: right;">品牌类型</div>
+          <div style="flex:3;  margin-left: 15px;">
+            <el-radio v-model="radios" label="1">自有品牌</el-radio>
+            <el-radio v-model="radios" label="2">授权品牌</el-radio>
+          </div>
+        </div>
+        <div
+          style="font-size: 12px; margin-left: 230px; color:#9597A6;"
+        >自有品牌即品牌下面的商标，其权利人是您的开店公司或者开店公司的法定代表人；若不是，则是授权品牌。</div>
+        <div class="list">
+          <div style="flex:1; text-align: right;">品牌名称</div>
+          <div style="flex:3;">
+            <input type="text" placeholder="请填写品牌名称" />
+          </div>
+        </div>
+        <div class="list">
+          <div style="flex:1; text-align: right;">品牌注册商标</div>
+          <div style="flex:3;">
+            <div class="trademark">
+              <div class="list">
+                <div style="flex:1; text-align: right;">商标注册号</div>
+                <div style="flex:3;">
+                  <input type="text" placeholder="请填写品牌名称" />
+                </div>
+              </div>
+              <div class="list">
+                <div style="flex:1; text-align: right;">商标注册证明</div>
+                <div style="flex:3; margin-left: 15px;">
+                  <div class="UP">点击上传</div>
+                  <div class="explain">
+                    <div>1、请上传《商标注册证》或申请日起已满6个月的《注册申请受理通知书》</div>
+                    <div>2、上传的《商标注册证》或《商标受理通知书》的申请人或注册人必须为开店公司</div>
+                    <div>3、变更中的商标请同时上传《变更受理通知书》和《注册申请受理通知书》</div>
+                    <div>4、转入/已转让的商标需上传《转让受理通知书》或者《转让证明》</div>
+                    <div>5、《商标注册证》续证完成，而原《商标注册证》已经过期，需同时上传《核准续展注册证明》</div>
+                  </div>
+                </div>
+              </div>
+              <div class="list">
+                <div style="flex:1; text-align: right;">证件有效日期</div>
+                <div style="flex:3;" class="date">
+                  <div class="block">
+                    <el-date-picker v-model="value3" type="date" placeholder="选择日"></el-date-picker>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="addBrand">添加更多品牌</div>
+      <div class="title">
+        <strong class="blue">3</strong> 店铺基本信息
+      </div>
+      <div class="list">
+        <div style="flex:1; text-align: right;">
+          <strong>*</strong>店铺名称
+        </div>
+        <div style="flex:2;">
+          <input type="text" placeholder="请输入店铺名称" />
+        </div>
+      </div>
+      <div class="list">
+        <div style="flex:1; text-align: right;">
+          <strong>*</strong>设置密码
+        </div>
+        <div style="flex:2;">
+          <input type="password" placeholder="请输入密码" />
+        </div>
+      </div>
+      <div class="list">
+        <div style="flex:1; text-align: right;">
+          <strong>*</strong>确认密码
+        </div>
+        <div style="flex:2;">
+          <input type="password" placeholder="请重新输入密码" />
+        </div>
+      </div>
+      <div class="list">
+        <div style="flex:1; text-align: right;">
+          <strong>*</strong>第三方店铺链接
+        </div>
+        <div style="flex:2;">
+          <input type="text" placeholder="填写真实的其他平台链接，若无可不填" />
+        </div>
+      </div>
+      <div class="list">
+        <div style="flex:1; text-align: right;">
+          <strong>*</strong>入驻邀请码
+        </div>
+        <div style="flex:2;">
+          <input type="text" placeholder="填写邀请人的邀请码，若无可不填" />
+        </div>
+      </div>
+      <div class="agreement">
+        <el-checkbox v-model="checked">我已经阅读并同意</el-checkbox>《异业联盟平台合作协议》
+      </div>
     </div>
     <div class="operate">
-        <div class="last" @click="last">上一步</div>
-        <div class="next" @click="next">提交</div>
+      <div class="last" @click="last">上一步</div>
+      <div class="next" @click="next">提交</div>
     </div>
   </div>
 </template>
@@ -102,13 +201,17 @@ export default {
   name: "home",
   data() {
     return {
-      radios: "2"
+      radio: "1",
+      radios: "1",
+      value3: "",
+      checked: true
     };
   },
   methods: {
-    last(){
-          this.$router.go(-1)
-      },
+    last() {
+      this.$router.go(-1);
+    },
+    next() {}
   }
 };
 </script>
@@ -123,8 +226,8 @@ export default {
   border-radius: 5px;
   box-shadow: 5px 5px 2px #888888;
 }
-.blue{
-    color: #0090fa;
+.blue {
+  color: #0090fa;
 }
 .operate {
   display: flex;
@@ -210,7 +313,7 @@ export default {
   width: 64%;
   padding: 5px 5px;
   border-radius: 5px;
-  background: none;
+  background: white;
   outline: none;
   border: 1px solid #ccc;
   margin-left: 10px;
@@ -239,13 +342,44 @@ export default {
   border: 1px solid #030303;
   text-align: center;
   line-height: 22px;
+  background: white;
 }
 .explain {
   font-size: 12px;
   padding: 10px 0;
-  color: #9597A6;
+  color: #9597a6;
 }
-.explain div{
-    margin-top: 5px;
+.explain div {
+  margin-top: 5px;
+}
+.brand {
+  width: 880px;
+  height: 545px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+.trademark {
+  width: 620px;
+  height: 313px;
+  background: #f7f7f7;
+  border-radius: 5px;
+  margin-left: 15px;
+  padding-top: 10px;
+}
+.addBrand{
+  width: 880px;
+  height: 32px;
+  border: 1px solid #030303;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 32px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.agreement{
+  width: 328px;
+  margin: 0 auto;
+  margin-top: 20px;
 }
 </style>
