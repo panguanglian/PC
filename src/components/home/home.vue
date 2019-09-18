@@ -14,22 +14,11 @@
         <el-tab-pane>
           <div slot="label">企业店</div>
           <div slot="label" class="aa">适合公司/企业开店提供营业执照等资料即可开店</div>
-          <div class="individual" style="margin-top: 50px;" @click="idinfo">
-            <div>旗舰店</div>
-            <div>经营1个自有品牌或1级授权品牌旗舰店</div>
+          <div class="individual" v-for="(item, i) in firm" :key="`firm${ i }`" @click="idinfo(item)">
+            <div>{{ item.title }}</div>
+            <div>{{ item.text }}</div>
           </div>
-          <div class="individual">
-            <div>专卖店</div>
-            <div>经营1个自有品牌或授权销售专卖店</div>
-          </div>
-          <div class="individual">
-            <div>专营店</div>
-            <div>经营1个或多个自有/他人品牌的专营店</div>
-          </div>
-          <div class="individual">
-            <div>普通店</div>
-            <div>普通企业店铺</div>
-          </div>
+          
           <div class="selectBtns">下一步</div>
         </el-tab-pane>
       </el-tabs>
@@ -53,17 +42,37 @@ export default {
           text: '个人身份开店（有营业执照）',
           link: 'personalStore'
         }
-      ]
+      ],
+      firm: [
+        {
+          title: '旗舰店',
+          text: '经营1个自有品牌或1级授权品牌旗舰店',
+          link: '/idInfo'
+        },
+        {
+          title: '专卖店',
+          text: '经营1个自有品牌或授权销售专卖店',
+          link: '/idInfo'
+        },
+        {
+          title: '专营店',
+          text: '经营1个或多个自有/他人品牌的专营店',
+          link: '/idInfo'
+        },
+        {
+          title: '普通店',
+          text: '普通企业店铺',
+          link: '/idInfo'
+        }
+      ],
     }
   },
   methods: {
-<<<<<<< HEAD
     _otherPage(data) {
       this.$router.push({ path: data.link })
-=======
-    idinfo(){
-      this.$router.push({path: '/idInfo'})
->>>>>>> 322e7e7bfc16b93ad2d435ede7e345e4f955c20f
+    },
+     idinfo(data){
+      this.$router.push({path: data.link})
     }
   }
 };
