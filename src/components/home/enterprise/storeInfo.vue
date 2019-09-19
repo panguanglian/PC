@@ -34,8 +34,10 @@
           <strong>*</strong>是否三证合一
         </div>
         <div style="flex:2;  margin-left: 15px;">
-          <el-radio v-model="radio" label="1">是</el-radio>
-          <el-radio v-model="radio" label="2">否</el-radio>
+          <el-radio-group v-model="radio1" @change="choose">
+            <el-radio label="1">是</el-radio>
+            <el-radio label="2">否</el-radio>
+          </el-radio-group>
         </div>
       </div>
       <div class="list">
@@ -54,7 +56,79 @@
           <input type="text" placeholder="请输入公司名称" />
         </div>
       </div>
-      <div class="list">
+
+      <div v-if="show">
+        <div class="list">
+          <div style="flex:1; text-align: right;">
+            <strong>*</strong>营业执照注册号
+          </div>
+          <div style="flex:2;">
+            <input type="text" placeholder="请输入营业执照注册号" />
+          </div>
+        </div>
+
+        <div class="list">
+          <div style="flex:1; text-align: right;">
+            <strong>*</strong>营业期限
+          </div>
+          <div style="flex:2;">
+            <div class="block">
+              <el-date-picker v-model="value1" type="date" placeholder="选择日期"></el-date-picker>
+            </div>
+          </div>
+        </div>
+
+        <div class="list">
+          <div style="flex:1; text-align: right;">
+            <strong>*</strong>组织机构代码
+          </div>
+          <div style="flex:2;">
+            <input type="text" placeholder="请输入组织机构代码" />
+          </div>
+        </div>
+
+        <div class="list">
+          <div style="flex:1; text-align: right;">
+            <strong>*</strong>纳税人识别码
+          </div>
+          <div style="flex:2;">
+            <input type="text" placeholder="请输入纳税人识别码" />
+          </div>
+        </div>
+
+        <div class="list">
+          <div style="flex:1; text-align: right;"> 
+            <strong>*</strong>组织机构代码证有效期
+          </div>
+          <div style="flex:2;">
+            <div class="block">
+              <el-date-picker v-model="value2" type="date" placeholder="选择日期"></el-date-picker>
+            </div>
+          </div>
+        </div>
+
+        <div class="list">
+          <div style="flex:1; text-align: right;">
+            <strong>*</strong>组织机构代码证
+          </div>
+          <div style="flex:2; margin-left: 15px; display: flex;">
+            <div class="UP">点击上传</div>
+            <div style="color: #0090fa; margin-left: 15px;">查看事例</div>
+          </div>
+        </div>
+
+        <div class="list">
+          <div style="flex:1; text-align: right;">
+            <strong>*</strong>税务登记证明
+          </div>
+          <div style="flex:2; margin-left: 15px; display: flex;">
+            <div class="UP">点击上传</div>
+            <div style="color: #0090fa; margin-left: 15px;">查看事例</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="list" v-else>
         <div style="flex:1; text-align: right;">
           <strong>*</strong>统一社会信用代码
         </div>
@@ -93,8 +167,10 @@
         <div class="list">
           <div style="flex:1; text-align: right;">品牌类型</div>
           <div style="flex:3;  margin-left: 15px;">
-            <el-radio v-model="radios" label="1">自有品牌</el-radio>
-            <el-radio v-model="radios" label="2">授权品牌</el-radio>
+            <el-radio-group v-model="radio2" @change="brandType">
+              <el-radio label="1">自有品牌</el-radio>
+              <el-radio label="2">授权品牌</el-radio>
+            </el-radio-group>
           </div>
         </div>
         <div
@@ -106,10 +182,38 @@
             <input type="text" placeholder="请填写品牌名称" />
           </div>
         </div>
-        <div class="list">
+        <div v-if="show2">
+          <div class="list">
+            <div style="flex:1; text-align: right;">品牌独占授权书</div>
+            <div style="flex:3; margin-left: 15px;">
+              <div class="UP">点击上传</div>
+              <div
+                style="font-size: 12px; color: #9597A6; margin-top: 5px;"
+              >点击下载授权模板，按照授权模板填写，加盖品牌方授权公司及开店公司红色公章后上传</div>
+            </div>
+          </div>
+          <div class="list">
+            <div style="flex:1; text-align: right;">授权有效期</div>
+            <div style="flex:3;">
+              <div class="block">
+                <el-date-picker v-model="value1" type="date" placeholder="选择日期"></el-date-picker>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="list" v-for="(item, index) in radio" :key="index">
           <div style="flex:1; text-align: right;">品牌注册商标</div>
           <div style="flex:3;">
             <div class="trademark">
+              <div class="list" v-if="show2">
+                <div style="flex:1; text-align: right;">商标注册人类型</div>
+                <div style="flex:3;  margin-left: 15px;">
+                  <el-radio-group v-model="radio[index]" @change="registrant(index)">
+                    <el-radio label="">非自然人(公司)</el-radio>
+                    <el-radio label="1">自然人(个人)</el-radio>
+                  </el-radio-group>
+                </div>
+              </div>
               <div class="list">
                 <div style="flex:1; text-align: right;">商标注册号</div>
                 <div style="flex:3;">
@@ -133,13 +237,22 @@
                 <div style="flex:1; text-align: right;">证件有效日期</div>
                 <div style="flex:3;" class="date">
                   <div class="block">
-                    <el-date-picker v-model="value3" type="date" placeholder="选择日"></el-date-picker>
+                    <el-date-picker v-model="value[index]" type="date" placeholder="选择日" @change='chDate(index)'></el-date-picker>
                   </div>
                 </div>
               </div>
+              <div class="list" v-if="radio[index]">
+                <div style="flex:1; text-align: right;">持有人身份证明</div>
+                <div style="flex:3; margin-left: 15px;">
+                  <div class="UP">点击上传</div>
+                </div>
+              </div>
             </div>
+            
           </div>
+          
         </div>
+        <div class="addbrand" @click="addbrand">新增商标</div>
       </div>
       <div class="addBrand">添加更多品牌</div>
       <div class="title">
@@ -201,17 +314,64 @@ export default {
   name: "home",
   data() {
     return {
-      radio: "1",
-      radios: "1",
-      value3: "",
-      checked: true
+      radio1: "1", //是否三证合一
+      radio2: "1", //品牌类型
+      radio3: "1",//商标注册人类型
+      value1: "", //营业期限
+      value2: "", //组织机构代码证有效期
+      value3: "", //证件有效日期
+      value:[],
+      checked: true, //同意合作协议
+      show: false,
+      show2:false,
+      show3:false,
+      num:3,
+      radio:[
+        ''
+      ]
     };
   },
   methods: {
     last() {
       this.$router.go(-1);
     },
-    next() {}
+    next() {},
+    choose() {
+      console.log(this.radio1);
+      if (this.radio1 == 2) {
+        this.show = true;
+      } else {
+        this.show = false;
+      }
+    },
+    brandType() {
+      console.log(this.radio2);
+      if(this.radio2 == 2){
+        this.show2 = true
+      }else{
+        this.show2 = false
+        this.show3 = false
+      }
+    },
+    registrant(index){
+      console.log(this.radio[index])
+      // console.log(this.radio3);
+      if(this.radio[index] == 2){
+        this.show3 = true
+      }else{
+        this.show3 = false
+      }
+    },
+    addbrand(){
+     
+      this.value.push()
+    
+      this.radio.push("")
+      console.log(this.radio)
+    },
+    chDate(index){
+      console.log(this.value)
+    }
   }
 };
 </script>
@@ -253,7 +413,7 @@ export default {
   color: white;
 }
 .block {
-  margin-right: 20px;
+  margin-left: 12px;
 }
 .date {
   margin-left: 15px;
@@ -354,20 +514,20 @@ export default {
 }
 .brand {
   width: 880px;
-  height: 545px;
+  padding-bottom: 20px;
   border: 1px solid #dddddd;
   border-radius: 5px;
   margin: 0 auto;
 }
 .trademark {
-  width: 620px;
-  height: 313px;
+  width: 600px;
+
   background: #f7f7f7;
   border-radius: 5px;
   margin-left: 15px;
-  padding-top: 10px;
+  padding: 10px 15px 20px 0;
 }
-.addBrand{
+.addBrand {
   width: 880px;
   height: 32px;
   border: 1px solid #030303;
@@ -377,7 +537,17 @@ export default {
   margin: 0 auto;
   margin-top: 20px;
 }
-.agreement{
+.addbrand{
+  border: 1px solid #030303;
+  border-radius: 5px;
+  width: 100px;
+  height: 32px;
+  text-align: center;
+  line-height: 32px;
+  margin-top: 10px;
+  margin-left: 230px;
+}
+.agreement {
   width: 328px;
   margin: 0 auto;
   margin-top: 20px;
