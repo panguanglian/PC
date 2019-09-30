@@ -13,21 +13,21 @@
             <div class="TableName">
             <p><span>*</span>店铺名称</p>
             </div>
-            <input type="text" placeholder="请输入店铺名称">
+            <input type="text" placeholder="请输入店铺名称" v-model="name">
           </div>
           <div class="TableInput">
             <div class="TableName">
             
             <p><span>*</span>设置密码</p>
             </div>
-            <input type="text" placeholder="请输入密码">
+            <input type="text" placeholder="请输入密码" v-model="password">
           </div>
           <div class="TableInput">
             <div class="TableName">
        
             <p><span>*</span>确认密码</p>
             </div>
-            <input type="text" placeholder="请重新输入密码">
+            <input type="text" placeholder="请重新输入密码" v-model="quepassword">
           </div>
           <div class="TableInput">
             <div class="TableName">
@@ -67,17 +67,21 @@
             <p><span>*</span>上传证件</p>
             </div>
             <div class="Certificates">
-              <div class="A">
-                <div class="Aimg"><img src="" alt=""></div>
-                <!-- <div class="BDiv" v-if="dsad"><p>上传成功</p></div> -->
-                <div class="Abutton" ><button>点击上传</button></div>
-              </div>
-              <div class="B">
-                <div class="Bimg"><img src="" alt=""></div>
-                
-                <!-- <div class="BDiv"><p>上传成功</p></div> -->
-                <div class="Abutton" ><button>点击上传</button></div>
-              </div>
+              
+             <div class="upImg">
+               <span v-if="onesrc.length==0">身份证正面</span>
+               <img :src="onesrc" v-if="onesrc.length!=0" >
+              <input type="file" class="dsfafd" @change="getFile"  multiple accept="image/png,image/jpeg,image/gif,image/jpg" id="file">
+              <label for="file" class="upImgbtn" v-if="onesrc.length==0" >点击上传</label>
+              <label for="file" class="upseccs" v-else >上传成功</label>
+             </div>
+             <div class="upImg">
+                <span v-if="trwosrc.length==0">身份证背面</span>
+               <img :src="trwosrc" v-if="trwosrc.length!=0" >
+              <input type="file" class="dsfafd" @change="getFiless"  multiple accept="image/png,image/jpeg,image/gif,image/jpg" id="files">
+              <label for="files" class="upImgbtn" v-if="trwosrc.length==0" >点击上传</label>
+              <label for="files" class="upseccs" v-else >上传成功</label>
+             </div>
             </div>
           </div>
           <div class="TableDeadline">
@@ -93,7 +97,7 @@
             <p class="DateDay">日</p>
 
             <div class="TableLongTerm">
-              <input type="checkbox" name="长期" id="">
+              <input type="checkbox" v-model="yeartime">
               <p>长期</p>
             </div>
           </div>
@@ -108,20 +112,20 @@
 
           <div class="TableInput">
             <div class="TableName">
-            <p><span>*</span>第三方店铺链接</p>
+            <p>第三方店铺链接</p>
             </div>
             <input type="text" placeholder="填写真实的其他平台链接，若无可不填">
           </div>
           <div class="TableInput">
             <div class="TableName">
             
-            <p><span>*</span>入驻邀请码</p>
+            <p>入驻邀请码</p>
             </div>
             <input type="text" placeholder="填写邀请人的邀请码,若无可不填 ">
           </div>
 
           <div class="TableAgreement">
-            <input type="checkbox" name="" id="">
+            <input type="checkbox" v-model="checkque" @change="fdfad">
             <p>我已经阅读并同意</p>
             <span>《异业联盟平台合作协议》</span>
           </div>
@@ -146,17 +150,97 @@ export default {
   name: "personalStore",
   data() {
     return {
+        onesrc:[],
+        trwosrc:[],
+        checkque:'',
+        yeartime:'',
+        name:'',
+        password:'',
+        quepassword:''
         
     }
   },
   methods: {
-    
+    fdfad(){
+
+    },
+    getFiless(e) {
+        let _this = this
+        var filess = e.target.files[0]
+        if (!e || !window.FileReader) return  // 看支持不支持FileReader
+        let readers = new FileReader()
+        readers.readAsDataURL(filess) // 这里是最关键的一步，转换就在这里
+        readers.onloadend = function () {
+          _this.trwosrc = this.result
+        }
+      },
+      getFile (e) {
+        let _this = this
+        var files = e.target.files[0]
+        if (!e || !window.FileReader) return  // 看支持不支持FileReader
+        let reader = new FileReader()
+        reader.readAsDataURL(files) // 这里是最关键的一步，转换就在这里
+        reader.onloadend = function () {
+          _this.onesrc = this.result
+        }
+      }
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.upImg{
+    border:  1px solid #ddd;
+    width: 200px;
+    height: 125px;
+    border-radius: 6px;
+    position: relative;
+    margin-left: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ddd;
+    font-size: 24px;
+}
+.dsfafd{
+  display: none;
+}
+.upImg img{
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+.upImg.active{
+  border:  1px solid #0090fa;
+}
+.upImgbtn{
+  position: absolute;
+  left: 30%;
+  bottom: 5%;
+  width: 35%;
+  height: 15%;
+  border-radius: 15px;
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+
+}
+.upseccs{
+  position: absolute;
+  bottom: 0;
+    width: 100%;
+  height: 20px;
+  background: #0090fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 12px;
+}
+
     *{
       margin: 0;
     }
@@ -207,10 +291,6 @@ export default {
       justify-content: flex-end;
       align-items: center;
     }
-    .TableInput span{
-      font-size: 12px;
-      color: red;
-    }
     .TableInput p {
       font-size: 12px;
       letter-spacing: 1px;
@@ -240,65 +320,7 @@ export default {
       justify-content: space-between;
       align-items: center;
     }
-    .Certificates .A{
-      width: 48%;
-      height: 120px;
-      border-radius: 5px;
-      border: 1px solid #9597a6;
-    }
-    .Certificates .B{
-      width: 48%;
-      height: 120px;
-      border-radius: 5px;
-      border: 1px solid #9597a6;
-    }
-    .A .Aimg{
-      width: 100%;
-      height: 85px;
-    }
-    .Aimg img{
-      width: 100%;
-      height: 85px;
-    }
-    .B .Bimg{
-      width: 100%;
-      height: 85px;
-    }
-    .Bimg img{
-      width: 100%;
-      height: 85px;
-    }
-    .BDiv{
-      width: 100%;
-      height: 35px;
-      background-color: #0090fa;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .BDiv p {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .Abutton{
-      width: 100%;
-      height: 35px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .Abutton button{
-      outline: none;
-      border: none;
-      width: 35%;
-      height: 20px;
-      border-radius: 10px;
-      font-size: 2px;
-      background-color: white;
-      border: 1px solid #9597a6;
-    }
+   
 
 
 
