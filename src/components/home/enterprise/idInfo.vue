@@ -105,21 +105,13 @@
           <strong>*</strong>上传证件
         </div>
         <div style="flex:2;" class="papers">
-          <!-- <div class="upPapers">
+          <div class="upPapers">
             <div class="UP">点击上传</div>
           </div>
           <div class="upPapers">
             <div class="UP">点击上传</div>
-          </div> -->
-          <el-upload
-  class="avatar-uploader"
-  action="https://jsonplaceholder.typicode.com/posts/"
-  :show-file-list="false"
-  :on-success="handleAvatarSuccess"
-  :before-upload="beforeAvatarUpload">
-  <img v-if="imageUrl" :src="imageUrl" class="avatar">
-  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-</el-upload>
+          </div>
+          
         </div>
       </div>
       <div class="list">
@@ -151,7 +143,7 @@ export default {
       value3: "",
       value2: "",
       radio: "1",
-      imageUrl: ''
+     
     };
   },
   methods: {
@@ -161,49 +153,13 @@ export default {
     next() {
       this.$router.push({ path: "storeInfo" });
     },
-     handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
-      }
+   
   }
 };
 </script>
 
 <style>
- .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-   width: 195px;
-    height: 125px;
-    display: block;
-  }
+
 .idInfo {
   width: 960px;
   margin: 0 auto;
@@ -311,10 +267,9 @@ export default {
 .papers div {
   width: 195px;
   height: 125px;
-  margin-left: 5px;
-  /* border: 1px solid #dddddd;
+  border: 1px solid #dddddd;
   margin-left: 10px;
-  border-radius: 5px; */
+  border-radius: 5px;
 }
 .date {
   display: flex;
