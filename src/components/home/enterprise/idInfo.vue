@@ -111,6 +111,7 @@
           <div class="upPapers">
             <div class="UP">点击上传</div>
           </div>
+          
         </div>
       </div>
       <div class="list">
@@ -141,7 +142,8 @@ export default {
       checkeds: true,
       value3: "",
       value2: "",
-      radio: "1"
+      radio: "1",
+     
     };
   },
   methods: {
@@ -150,12 +152,14 @@ export default {
     },
     next() {
       this.$router.push({ path: "storeInfo" });
-    }
+    },
+   
   }
 };
 </script>
 
 <style>
+
 .idInfo {
   width: 960px;
   margin: 0 auto;
