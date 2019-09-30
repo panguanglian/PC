@@ -69,20 +69,21 @@
             <div class="Certificates">
               <div class="A">
                 <div class="Aimg"><img src="" alt=""></div>
-                <div class="Abutton"><button>点击上传</button></div>
+                <!-- <div class="BDiv" v-if="dsad"><p>上传成功</p></div> -->
+                <div class="Abutton" ><button>点击上传</button></div>
               </div>
               <div class="B">
                 <div class="Bimg"><img src="" alt=""></div>
-                <div class="BDiv">
-                  <p>上传成功</p>
-                </div>
+                
+                <!-- <div class="BDiv"><p>上传成功</p></div> -->
+                <div class="Abutton" ><button>点击上传</button></div>
               </div>
             </div>
           </div>
           <div class="TableDeadline">
             <div class="TableName">
             
-            <p><span>*</span>证件有限期</p>
+            <p>证件有限期</p>
             </div>  
             <input type="text" style="text-align: center;">
             <p class="DateDay">年</p>
@@ -145,11 +146,11 @@ export default {
   name: "personalStore",
   data() {
     return {
-
+        
     }
   },
   methods: {
-
+    
   }
 };
 </script>
@@ -281,7 +282,7 @@ export default {
       justify-content: center;
       align-items: center;
     }
-    .A .Abutton{
+    .Abutton{
       width: 100%;
       height: 35px;
       display: flex;
