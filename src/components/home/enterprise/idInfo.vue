@@ -26,7 +26,7 @@
           <strong>*</strong>法定代表人手机号
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="请输入法定代表人手机号" />
+          <input type="text" placeholder="请输入法定代表人手机号" v-model="phone" />
         </div>
       </div>
       <div class="list">
@@ -34,7 +34,7 @@
           <strong>*</strong>姓名
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="请填写店铺法定代表人姓名" />
+          <input type="text" placeholder="请填写店铺法定代表人姓名" v-model="usName" />
         </div>
       </div>
       <div class="list">
@@ -42,7 +42,7 @@
           <strong>*</strong>身份证号
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="请输入18位身份证号码" />
+          <input type="text" placeholder="请输入18位身份证号码" v-model="idCard" />
         </div>
       </div>
       <div class="list">
@@ -105,13 +105,23 @@
           <strong>*</strong>上传证件
         </div>
         <div style="flex:2;" class="papers">
-          <div class="upPapers">
-            <div class="UP">点击上传</div>
+          <div class="upPapers" @click="upLoad">
+             <input
+            type="file"
+            accept="image/*"
+            @change="changeImage($event)"
+            ref="avatarInput"
+            style="display:none"
+          />
+          <img :src="imgDatas" width="195" height="125" alt srcset>
+            <div class="UP" v-if="upShow">点击上传</div>
+            <div class="upWin" v-else>上传成功</div>
           </div>
-          <div class="upPapers">
+          <!-- <div class="upPapers">
             <div class="UP">点击上传</div>
-          </div>
-          
+          </div> -->
+
+         
         </div>
       </div>
       <div class="list">
@@ -143,7 +153,11 @@ export default {
       value3: "",
       value2: "",
       radio: "1",
-     
+      phone: "",
+      usName: "",
+      idCard: "",
+      imgDatas:[],
+      upShow:true,
     };
   },
   methods: {
@@ -151,15 +165,72 @@ export default {
       this.$router.go(-1);
     },
     next() {
-      this.$router.push({ path: "storeInfo" });
+      if (this.phone == "") {
+        this.$message("请输入法定代表人手机号");
+      } else if (!/^1[34578]\d{9}$/.test(this.phone)) {
+        this.$message("请输入正确的手机号");
+      } else if (this.usName == "") {
+        this.$message("请填写店铺法定代表人姓名");
+      } else if (this.idCard == "") {
+        this.$message("请输入18位身份证号码");
+      } else if (!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.idCard)) {
+        this.$message("请输入正确的身份证号");
+      } else if (this.value3 == "") {
+        this.$message("请选择有效日期");
+      } else {
+        this.$router.push({ path: "storeInfo" });
+      }
     },
-   
+    upLoad() {
+      // 触发上传图片按钮
+      this.$refs.avatarInput.dispatchEvent(new MouseEvent("click"));
+      
+    },
+     changeImage(e) {
+      // 上传图片事件
+      var files = this.$refs.avatarInput.files;
+      var that = this;
+      function readAndPreview(file) {
+        //Make sure `file.name` matches our extensions criteria
+        if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            if (that.imgDatas.indexOf(this.result) === -1) {
+              // that.imgDatas.push(this.result);
+              that.imgDatas=this.result;
+              that.upShow = false
+              console.log(that.imgDatas)
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+      if (files) {
+        [].forEach.call(files, readAndPreview);
+      }
+      if (files.length === 0) {
+        return;
+      }
+    }
   }
 };
 </script>
 
 <style>
-
+.papers .upWin{
+  width: 100%;
+  height: 20%;
+  background: #0090fa;
+  position: absolute;
+  bottom: 0;
+  left: -10px;
+  border-radius: 0%;
+  border: none;
+  text-align: center;
+  color: white;
+  font-size: 12px;
+  line-height: 220%;
+}
 .idInfo {
   width: 960px;
   margin: 0 auto;
