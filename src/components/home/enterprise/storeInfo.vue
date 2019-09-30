@@ -163,7 +163,7 @@
       <div class="title">
         <strong class="blue">2</strong> 商标信息上传
       </div>
-      <div class="brand">
+      <div class="brand" v-for="(item, index) in bra" :key="index">
         <div class="list">
           <div style="flex:1; text-align: right;">品牌类型</div>
           <div style="flex:3;  margin-left: 15px;">
@@ -252,9 +252,9 @@
           </div>
           
         </div>
-        <div class="addbrand" @click="addbrand">新增商标</div>
+        <div class="addbrand" @click="addbrand(index)">新增商标</div>
       </div>
-      <div class="addBrand">添加更多品牌</div>
+      <div class="addBrand" @click='addBra'>添加更多品牌</div>
       <div class="title">
         <strong class="blue">3</strong> 店铺基本信息
       </div>
@@ -328,14 +328,19 @@ export default {
       num:3,
       radio:[
         ''
-      ]
+      ],
+      bra:[
+        '1'
+      ],
     };
   },
   methods: {
     last() {
       this.$router.go(-1);
     },
-    next() {},
+    next() {
+      this.$router.push({ path: "flagShip" });
+    },
     choose() {
       console.log(this.radio1);
       if (this.radio1 == 2) {
@@ -362,12 +367,16 @@ export default {
         this.show3 = false
       }
     },
-    addbrand(){
-     
+    addbrand(index){
+      console.log(index)
       this.value.push()
     
       this.radio.push("")
       console.log(this.radio)
+    },
+    addBra(){
+      console.log(1)
+      this.bra.push("1")
     },
     chDate(index){
       console.log(this.value)
