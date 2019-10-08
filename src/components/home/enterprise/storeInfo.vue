@@ -26,7 +26,7 @@
           <strong>*</strong>主营类目
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="请输入主营类目" />
+          <input type="text" placeholder="请输入主营类目" v-model="category"/>
         </div>
       </div>
       <div class="list">
@@ -53,7 +53,7 @@
           <strong>*</strong>公司名称
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="请输入公司名称" />
+          <input type="text" placeholder="请输入公司名称" v-model="company"/>
         </div>
       </div>
 
@@ -63,7 +63,7 @@
             <strong>*</strong>营业执照注册号
           </div>
           <div style="flex:2;">
-            <input type="text" placeholder="请输入营业执照注册号" />
+            <input type="text" placeholder="请输入营业执照注册号" v-model="mark"/>
           </div>
         </div>
 
@@ -83,7 +83,7 @@
             <strong>*</strong>组织机构代码
           </div>
           <div style="flex:2;">
-            <input type="text" placeholder="请输入组织机构代码" />
+            <input type="text" placeholder="请输入组织机构代码" v-model="organization"/>
           </div>
         </div>
 
@@ -92,12 +92,12 @@
             <strong>*</strong>纳税人识别码
           </div>
           <div style="flex:2;">
-            <input type="text" placeholder="请输入纳税人识别码" />
+            <input type="text" placeholder="请输入纳税人识别码" v-model="taxpayer"/>
           </div>
         </div>
 
         <div class="list">
-          <div style="flex:1; text-align: right;"> 
+          <div style="flex:1; text-align: right;">
             <strong>*</strong>组织机构代码证有效期
           </div>
           <div style="flex:2;">
@@ -133,7 +133,7 @@
           <strong>*</strong>统一社会信用代码
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="请输入统一社会信用代码" />
+          <input type="text" placeholder="请输入统一社会信用代码" v-model="credit"/>
         </div>
       </div>
       <div class="list">
@@ -156,7 +156,7 @@
           <strong>*</strong>公司经营地址
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="请填写公司经营的详细地址" />
+          <input type="text" placeholder="请填写公司经营的详细地址" v-model="site"/>
         </div>
       </div>
 
@@ -167,7 +167,7 @@
         <div class="list">
           <div style="flex:1; text-align: right;">品牌类型</div>
           <div style="flex:3;  margin-left: 15px;">
-            <el-radio-group v-model="radio2" @change="brandType">
+            <el-radio-group v-model="radio2[index].radio" @change="brandType(index)">
               <el-radio label="1">自有品牌</el-radio>
               <el-radio label="2">授权品牌</el-radio>
             </el-radio-group>
@@ -182,7 +182,7 @@
             <input type="text" placeholder="请填写品牌名称" />
           </div>
         </div>
-        <div v-if="show2">
+        <div v-if="show2[index].show">
           <div class="list">
             <div style="flex:1; text-align: right;">品牌独占授权书</div>
             <div style="flex:3; margin-left: 15px;">
@@ -201,15 +201,15 @@
             </div>
           </div>
         </div>
-        <div class="list" v-for="(item, index) in radio" :key="index">
+        <div class="list" v-for="(item, inde) in item.radio" :key="inde">
           <div style="flex:1; text-align: right;">品牌注册商标</div>
           <div style="flex:3;">
             <div class="trademark">
-              <div class="list" v-if="show2">
+              <div class="list" v-if="show2[index].show">
                 <div style="flex:1; text-align: right;">商标注册人类型</div>
                 <div style="flex:3;  margin-left: 15px;">
-                  <el-radio-group v-model="radio[index]" @change="registrant(index)">
-                    <el-radio label="">非自然人(公司)</el-radio>
+                  <el-radio-group v-model="bra[index].radio[inde]" @change="registrant(inde)">
+                    <el-radio label>非自然人(公司)</el-radio>
                     <el-radio label="1">自然人(个人)</el-radio>
                   </el-radio-group>
                 </div>
@@ -223,7 +223,7 @@
               <div class="list">
                 <div style="flex:1; text-align: right;">商标注册证明</div>
                 <div style="flex:3; margin-left: 15px;">
-                  <div class="UP">点击上传</div>
+                  <div class="UP" @click="aa(inde)">点击上传</div>
                   <div class="explain">
                     <div>1、请上传《商标注册证》或申请日起已满6个月的《注册申请受理通知书》</div>
                     <div>2、上传的《商标注册证》或《商标受理通知书》的申请人或注册人必须为开店公司</div>
@@ -237,24 +237,27 @@
                 <div style="flex:1; text-align: right;">证件有效日期</div>
                 <div style="flex:3;" class="date">
                   <div class="block">
-                    <el-date-picker v-model="value[index]" type="date" placeholder="选择日" @change='chDate(index)'></el-date-picker>
+                    <el-date-picker
+                      v-model="value[index].value[inde]"
+                      type="date"
+                      placeholder="选择日"
+                      @change="chDate(inde)"
+                    ></el-date-picker>
                   </div>
                 </div>
               </div>
-              <div class="list" v-if="radio[index]">
+              <div class="list" v-if="bra[index].radio[inde]">
                 <div style="flex:1; text-align: right;">持有人身份证明</div>
                 <div style="flex:3; margin-left: 15px;">
                   <div class="UP">点击上传</div>
                 </div>
               </div>
             </div>
-            
           </div>
-          
         </div>
         <div class="addbrand" @click="addbrand(index)">新增商标</div>
       </div>
-      <div class="addBrand" @click='addBra'>添加更多品牌</div>
+      <div class="addBrand" @click="addBra">添加更多品牌</div>
       <div class="title">
         <strong class="blue">3</strong> 店铺基本信息
       </div>
@@ -315,23 +318,30 @@ export default {
   data() {
     return {
       radio1: "1", //是否三证合一
-      radio2: "1", //品牌类型
-      radio3: "1",//商标注册人类型
+      radio2: [{radio:'1'}], //品牌类型
+      radio3: "1", //商标注册人类型
       value1: "", //营业期限
       value2: "", //组织机构代码证有效期
       value3: "", //证件有效日期
-      value:[],
+      value: [{value:[]}],
       checked: true, //同意合作协议
       show: false,
-      show2:false,
-      show3:false,
-      num:3,
-      radio:[
-        ''
-      ],
-      bra:[
-        '1'
-      ],
+      show2: [{show : false}],
+      show3: false,
+      num: 3,
+      radio: [""],
+      bra: [{ radio: [""] }],
+      category:'',//主营类目
+      license:'',//营业执照
+      company:'',//公司名称
+      credit:'',//信用代码
+      voucher:'',//开户许可证或基本账户存款凭证
+      site:'',//公司经营地址
+      mark:'',//营业执照注册号
+      organization:'',//组织机构代码
+      taxpayer:'',//纳税人识别码
+      organizationCard:'',//组织机构代码证
+      attest:'',//税务登记证明
     };
   },
   methods: {
@@ -339,7 +349,45 @@ export default {
       this.$router.go(-1);
     },
     next() {
-      this.$router.push({ path: "flagShip" });
+      if(this.category==''){
+        this.$message({
+            message: "请输入主营类目",
+            type: "warning"
+          });
+      }else if(this.radio1=='1'){
+        if(this.license==''){
+          this.$message({
+            message: "请上传营业执照",
+            type: "warning"
+          });
+        }else if(this.company==''){
+          this.$message({
+            message: "请输入公司名称",
+            type: "warning"
+          });
+        }else if(this.credit==''){
+          this.$message({
+            message: "请输入统一社会信用代码",
+            type: "warning"
+          });
+        }else if(this.voucher==''){
+          this.$message({
+            message: "请上传开户许可证或基本账户存款凭证",
+            type: "warning"
+          });
+        }else if(this.site==''){
+          this.$message({
+            message: "请输入公司经营地址",
+            type: "warning"
+          });
+        }else{
+          this.$router.push({ path: "flagShip" });
+        }
+      }else{
+
+        this.$router.push({ path: "flagShip" });
+      }
+      
     },
     choose() {
       console.log(this.radio1);
@@ -349,37 +397,45 @@ export default {
         this.show = false;
       }
     },
-    brandType() {
+    brandType(index) {
       console.log(this.radio2);
-      if(this.radio2 == 2){
-        this.show2 = true
-      }else{
-        this.show2 = false
-        this.show3 = false
+      if (this.radio2[index].radio == 2) {
+        this.show2[index].show = true;
+      } else {
+        this.show2[index].show = false;
+        this.show3 = false;
       }
     },
-    registrant(index){
-      console.log(this.radio[index])
+    registrant(inde) {
+      console.log(this.radio[inde]);
       // console.log(this.radio3);
-      if(this.radio[index] == 2){
-        this.show3 = true
-      }else{
-        this.show3 = false
+      if (this.radio[inde] == 2) {
+        this.show3 = true;
+      } else {
+        this.show3 = false;
       }
     },
-    addbrand(index){
-      console.log(index)
-      this.value.push()
-    
-      this.radio.push("")
-      console.log(this.radio)
+    addbrand(index) {
+      console.log(index);
+      this.value.push();
+
+      this.bra[index].radio.push("");
+      console.log(this.radio);
     },
-    addBra(){
-      console.log(1)
-      this.bra.push("1")
+    addBra() {
+      
+      this.bra.push({ radio: [""] });
+      this.radio2.push({radio:'1'});
+      this.show2.push({show:false});
+      this.value.push({value:[]});
+      console.log(this.bra);
     },
-    chDate(index){
-      console.log(this.value)
+    chDate(inde) {
+      console.log(inde)
+      console.log(this.value[inde].value[inde]);
+    },
+    aa(inde) {
+      console.log(inde);
     }
   }
 };
@@ -527,6 +583,7 @@ export default {
   border: 1px solid #dddddd;
   border-radius: 5px;
   margin: 0 auto;
+  margin-bottom: 10px;
 }
 .trademark {
   width: 600px;
@@ -546,7 +603,7 @@ export default {
   margin: 0 auto;
   margin-top: 20px;
 }
-.addbrand{
+.addbrand {
   border: 1px solid #030303;
   border-radius: 5px;
   width: 100px;

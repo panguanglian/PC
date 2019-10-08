@@ -8,7 +8,12 @@ import idInfo from '@/components/home/enterprise/idInfo'
 import storeInfo from '@/components/home/enterprise/storeInfo'
 import flagShip from '@/components/home/flagShip'
 import generalStore from '@/components/home/generalStore'
+<<<<<<< HEAD
 import Businesslicense from '@/components/home/Businesslicense'
+=======
+
+
+>>>>>>> 98c04ed2a4e74e636579a6ceb7710e9a0d4c6681
 
 Vue.use(Router)
 
