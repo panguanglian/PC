@@ -50,11 +50,33 @@
           <strong>*</strong>上传证件
         </div>
         <div style="flex:2;" class="papers">
-          <div class="upPapers">
-            <div class="UP">点击上传</div>
+          <div class="upImg">
+            <span v-if="onesrc.length==0">身份证正面</span>
+            <img :src="onesrc" v-if="onesrc.length!=0" />
+            <input
+              type="file"
+              class="dsfafd"
+              @change="getFile"
+              multiple
+              accept="image/png, image/jpeg, image/gif, image/jpg"
+              id="file"
+            />
+            <label for="file" class="upImgbtn" v-if="onesrc.length==0">点击上传</label>
+            <label for="file" class="upseccs" v-else>上传成功</label>
           </div>
-          <div class="upPapers">
-            <div class="UP">点击上传</div>
+          <div class="upImg">
+            <span v-if="trwosrc.length==0">身份证背面</span>
+            <img :src="trwosrc" v-if="trwosrc.length!=0" />
+            <input
+              type="file"
+              class="dsfafd"
+              @change="getFiless"
+              multiple
+              accept="image/png, image/jpeg, image/gif, image/jpg"
+              id="files"
+            />
+            <label for="files" class="upImgbtn" v-if="trwosrc.length==0">点击上传</label>
+            <label for="files" class="upseccs" v-else>上传成功</label>
           </div>
         </div>
       </div>
@@ -80,8 +102,8 @@
           <strong>*</strong>法人与管理人是否同一人
         </div>
         <div style="flex:2; margin-left: 15px;">
-          <el-radio v-model="radio" label="1">是同一个人</el-radio>
-          <el-radio v-model="radio" label="2">不是同一个人</el-radio>
+          <el-radio v-model="radio" label="1" @change="alike">是同一个人</el-radio>
+          <el-radio v-model="radio" label="2" @change="different">不是同一个人</el-radio>
         </div>
       </div>
       <div class="list">
@@ -89,7 +111,7 @@
           <strong>*</strong>姓名
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="请填写店铺法定代表人姓名" />
+          <input type="text" placeholder="请填写店铺法定代表人姓名" v-model="usNames" />
         </div>
       </div>
       <div class="list">
@@ -97,7 +119,7 @@
           <strong>*</strong>身份证号
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="请输入18位身份证号码" />
+          <input type="text" placeholder="请输入18位身份证号码" v-model="idCards" />
         </div>
       </div>
       <div class="list">
@@ -105,23 +127,34 @@
           <strong>*</strong>上传证件
         </div>
         <div style="flex:2;" class="papers">
-          <div class="upPapers" @click="upLoad">
-             <input
-            type="file"
-            accept="image/*"
-            @change="changeImage($event)"
-            ref="avatarInput"
-            style="display:none"
-          />
-          <img :src="imgDatas" width="195" height="125" alt srcset>
-            <div class="UP" v-if="upShow">点击上传</div>
-            <div class="upWin" v-else>上传成功</div>
+          <div class="upImg">
+            <span v-if="onesrcx.length==0">身份证正面</span>
+            <img :src="onesrcx" v-if="onesrcx.length!=0" />
+            <input
+              type="file"
+              class="dsfafd"
+              @change="a"
+              multiple
+              accept="image/png, image/jpeg, image/gif, image/jpg"
+              id="filex"
+            />
+            <label for="filex" class="upImgbtn" v-if="onesrcx.length==0">点击上传</label>
+            <label for="filex" class="upseccs" v-else>上传成功</label>
           </div>
-          <!-- <div class="upPapers">
-            <div class="UP">点击上传</div>
-          </div> -->
-
-         
+          <div class="upImg">
+            <span v-if="trwosrcx.length==0">身份证背面</span>
+            <img :src="trwosrcx" v-if="trwosrcx.length!=0" />
+            <input
+              type="file"
+              class="dsfafd"
+              @change="b"
+              multiple
+              accept="image/png, image/jpeg, image/gif, image/jpg"
+              id="filesx"
+            />
+            <label for="filesx" class="upImgbtn" v-if="trwosrcx.length==0">点击上传</label>
+            <label for="filesx" class="upseccs" v-else>上传成功</label>
+          </div>
         </div>
       </div>
       <div class="list">
@@ -148,16 +181,22 @@ export default {
   name: "home",
   data() {
     return {
-      checked: true,
-      checkeds: true,
-      value3: "",
-      value2: "",
-      radio: "1",
-      phone: "",
-      usName: "",
-      idCard: "",
-      imgDatas:[],
-      upShow:true,
+      onesrc: [], //身份证正面1
+      trwosrc: [], //身份证背面1
+      onesrcx: [], //身份证正面2
+      trwosrcx: [], //身份证背面2
+      checked: true, //是否长期1
+      checkeds: true, //是否长期2
+      value3: "", //选择日期1
+      value2: "", //选择日期2
+      radio: "2", //是否同一人
+      phone: "", //手机号
+      usName: "", //用户名1
+      usNames: "", //用户名2
+      idCard: "", //身份证号1
+      idCards: "", //身份证号2
+
+      upShow: true
     };
   },
   methods: {
@@ -166,58 +205,206 @@ export default {
     },
     next() {
       if (this.phone == "") {
-        this.$message("请输入法定代表人手机号");
+        this.$message({
+          message: "请输入法定代表人手机号",
+          type: "warning"
+        });
       } else if (!/^1[34578]\d{9}$/.test(this.phone)) {
-        this.$message("请输入正确的手机号");
+        this.$message({
+          message: "请输入正确的手机号",
+          type: "warning"
+        });
       } else if (this.usName == "") {
-        this.$message("请填写店铺法定代表人姓名");
+        this.$message({
+          message: "请填写店铺法定代表人姓名",
+          type: "warning"
+        });
+      } else if (!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usName)) {
+        this.$message({
+          message: "请输入正确代表人姓名",
+          type: "warning"
+        });
       } else if (this.idCard == "") {
-        this.$message("请输入18位身份证号码");
+        this.$message({
+          message: "请输入18位身份证号码",
+          type: "warning"
+        });
       } else if (!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.idCard)) {
-        this.$message("请输入正确的身份证号");
+        this.$message({
+          message: "请输入正确的身份证号",
+          type: "warning"
+        });
+      } else if (this.onesrc == "") {
+        this.$message({
+          message: "请上传身份证正面照",
+          type: "warning"
+        });
+      } else if (this.trwosrc == "") {
+        this.$message({
+          message: "请上传身份证背面照",
+          type: "warning"
+        });
       } else if (this.value3 == "") {
-        this.$message("请选择有效日期");
-      } else {
+        this.$message({
+          message: "请选择有效日期",
+          type: "warning"
+        });
+      } else if (this.radio == "1") {
         this.$router.push({ path: "storeInfo" });
-      }
-    },
-    upLoad() {
-      // 触发上传图片按钮
-      this.$refs.avatarInput.dispatchEvent(new MouseEvent("click"));
-      
-    },
-     changeImage(e) {
-      // 上传图片事件
-      var files = this.$refs.avatarInput.files;
-      var that = this;
-      function readAndPreview(file) {
-        //Make sure `file.name` matches our extensions criteria
-        if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
-          var reader = new FileReader();
-          reader.onload = function(e) {
-            if (that.imgDatas.indexOf(this.result) === -1) {
-              // that.imgDatas.push(this.result);
-              that.imgDatas=this.result;
-              that.upShow = false
-              console.log(that.imgDatas)
-            }
-          };
-          reader.readAsDataURL(file);
+      } else {
+        if (this.usNames == "") {
+          this.$message({
+            message: "请填写店铺管理人姓名",
+            type: "warning"
+          });
+        } else if (
+          !/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)
+        ) {
+          this.$message({
+            message: "请输入正确管理人姓名",
+            type: "warning"
+          });
+        } else if (this.idCards == "") {
+          this.$message({
+            message: "请填写店铺管理人身份证号",
+            type: "warning"
+          });
+        } else if (!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.idCards)) {
+          this.$message({
+            message: "请输入正确的身份证号",
+            type: "warning"
+          });
+        } else if (this.onesrcx == "") {
+          this.$message({
+            message: "请上传管理员身份证正面照",
+            type: "warning"
+          });
+        } else if (this.trwosrcx == "") {
+          this.$message({
+            message: "请上传管理员身份证背面照",
+            type: "warning"
+          });
+        } else if (this.value2 == "") {
+          this.$message({
+            message: "请选择有效日期",
+            type: "warning"
+          });
+        } else {
+          this.$router.push({ path: "storeInfo" });
         }
       }
-      if (files) {
-        [].forEach.call(files, readAndPreview);
-      }
-      if (files.length === 0) {
-        return;
-      }
+    },
+    getFiless(e) {
+      let _this = this;
+      var filess = e.target.files[0];
+      if (!e || !window.FileReader) return; // 看支持不支持FileReader
+      let readers = new FileReader();
+      readers.readAsDataURL(filess); // 这里是最关键的一步，转换就在这里
+      readers.onloadend = function() {
+        _this.trwosrc = this.result;
+        console.log(_this.trwosrc);
+      };
+    },
+    getFile(e) {
+      let _this = this;
+      var files = e.target.files[0];
+      if (!e || !window.FileReader) return; // 看支持不支持FileReader
+      let reader = new FileReader();
+      reader.readAsDataURL(files); // 这里是最关键的一步，转换就在这里
+      reader.onloadend = function() {
+        _this.onesrc = this.result;
+        console.log(_this.onesrc);
+      };
+    },
+    b(e) {
+      let _this = this;
+      var filess = e.target.files[0];
+      if (!e || !window.FileReader) return; // 看支持不支持FileReader
+      let readers = new FileReader();
+      readers.readAsDataURL(filess); // 这里是最关键的一步，转换就在这里
+      readers.onloadend = function() {
+        _this.trwosrcx = this.result;
+      };
+    },
+    a(e) {
+      let _this = this;
+      var files = e.target.files[0];
+      if (!e || !window.FileReader) return; // 看支持不支持FileReader
+      let reader = new FileReader();
+      reader.readAsDataURL(files); // 这里是最关键的一步，转换就在这里
+      reader.onloadend = function() {
+        _this.onesrcx = this.result;
+      };
+    },
+    alike() {
+      this.usNames = this.usName;
+      this.idCards = this.idCard;
+      this.onesrcx = this.onesrc;
+      this.trwosrcx = this.trwosrc;
+      this.value2 = this.value3;
+    },
+    different() {
+      this.usNames = "";
+      this.idCards = "";
+      this.onesrcx = "";
+      this.trwosrcx = "";
+      this.value2 = "";
     }
   }
 };
 </script>
 
 <style>
-.papers .upWin{
+.upImg {
+  border: 1px solid #ddd;
+  width: 200px;
+  height: 125px;
+  border-radius: 6px;
+  position: relative;
+  margin-left: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ddd;
+  font-size: 24px;
+}
+.dsfafd {
+  display: none;
+}
+.upImg img {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+.upImg.active {
+  border: 1px solid #0090fa;
+}
+.upImgbtn {
+  position: absolute;
+  left: 30%;
+  bottom: 5%;
+  width: 35%;
+  height: 15%;
+  border-radius: 15px;
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
+.upseccs {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20px;
+  background: #0090fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 12px;
+}
+.papers .upWin {
   width: 100%;
   height: 20%;
   background: #0090fa;
