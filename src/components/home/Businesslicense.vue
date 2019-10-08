@@ -100,12 +100,68 @@
           </div>
         </div>
 
+    <!-- 营业执照信息 -->
+        <div class="TableTitle">
+          <div class="TitleContent">
+            <span>3</span>
+            <p>营业执照信息</p>
+          </div>
+
+          <div class="TableInput">
+            <div class="TableName">
+            <p><span>*</span>是否三证合一</p>
+            </div>
+             <div class="fjakljfl">
+                 <el-radio-group v-model="resource">
+                <el-radio label="0" >是</el-radio>
+                <el-radio label="1" >否</el-radio>
+                </el-radio-group>
+             </div>
+          </div>
+
+          <div class="TableInput">
+            <div class="TableName">
+            
+            <p><span>*</span>统一社会信用代码</p>
+            </div>
+            <input type="text" placeholder="请输入统一社会信用代码" v-model="resourcenumber">
+          </div>
+          
+          <div class="TableDeadline">
+            <div class="TableName">
+            <p><span>*</span>营业期限</p>
+            </div>  
+            <input type="text" style="text-align: center;" v-model="yearss" :disabled='yeartimes'>
+            <p class="DateDay">年</p>
+            <input type="text" style="text-align: center;" v-model="monthss" :disabled='yeartimes'>
+            <p class="DateDay">月</p>
+            <input type="text" style="text-align: center;" v-model="dayss" :disabled='yeartimes'>
+            <p class="DateDay">日</p>
+
+            <div class="TableLongTerm">
+              <el-checkbox v-model="yeartimes">长期</el-checkbox>
+            </div>
+          </div>
+
+          <div class="TableInput">
+            <div class="TableName">
+            <p><span>*</span>营业执照</p>
+            </div>
+             <div class="fjakljfl">
+                <input type="file" class="dsfafd" @change="getFilesss"  multiple accept="image/png,image/jpeg,image/gif,image/jpg" id="filesss">
+                <label for="filesss" class="upImgbtns" >点击上传</label>
+                <img :src="strwisrc" v-if="strwisrc.length!=0" class="imgstrwi">
+             </div>
+          </div>
+
+        </div>
+
         <!-- 第三方店铺链接 -->
 
         <div class="TableTitle">
 
           <div class="TitleContent">
-            <span>3</span>
+            <span>4</span>
             <p>第三方店铺链接</p>
           </div>
 
@@ -146,10 +202,13 @@
 export default {
   data() {
     return {
+        resource:'0',//三证
         onesrc:[],//第一张照片
         trwosrc:[],//第二张照片
+        strwisrc:[],//第三张照片
         checkque:false,//同意平台协议
         yeartime:false,//身份证是否长期
+        yeartimes:false,//营业执照是否长期
         shopName:'',//店铺名称
         password:'',//密码
         confirmpassword:'',//确认密码
@@ -157,15 +216,20 @@ export default {
         years:'',//证件年
         months:'',//证件月
         days:'',//证件日
+        yearss:'',//营业证件年
+        monthss:'',//营业证件月
+        dayss:'',//营业证件日
         name:'',//姓名
         idnumber:'',//身份证号码
         Invitationcode:'',//第三方店铺链接
         shoplink:'',//邀请码
-        yeartimevalue:'长期'
+        yeartimevalue:'长期',//身份证是长期
+        yeartimesvalue:'长期',//营业执照是长期
+        resourcenumber:'',//统一社会信用代码
     }
   },
+  
   methods: {
-    
    creatshop(){
      var kong = /\s/;//含有空格正则
      if(this.shopName.length==0||kong.test(this.shopName)){
@@ -252,11 +316,21 @@ export default {
       getFile (e) {
         let _this = this
         var files = e.target.files[0]
-        if (!e || !window.FileReader) return  // 看支持不支持FileReader
+        if (!e || !window.FileReader) return 
         let reader = new FileReader()
-        reader.readAsDataURL(files) // 这里是最关键的一步，转换就在这里
+        reader.readAsDataURL(files) 
         reader.onloadend = function () {
           _this.onesrc = this.result
+        }
+      },
+      getFilesss (e) {
+        let _this = this
+        var filesss = e.target.files[0]
+        if (!e || !window.FileReader) return 
+        let readersss = new FileReader()
+        readersss.readAsDataURL(filesss)
+        readersss.onloadend = function () {
+          _this.strwisrc = this.result
         }
       }
   }
@@ -265,6 +339,28 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.imgstrwi{
+    width: 80%;
+    height: 200px;
+    margin-left: 5px;
+}
+.upImgbtns{
+    margin-left: 5px;
+    width: 15%;
+    height: 30px;
+    border: 1px solid #DDDDDD;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #ddd;
+}
+.fjakljfl{
+    width: 55%;
+    display: flex;
+    align-items: center;
+}
 .upImg{
     border:  1px solid #ddd;
     width: 200px;

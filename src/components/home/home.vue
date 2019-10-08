@@ -34,12 +34,12 @@ export default {
       personal: [
         {
           title: '个人店',
-          text: '个人身份开店（无营业执照）',
-          link: 'flagshipStore'
+          text: '个人身份开店（有营业执照）',
+          link: 'Businesslicense'
         },
         {
           title: '个人店',
-          text: '个人身份开店（有营业执照）',
+          text: '个人身份开店（无营业执照）',
           link: 'personalStore'
         }
       ],
