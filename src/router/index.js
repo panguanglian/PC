@@ -8,7 +8,7 @@ import idInfo from '@/components/home/enterprise/idInfo'
 import storeInfo from '@/components/home/enterprise/storeInfo'
 import flagShip from '@/components/home/flagShip'
 import generalStore from '@/components/home/generalStore'
-import flagshipStore from '@/components/home/flagshipStore'
+
 
 
 Vue.use(Router)
@@ -53,11 +53,7 @@ export default new Router({
             name:'generalStore',
             component: generalStore
         },
-        {
-            path:'/flagshipStore',
-            name:'flagshipStore',
-            component: flagshipStore
-        }
+        
     ]
 
 })
