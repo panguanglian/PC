@@ -26,7 +26,7 @@
           <strong>*</strong>主营类目
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="请输入主营类目" v-model="category"/>
+          <input type="text" placeholder="请输入主营类目" v-model="category" @blur="categorys" :class="activeClass==''? 'red':''"/>
         </div>
       </div>
       <div class="list">
@@ -61,14 +61,13 @@
             <label for="file" class="upseccs" v-else>上传成功</label>
           </div>
         </div>
-         
       </div>
       <div class="list">
         <div style="flex:1; text-align: right;">
           <strong>*</strong>公司名称
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="请输入公司名称" v-model="company"/>
+          <input type="text" placeholder="请输入公司名称" v-model="company" />
         </div>
       </div>
 
@@ -78,7 +77,7 @@
             <strong>*</strong>营业执照注册号
           </div>
           <div style="flex:2;">
-            <input type="text" placeholder="请输入营业执照注册号" v-model="mark"/>
+            <input type="text" placeholder="请输入营业执照注册号" v-model="mark" />
           </div>
         </div>
 
@@ -88,7 +87,7 @@
           </div>
           <div style="flex:2;">
             <div class="block">
-              <el-date-picker v-model="value1" type="date" placeholder="选择日期"></el-date-picker>
+              <el-date-picker v-model="values" type="date" placeholder="选择日期"></el-date-picker>
             </div>
           </div>
         </div>
@@ -98,7 +97,7 @@
             <strong>*</strong>组织机构代码
           </div>
           <div style="flex:2;">
-            <input type="text" placeholder="请输入组织机构代码" v-model="organization"/>
+            <input type="text" placeholder="请输入组织机构代码" v-model="organization" />
           </div>
         </div>
 
@@ -107,7 +106,7 @@
             <strong>*</strong>纳税人识别码
           </div>
           <div style="flex:2;">
-            <input type="text" placeholder="请输入纳税人识别码" v-model="taxpayer"/>
+            <input type="text" placeholder="请输入纳税人识别码" v-model="taxpayer" />
           </div>
         </div>
 
@@ -148,7 +147,7 @@
           <strong>*</strong>统一社会信用代码
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="请输入统一社会信用代码" v-model="credit"/>
+          <input type="text" placeholder="请输入统一社会信用代码" v-model="credit" />
         </div>
       </div>
       <div class="list">
@@ -171,7 +170,7 @@
           <strong>*</strong>公司经营地址
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="请填写公司经营的详细地址" v-model="site"/>
+          <input type="text" placeholder="请填写公司经营的详细地址" v-model="site" />
         </div>
       </div>
 
@@ -194,7 +193,7 @@
         <div class="list">
           <div style="flex:1; text-align: right;">品牌名称</div>
           <div style="flex:3;">
-            <input type="text" placeholder="请填写品牌名称" />
+            <input type="text" placeholder="请填写品牌名称" v-model="brandName[index].name" />
           </div>
         </div>
         <div v-if="show2[index].show">
@@ -211,7 +210,7 @@
             <div style="flex:1; text-align: right;">授权有效期</div>
             <div style="flex:3;">
               <div class="block">
-                <el-date-picker v-model="value1" type="date" placeholder="选择日期"></el-date-picker>
+                <el-date-picker v-model="value1[index].value" type="date" placeholder="选择日期"></el-date-picker>
               </div>
             </div>
           </div>
@@ -223,7 +222,10 @@
               <div class="list" v-if="show2[index].show">
                 <div style="flex:1; text-align: right;">商标注册人类型</div>
                 <div style="flex:3;  margin-left: 15px;">
-                  <el-radio-group v-model="bra[index].radio[inde]" @change="registrant(inde,index)">
+                  <el-radio-group
+                    v-model="radio3[index].radio1[inde].radio2"
+                    @change="registrant(inde,index)"
+                  >
                     <el-radio label>非自然人(公司)</el-radio>
                     <el-radio label="1">自然人(个人)</el-radio>
                   </el-radio-group>
@@ -232,7 +234,11 @@
               <div class="list">
                 <div style="flex:1; text-align: right;">商标注册号</div>
                 <div style="flex:3;">
-                  <input type="text" placeholder="请填写品牌名称" />
+                  <input
+                    type="text"
+                    placeholder="请填写品牌名称"
+                    v-model="trademark[index].mark[inde].marks"
+                  />
                 </div>
               </div>
               <div class="list">
@@ -261,7 +267,7 @@
                   </div>
                 </div>
               </div>
-              <div class="list" v-if="bra[index].radio[inde]">
+              <div class="list" v-if="radio3[index].radio1[inde].radio2">
                 <div style="flex:1; text-align: right;">持有人身份证明</div>
                 <div style="flex:3; margin-left: 15px;">
                   <div class="UP">点击上传</div>
@@ -281,7 +287,7 @@
           <strong>*</strong>店铺名称
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="请输入店铺名称" />
+          <input type="text" placeholder="请输入店铺名称" v-model="shopName" :disabled="ban" />
         </div>
       </div>
       <div class="list">
@@ -289,7 +295,7 @@
           <strong>*</strong>设置密码
         </div>
         <div style="flex:2;">
-          <input type="password" placeholder="请输入密码" />
+          <input type="password" placeholder="请输入密码" v-model="shopPassword" />
         </div>
       </div>
       <div class="list">
@@ -297,7 +303,7 @@
           <strong>*</strong>确认密码
         </div>
         <div style="flex:2;">
-          <input type="password" placeholder="请重新输入密码" />
+          <input type="password" placeholder="请重新输入密码" v-model="shopPasswords" />
         </div>
       </div>
       <div class="list">
@@ -305,7 +311,7 @@
           <strong>*</strong>第三方店铺链接
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="填写真实的其他平台链接，若无可不填" />
+          <input type="text" placeholder="填写真实的其他平台链接，若无可不填" v-model="shopLink" />
         </div>
       </div>
       <div class="list">
@@ -313,7 +319,7 @@
           <strong>*</strong>入驻邀请码
         </div>
         <div style="flex:2;">
-          <input type="text" placeholder="填写邀请人的邀请码，若无可不填" />
+          <input type="text" placeholder="填写邀请人的邀请码，若无可不填" v-model="invitation" />
         </div>
       </div>
       <div class="agreement">
@@ -332,135 +338,449 @@ export default {
   name: "home",
   data() {
     return {
-      
+      ban: false,
       radio1: "1", //是否三证合一
-      radio2: [{radio:'1'}], //品牌类型
-      radio3: "1", //商标注册人类型
-      value1: "", //营业期限
+      radio2: [{ radio: "1" }], //品牌类型
+      radio3: [{ radio1: [{ radio2: "" }] }], //商标注册人类型
+      values: "", //营业有效期
+      value1: [{ value: "" }], //授权有效期
       value2: "", //组织机构代码证有效期
       value3: "", //证件有效日期
-      value: [{value1:[{value2:''}]}],
+      value: [{ value1: [{ value2: "" }] }],
       checked: true, //同意合作协议
       show: false,
-      show2: [{show : false}],
+      show2: [{ show: false }],
       show3: false,
       num: 3,
       radio: [""],
       bra: [{ radio: [""] }],
-      category:'',//主营类目
-      license:'',//营业执照
-      company:'',//公司名称
-      credit:'',//信用代码
-      voucher:'',//开户许可证或基本账户存款凭证
-      site:'',//公司经营地址
-      mark:'',//营业执照注册号
-      organization:'',//组织机构代码
-      taxpayer:'',//纳税人识别码
-      organizationCard:'',//组织机构代码证
-      attest:'',//税务登记证明
+      category: "", //主营类目
+      license: "1", //营业执照
+      company: "", //公司名称
+      credit: "", //信用代码
+      voucher: "1", //开户许可证或基本账户存款凭证
+      site: "", //公司经营地址
+      mark: "", //营业执照注册号
+      organization: "", //组织机构代码
+      taxpayer: "", //纳税人识别码
+      organizationCard: "1", //组织机构代码证
+      attest: "1", //税务登记证明
+      brandName: [{ name: "" }], //品牌名称
+      trademark: [{ mark: [{ marks: "" }] }], //商标注册号
+      brandProve: [{ brand: [{ prove: "1" }] }], //商标注册证明
+      impowerBook: [{ boox: "1" }], //品牌独占授权书
+      idCard: [{ card: [{ id: "1" }] }], //持有人身份证明
+      shopName: "", //店铺名称
+      shopPassword: "", //设置密码
+      shopPasswords: "", //确认密码
+      shopLink: "", //第三方店铺链接
+      invitation: "", //入驻邀请码
+      activeClass:'1',
     };
   },
   methods: {
     last() {
       this.$router.go(-1);
     },
-    next() {
+    categorys(){
+      
       if(this.category==''){
+        console.log(2222)
+        this.activeClass=''
+      }else{
+        console.log("ok")
+        this.activeClass='1'
+      }
+    },
+    next() {
+      if (this.category == "") {
         this.$message({
-            message: "请输入主营类目",
-            type: "warning"
-          });
-      }else if(this.radio1=='1'){
-        if(this.license==''){
+          message: "请输入主营类目",
+          type: "warning"
+        });
+      } else if (this.radio1 == "1") {
+        //是三证合一
+        if (this.license == "") {
           this.$message({
             message: "请上传营业执照",
             type: "warning"
           });
-        }else if(this.company==''){
+        } else if (this.company == "") {
           this.$message({
             message: "请输入公司名称",
             type: "warning"
           });
-        }else if(this.credit==''){
+        } else if (this.credit == "") {
           this.$message({
             message: "请输入统一社会信用代码",
             type: "warning"
           });
-        }else if(this.voucher==''){
+        } else if (this.voucher == "") {
           this.$message({
             message: "请上传开户许可证或基本账户存款凭证",
             type: "warning"
           });
-        }else if(this.site==''){
+        } else if (this.site == "") {
           this.$message({
             message: "请输入公司经营地址",
             type: "warning"
           });
-        }else{
-          this.$router.push({ path: "flagShip" });
+        } else {
+          for (var i = 0; i < this.radio2.length; i++) {
+            if (this.radio2[i].radio == "1") {
+              //自有品牌
+              console.log("品牌类型:自有品牌");
+              if (this.brandName[i].name == "") {
+                this.$message({
+                  message: "请输入品牌名称",
+                  type: "warning"
+                });
+              } else {
+                for (var j = 0; j < this.bra[i].radio.length; j++) {
+                  if (this.trademark[i].mark[j].marks == "") {
+                    this.$message({
+                      message: "请输入商标注册号",
+                      type: "warning"
+                    });
+                  } else if (this.brandProve[i].brand[j].prove == "") {
+                    this.$message({
+                      message: "请上传商标注册证明",
+                      type: "warning"
+                    });
+                  } else if (this.value[i].value1[j].value2 == "") {
+                    this.$message({
+                      message: "请选择证件有效日期",
+                      type: "warning"
+                    });
+                  } else if (this.shopName == "") {
+                    this.$message({
+                      message: "请输入店铺名称",
+                      type: "warning"
+                    });
+                  } else if (this.shopPassword == "") {
+                    this.$message({
+                      message: "请设置密码",
+                      type: "warning"
+                    });
+                  } else if (this.shopPasswords !== this.shopPassword) {
+                    this.$message({
+                      message: "密码不一致",
+                      type: "warning"
+                    });
+                  } else {
+                    this.$router.push({ path: "flagShip" });
+                  }
+                }
+              }
+            } else {
+              //授权品牌
+              console.log("品牌类型:授权品牌");
+              if (this.brandName[i].name == "") {
+                this.$message({
+                  message: "请输入品牌名称",
+                  type: "warning"
+                });
+              } else if (this.impowerBook[i].boox == "") {
+                this.$message({
+                  message: "请上传品牌独占授权书",
+                  type: "warning"
+                });
+              } else if (this.value1[i].value == "") {
+                this.$message({
+                  message: "请选择授权有效期",
+                  type: "warning"
+                });
+              } else {
+                for (var j = 0; j < this.bra[i].radio.length; j++) {
+                  if (this.radio3[i].radio1[j].radio2 == "") {
+                    //非自然人(公司)
+                    if (this.trademark[i].mark[j].marks == "") {
+                      this.$message({
+                        message: "请输入商标注册号",
+                        type: "warning"
+                      });
+                    } else if (this.brandProve[i].brand[j].prove == "") {
+                      this.$message({
+                        message: "请上传商标注册证明",
+                        type: "warning"
+                      });
+                    } else if (this.value[i].value1[j].value2 == "") {
+                      this.$message({
+                        message: "请选择证件有效日期",
+                        type: "warning"
+                      });
+                    } else if (this.shopName == "") {
+                      this.$message({
+                        message: "请输入店铺名称",
+                        type: "warning"
+                      });
+                    } else if (this.shopPassword == "") {
+                      this.$message({
+                        message: "请设置密码",
+                        type: "warning"
+                      });
+                    } else if (this.shopPasswords !== this.shopPassword) {
+                      this.$message({
+                        message: "密码不一致",
+                        type: "warning"
+                      });
+                    } else {
+                      this.$router.push({ path: "flagShip" });
+                    }
+                  } else {
+                    //自然人(个人)
+                    console.log(111);
+                    if (this.trademark[i].mark[j].marks == "") {
+                      this.$message({
+                        message: "请输入商标注册号",
+                        type: "warning"
+                      });
+                    } else if (this.brandProve[i].brand[j].prove == "") {
+                      this.$message({
+                        message: "请上传商标注册证明",
+                        type: "warning"
+                      });
+                    } else if (this.value[i].value1[j].value2 == "") {
+                      this.$message({
+                        message: "请选择证件有效日期",
+                        type: "warning"
+                      });
+                    } else if (this.idCard[i].card[j].id == "") {
+                      this.$message({
+                        message: "请上传持有人身份证明",
+                        type: "warning"
+                      });
+                    } else if (this.shopName == "") {
+                      this.$message({
+                        message: "请输入店铺名称",
+                        type: "warning"
+                      });
+                    } else if (this.shopPassword == "") {
+                      this.$message({
+                        message: "请设置密码",
+                        type: "warning"
+                      });
+                    } else if (this.shopPasswords !== this.shopPassword) {
+                      this.$message({
+                        message: "密码不一致",
+                        type: "warning"
+                      });
+                    } else {
+                      this.$router.push({ path: "flagShip" });
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
-      }else{
-        if(this.license==''){
+      } else {
+        //不是三证合一
+        if (this.license == "") {
           this.$message({
             message: "请上传营业执照",
             type: "warning"
           });
-        }else if(this.company==''){
-           this.$message({
+        } else if (this.company == "") {
+          this.$message({
             message: "请输入公司名称",
             type: "warning"
           });
-        }else if(this.mark==''){
-           this.$message({
+        } else if (this.mark == "") {
+          this.$message({
             message: "请输入营业执照注册号",
             type: "warning"
           });
-        }else if(this.value1==''){
-           this.$message({
+        } else if (this.values == "") {
+          this.$message({
             message: "请选择营业期限",
             type: "warning"
           });
-        }else if(this.organization==''){
-           this.$message({
+        } else if (this.organization == "") {
+          this.$message({
             message: "请输入组织机构代码",
             type: "warning"
           });
-        }else if(this.taxpayer==''){
-           this.$message({
+        } else if (this.taxpayer == "") {
+          this.$message({
             message: "请输入纳税人识别码",
             type: "warning"
           });
-        }else if(this.value2==''){
-           this.$message({
+        } else if (this.value2 == "") {
+          this.$message({
             message: "请选择组织机构代码证有效期",
             type: "warning"
           });
-        }else if(this.organizationCard==''){
-           this.$message({
+        } else if (this.organizationCard == "") {
+          this.$message({
             message: "请上传组织机构代码证",
             type: "warning"
           });
-        }else if(this.attest==''){
-           this.$message({
+        } else if (this.attest == "") {
+          this.$message({
             message: "请上传税务登记证明",
             type: "warning"
           });
-        }else if(this.voucher==''){
+        } else if (this.voucher == "") {
           this.$message({
             message: "请上传开户许可证或基本账户存款凭证",
             type: "warning"
           });
-        }else if(this.site==''){
+        } else if (this.site == "") {
           this.$message({
             message: "请输入公司经营地址",
             type: "warning"
           });
-        }else{
-          this.$router.push({ path: "flagShip" });
+        } else {
+          console.log(111);
+          for (var i = 0; i < this.radio2.length; i++) {
+            if (this.radio2[i].radio == "1") {
+              //自有品牌
+              if (this.brandName[i].name == "") {
+                this.$message({
+                  message: "请输入品牌名称",
+                  type: "warning"
+                });
+              } else {
+                for (var j = 0; j < this.bra[i].radio.length; j++) {
+                  if (this.trademark[i].mark[j].marks == "") {
+                    this.$message({
+                      message: "请输入商标注册号",
+                      type: "warning"
+                    });
+                  } else if (this.brandProve[i].brand[j].prove == "") {
+                    this.$message({
+                      message: "请上传商标注册证明",
+                      type: "warning"
+                    });
+                  } else if (this.value[i].value1[j].value2 == "") {
+                    this.$message({
+                      message: "请选择证件有效日期",
+                      type: "warning"
+                    });
+                  } else if (this.shopName == "") {
+                    this.$message({
+                      message: "请输入店铺名称",
+                      type: "warning"
+                    });
+                  } else if (this.shopPassword == "") {
+                    this.$message({
+                      message: "请设置密码",
+                      type: "warning"
+                    });
+                  } else if (this.shopPasswords !== this.shopPassword) {
+                    this.$message({
+                      message: "密码不一致",
+                      type: "warning"
+                    });
+                  } else {
+                    this.$router.push({ path: "flagShip" });
+                  }
+                }
+              }
+            } else {
+              //授权品牌
+              console.log("品牌类型:授权品牌");
+              if (this.brandName[i].name == "") {
+                this.$message({
+                  message: "请输入品牌名称",
+                  type: "warning"
+                });
+              } else if (this.impowerBook[i].boox == "") {
+                this.$message({
+                  message: "请上传品牌独占授权书",
+                  type: "warning"
+                });
+              } else if (this.value1[i].value == "") {
+                this.$message({
+                  message: "请选择授权有效期",
+                  type: "warning"
+                });
+              } else {
+                for (var j = 0; j < this.bra[i].radio.length; j++) {
+                  if (this.radio3[i].radio1[j].radio2 == "") {
+                    //非自然人(公司)
+                    if (this.trademark[i].mark[j].marks == "") {
+                      this.$message({
+                        message: "请输入商标注册号",
+                        type: "warning"
+                      });
+                    } else if (this.brandProve[i].brand[j].prove == "") {
+                      this.$message({
+                        message: "请上传商标注册证明",
+                        type: "warning"
+                      });
+                    } else if (this.value[i].value1[j].value2 == "") {
+                      this.$message({
+                        message: "请选择证件有效日期",
+                        type: "warning"
+                      });
+                    } else if (this.shopName == "") {
+                      this.$message({
+                        message: "请输入店铺名称",
+                        type: "warning"
+                      });
+                    } else if (this.shopPassword == "") {
+                      this.$message({
+                        message: "请设置密码",
+                        type: "warning"
+                      });
+                    } else if (this.shopPasswords !== this.shopPassword) {
+                      this.$message({
+                        message: "密码不一致",
+                        type: "warning"
+                      });
+                    } else {
+                      this.$router.push({ path: "flagShip" });
+                    }
+                  } else {
+                    //自然人(个人)
+                    console.log(111);
+                    if (this.trademark[i].mark[j].marks == "") {
+                      this.$message({
+                        message: "请输入商标注册号",
+                        type: "warning"
+                      });
+                    } else if (this.brandProve[i].brand[j].prove == "") {
+                      this.$message({
+                        message: "请上传商标注册证明",
+                        type: "warning"
+                      });
+                    } else if (this.value[i].value1[j].value2 == "") {
+                      this.$message({
+                        message: "请选择证件有效日期",
+                        type: "warning"
+                      });
+                    } else if (this.idCard[i].card[j].id == "") {
+                      this.$message({
+                        message: "请上传持有人身份证明",
+                        type: "warning"
+                      });
+                    } else if (this.shopName == "") {
+                      this.$message({
+                        message: "请输入店铺名称",
+                        type: "warning"
+                      });
+                    } else if (this.shopPassword == "") {
+                      this.$message({
+                        message: "请设置密码",
+                        type: "warning"
+                      });
+                    } else if (this.shopPasswords !== this.shopPassword) {
+                      this.$message({
+                        message: "密码不一致",
+                        type: "warning"
+                      });
+                    } else {
+                      this.$router.push({ path: "flagShip" });
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
-        
       }
-      
     },
     choose() {
       console.log(this.radio1);
@@ -476,34 +796,39 @@ export default {
         this.show2[index].show = true;
       } else {
         this.show2[index].show = false;
-        for(var i=0;i<this.bra[index].radio.length;i++){
-          this.bra[index].radio[i]=''
+        for (var i = 0; i < this.bra[index].radio.length; i++) {
+          this.bra[index].radio[i] = "";
         }
-        
       }
     },
-    registrant(inde,index) {
-      console.log(this.bra[index].radio[inde]);
-      
+    registrant(inde, index) {
+      console.log(this.radio3[index].radio1[inde]);
     },
     addbrand(index) {
       console.log(index);
       console.log(this.value[index]);
-      this.value[index].value1.push({value2:''});
-
+      this.value[index].value1.push({ value2: "" });
+      this.trademark[index].mark.push({ marks: "" });
+      this.brandProve[index].brand.push({ prove: "" });
       this.bra[index].radio.push("");
       console.log(this.radio);
+      this.radio3[index].radio1.push({ radio2: "" });
     },
     addBra() {
-      
       this.bra.push({ radio: [""] });
-      this.radio2.push({radio:'1'});
-      this.show2.push({show:false});
-      this.value.push({value1:[{value2:''}]});
+      this.radio2.push({ radio: "1" });
+      this.show2.push({ show: false });
+      this.value.push({ value1: [{ value2: "" }] });
+      this.brandName.push({ name: "" });
       console.log(this.bra);
+      this.trademark.push({ mark: [{ marks: "" }] });
+      this.brandProve.push({ brand: [{ prove: "" }] });
+      this.impowerBook.push({ boox: "" });
+      this.value1.push({ value: "" });
+      this.radio3.push({ radio1: [{ radio2: "" }] });
     },
-    chDate(inde,index) {
-      console.log(inde,index)
+    chDate(inde, index) {
+      console.log(inde, index);
       console.log(this.value[index].value1[inde].value2);
     },
     aa(inde) {
@@ -519,12 +844,15 @@ export default {
         _this.license = this.result;
         console.log(_this.license);
       };
-    },
+    }
   }
 };
 </script>
 
 <style scoped>
+.list > div .red{
+  border: red 1px solid;
+}
 .idInfo {
   width: 960px;
   margin: 0 auto;
@@ -626,6 +954,7 @@ export default {
   border: 1px solid #ccc;
   margin-left: 10px;
 }
+
 .title {
   margin: 20px 0;
 }
