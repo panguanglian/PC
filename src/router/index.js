@@ -4,16 +4,14 @@ import Router from 'vue-router'
 import home from '@/components/home/home'
 import individualBusiness from '@/components/home/individualBusiness'
 import personalStore from '@/components/home/personalStore'
-import idInfo from '@/components/home/enterprise/idInfo'
+import idInfoFlagship from '@/components/home/enterprise/idInfoFlagship'
+import idInfomonopoly from '@/components/home/enterprise/idInfomonopoly'
+import idInfoMonopolize from '@/components/home/enterprise/idInfoMonopolize'
+import idinfoordinary from '@/components/home/enterprise/idinfoordinary'
 import storeInfo from '@/components/home/enterprise/storeInfo'
 import flagShip from '@/components/home/flagShip'
 import generalStore from '@/components/home/generalStore'
-<<<<<<< HEAD
 import Businesslicense from '@/components/home/Businesslicense'
-=======
-
-
->>>>>>> 98c04ed2a4e74e636579a6ceb7710e9a0d4c6681
 
 Vue.use(Router)
 
@@ -25,7 +23,10 @@ export default new Router({
         {
             path: '/home',
             name: 'home',
-            component: home
+            component: home,
+            meta:{
+                keepAlive:true
+            }
         },
         {
             path: '/personalStore',
@@ -38,9 +39,24 @@ export default new Router({
             component: individualBusiness
         },
         {
-            path: '/idInfo',
-            name: 'idInfo',
-            component: idInfo
+            path: '/idInfoFlagship',
+            name: 'idInfoFlagship',
+            component: idInfoFlagship
+        },
+        {
+            path: '/idInfomonopoly',
+            name: 'idInfomonopoly',
+            component: idInfomonopoly
+        },
+        {
+            path: '/idInfoMonopolize',
+            name: 'idInfoMonopolize',
+            component: idInfoMonopolize
+        },
+        {
+            path: '/idinfoordinary',
+            name: 'idinfoordinary',
+            component: idinfoordinary
         },
         {
             path: '/storeInfo',

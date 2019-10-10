@@ -26,10 +26,10 @@
       </div>
 
       <div class="FlagTableInformation">
-        <div class="FlagTableInformationContent">
+        <div class="FlagTableInformationContent"> 
           <!-- 图标区域 -->
           <div class="InformationTitle">
-            <div class="Ivg">$</div>
+            <div class="Ivg"><i class="el-icon-check" style="font-size: 26px; font-weight: bold;"></i></div>
           </div>
 
           <!-- 店铺信息提交成功 -->
@@ -37,19 +37,14 @@
             <div class="NumberP">
               <div class="NumberFirst">
                 <p>
-                  恭喜您的店铺
-                  <span>[Charles Keith]</span>编号
-                  <span>[94355658]</span>提交资料成功
+                  恭喜您的店铺&nbsp;&nbsp;<span>[Charles Keith]</span>&nbsp;&nbsp;编号&nbsp;&nbsp;<span>[94355658]</span>&nbsp;&nbsp;提交资料成功
                 </p>
               </div>
             </div>
 
             <div class="NumberP">
               <div class="NumberSecond">
-                <p class="NumSign">登录账号:</p>
-                <p class="Numsman">15456789043</p>
-                <p class="NumWebsite">登录网址:</p>
-                <p class="NumLink">www.baidu.com</p>
+                <p class="NumSign">登录账号:15456789043&nbsp;&nbsp;&nbsp;&nbsp;登录网址:www.baidu.com</p>
               </div>
             </div>
           </div>
@@ -67,7 +62,7 @@
 
             <div class="ColumnBox">
               <p>如果你有第三方平台店铺，请先去绑定第三方平台店铺</p>
-              <span>立即绑定</span>
+              <span>立即绑定 </span>
             </div>
           </div>
         </div>
@@ -101,7 +96,7 @@ export default {
 .flagShipContent {
   margin-top: 20px;
   background-color: white;
-  width: 50%;
+  width: 70%;
 }
 
 .FlagTableComeTel {
@@ -197,10 +192,9 @@ export default {
   align-items: center;
 }
 .NumberP .NumberSecond {
-  width: 38%;
+  width: 100%;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: center;
 }
 
 .InformationButton {
@@ -227,6 +221,7 @@ export default {
   font-size: 12px;
   color: #9597a6;
   margin-top: 10px;
+ 
 }
 .ColumnBox span {
   text-indent: 5px;
