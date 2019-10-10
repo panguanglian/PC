@@ -35,34 +35,34 @@ export default {
         {
           title: '个人店',
           text: '个人身份开店（有营业执照）',
-          link: 'Businesslicense'
+          link: '/Businesslicense'
         },
         {
           title: '个人店',
           text: '个人身份开店（无营业执照）',
-          link: 'personalStore'
+          link: '/personalStore'
         }
       ],
       firm: [
         {
           title: '旗舰店',
           text: '经营1个自有品牌或1级授权品牌旗舰店',
-          link: '/idInfo'
+          link: '/idInfoFlagship'
         },
         {
           title: '专卖店',
           text: '经营1个自有品牌或授权销售专卖店',
-          link: '/idInfo'
+          link: '/idInfomonopoly'
         },
         {
           title: '专营店',
           text: '经营1个或多个自有/他人品牌的专营店',
-          link: '/idInfo'
+          link: '/idInfoMonopolize'
         },
         {
           title: '普通店',
           text: '普通企业店铺',
-          link: '/idInfo'
+          link: '/idinfoordinary'
         }
       ],
     }

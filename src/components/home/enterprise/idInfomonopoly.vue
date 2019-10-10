@@ -1,4 +1,7 @@
+
 <template>
+<!-- 专卖店-企业身份信息 -->
+
   <div class="idInfo">
     <div class="step">
       <div class="step1 active">

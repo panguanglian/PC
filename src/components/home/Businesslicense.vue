@@ -87,11 +87,11 @@
             <div class="TableName">
             <p><span>*</span>证件有限期</p>
             </div>  
-            <input type="text" style="text-align: center;" v-model="years" :disabled='yeartime'>
+            <input type="text" style="text-align: center;" v-model="years" :disabled='yeartime' onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="4">
             <p class="DateDay">年</p>
-            <input type="text" style="text-align: center;" v-model="months" :disabled='yeartime'>
+            <input type="text" style="text-align: center;" v-model="months" :disabled='yeartime' onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="2">
             <p class="DateDay">月</p>
-            <input type="text" style="text-align: center;" v-model="days" :disabled='yeartime'>
+            <input type="text" style="text-align: center;" v-model="days" :disabled='yeartime' onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="2">
             <p class="DateDay">日</p>
 
             <div class="TableLongTerm">
@@ -131,11 +131,11 @@
             <div class="TableName">
             <p><span>*</span>营业期限</p>
             </div>  
-            <input type="text" style="text-align: center;" v-model="yearss" :disabled='yeartimes'>
+            <input type="text" style="text-align: center;" v-model="yearss" :disabled='yeartimes' onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="4">
             <p class="DateDay">年</p>
-            <input type="text" style="text-align: center;" v-model="monthss" :disabled='yeartimes'>
+            <input type="text" style="text-align: center;" v-model="monthss" :disabled='yeartimes' onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="2">
             <p class="DateDay">月</p>
-            <input type="text" style="text-align: center;" v-model="dayss" :disabled='yeartimes'>
+            <input type="text" style="text-align: center;" v-model="dayss" :disabled='yeartimes' onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="2">
             <p class="DateDay">日</p>
 
             <div class="TableLongTerm">
@@ -220,7 +220,7 @@ export default {
         monthss:'',//营业证件月
         dayss:'',//营业证件日
         name:'',//姓名
-        idnumber:'',//身份证号码
+        idnumber:'',//身份证号码0000000000
         Invitationcode:'',//第三方店铺链接
         shoplink:'',//邀请码
         yeartimevalue:'长期',//身份证是长期
@@ -246,49 +246,152 @@ export default {
         this.$message({message: '身份证号码输入错误',type: 'warning'});
      }else if(this.onesrc.length==0||this.trwosrc.length==0){
             this.$message({message: '请上传完整的身份证图片',type: 'warning'});
+     }else if(this.strwisrc.length==0){
+            this.$message({message: '请上传营业执照图片',type: 'warning'});
+     }else if(this.resourcenumber.length==0||kong.test(this.resourcenumber)){
+            this.$message({message: '统一社会信用代码含有为空格或者为空',type: 'warning'});
      }else if(!this.checkque){
           this.$message({message: '请阅读同意平台协议',type: 'warning'});
      }else if(!this.yeartime){
         if(this.years.length==0||kong.test(this.years)||this.months.length==0||kong.test(this.months)||this.days.length==0||kong.test(this.days)){
-          this.$message({message: '证件年限含有为空格或者为空',type: 'warning'});
+          this.$message({message: '身份证年限含有为空格或者为空',type: 'warning'});
+        }else if(!this.yeartimes){
+            if(this.yearss.length==0||kong.test(this.yearss)||this.monthss.length==0||kong.test(this.monthss)||this.dayss.length==0||kong.test(this.dayss)){
+              this.$message({message: '营业执照年限含有为空格或者为空',type: 'warning'});
+            }else{
+                var obj={
+                  shopName:this.shopName,
+                  password:this.password,
+                  Category:this.Category,
+                  name:this.name,
+                  idnumber:this.idnumber,
+                  years:this.years,
+                  months:this.months,
+                  days:this.days,
+                  yearss:this.yearss,
+                  monthss:this.monthss,
+                  dayss:this.dayss,
+                  onesrc:this.onesrc,
+                  trwosrc:this.trwosrc,
+                  strwisrc:this.strwisrc,
+                  resource:this.resource,
+                  Invitationcode:this.Invitationcode,
+                  shoplink:this.shoplink,
+                  resource:this.resource,
+                  
+
+                }
+                console.log(obj)
+                this.$message({
+                  message:"创建店铺成功",
+                  type:'success'
+                })
+                setTimeout(() => {
+                  this.$router.push({name:"flagShip"})
+                }, 1000);
+            
+            }
+                
+              
         }else{
-          var obj={
-            shopName:this.shopName,
-            password:this.password,
-            Category:this.Category,
-            name:this.name,
-            idnumber:this.idnumber,
-            years:this.years,
-            months:this.months,
-            days:this.days,
-            onesrc:this.onesrc,
-            trwosrc:this.trwosrc,
-            Invitationcode:this.Invitationcode,
-            shoplink:this.shoplink,
-          }
-          console.log(obj)
+            var obj={
+                shopName:this.shopName,
+                password:this.password,
+                Category:this.Category,
+                name:this.name,
+                idnumber:this.idnumber,
+                years:this.years,
+                months:this.months,
+                days:this.days,
+                onesrc:this.onesrc,
+                trwosrc:this.trwosrc,
+                strwisrc:this.strwisrc,
+                resource:this.resource,
+                Invitationcode:this.Invitationcode,
+                shoplink:this.shoplink,
+                resource:this.resource,
+                yeartimesvalue:this.yeartimesvalue,
+
+              }
+              console.log(obj)
+              this.$message({
+                message:"创建店铺成功",
+                type:'success'
+              })
+              setTimeout(() => {
+                this.$router.push({name:"flagShip"})
+              }, 1000);
         }
+          
+        
      }else{
-        var obj={
-            shopName:this.shopName,
-            password:this.password,
-            Category:this.Category,
-            name:this.name,
-            onesrc:this.onesrc,
-            trwosrc:this.trwosrc,
-            idnumber:this.idnumber,
-            yeartimevalue:this.yeartimevalue,
-            Invitationcode:this.Invitationcode,
-            shoplink:this.shoplink,
-          }
-          console.log(obj)
-          this.$message({
-            message:"创建店铺成功,3s后返回首页",
-            type:'success'
-          })
-          setTimeout(() => {
-            this.$router.push({name:"home"})
-          }, 3000);
+
+       if(!this.yeartimes){
+            if(this.yearss.length==0||kong.test(this.yearss)||this.monthss.length==0||kong.test(this.monthss)||this.dayss.length==0||kong.test(this.dayss)){
+              this.$message({message: '营业执照年限含有为空格或者为空',type: 'warning'});
+            }else{
+                var obj={
+                  shopName:this.shopName,
+                  password:this.password,
+                  Category:this.Category,
+                  name:this.name,
+                  idnumber:this.idnumber,
+                  yearss:this.yearss,
+                  monthss:this.monthss,
+                  dayss:this.dayss,
+                  onesrc:this.onesrc,
+                  trwosrc:this.trwosrc,
+                  strwisrc:this.strwisrc,
+                  resource:this.resource,
+                  Invitationcode:this.Invitationcode,
+                  shoplink:this.shoplink,
+                  resource:this.resource,
+                  yeartimevalue:this.yeartimevalue,
+                }
+                console.log(obj)
+                this.$message({
+                  message:"创建店铺成功",
+                  type:'success'
+                },1000)
+                setTimeout(() => {
+                  this.$router.push({name:"flagShip"})
+                });
+            
+            }
+                
+              
+        }else{
+            var obj={
+                shopName:this.shopName,
+                password:this.password,
+                Category:this.Category,
+                name:this.name,
+                idnumber:this.idnumber,
+                years:this.years,
+                months:this.months,
+                days:this.days,
+                onesrc:this.onesrc,
+                trwosrc:this.trwosrc,
+                strwisrc:this.strwisrc,
+                resource:this.resource,
+                Invitationcode:this.Invitationcode,
+                shoplink:this.shoplink,
+                resource:this.resource,
+                yeartimesvalue:this.yeartimesvalue,
+                yeartimevalue:this.yeartimevalue,
+
+              }
+              console.log(obj)
+              this.$message({
+                message:"创建店铺成功",
+                type:'success'
+              })
+              setTimeout(() => {
+                this.$router.push({name:"flagShip"})
+              }, 1000);
+        }
+      
+          
      }
 
    },
