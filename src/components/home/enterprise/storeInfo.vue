@@ -47,8 +47,23 @@
           <strong>*</strong>营业执照
         </div>
         <div style="flex:2; margin-left: 15px;">
-          <div class="UP">点击上传</div>
+          <!-- <div class="UP">点击上传</div> -->
+          <div class="upImg">
+            <span v-if="license.length==0"></span>
+            <img :src="license" v-if="license.length!=0" />
+            <input
+              type="file"
+              class="dsfafd"
+              @change="getFile"
+              multiple
+              accept="image/png, image/jpeg, image/gif, image/jpg"
+              id="file"
+            />
+            <label for="file" class="upImgbtn" v-if="license.length==0">点击上传</label>
+            <label for="file" class="upseccs" v-else>上传成功</label>
+          </div>
         </div>
+         
       </div>
       <div class="list">
         <div style="flex:1; text-align: right;">
@@ -210,7 +225,7 @@
               <div class="list" v-if="show2[index].show">
                 <div style="flex:1; text-align: right;">商标注册人类型</div>
                 <div style="flex:3;  margin-left: 15px;">
-                  <el-radio-group v-model="bra[index].radio[inde]" @change="registrant(inde)">
+                  <el-radio-group v-model="bra[index].radio[inde]" @change="registrant(inde,index)">
                     <el-radio label>非自然人(公司)</el-radio>
                     <el-radio label="1">自然人(个人)</el-radio>
                   </el-radio-group>
@@ -240,10 +255,10 @@
                 <div style="flex:3;" class="date">
                   <div class="block">
                     <el-date-picker
-                      v-model="value[index].value[inde]"
+                      v-model="value[index].value1[inde].value2"
                       type="date"
                       placeholder="选择日"
-                      @change="chDate(inde)"
+                      @change="chDate(inde,index)"
                     ></el-date-picker>
                   </div>
                 </div>
@@ -319,13 +334,14 @@ export default {
   name: "home",
   data() {
     return {
+      
       radio1: "1", //是否三证合一
       radio2: [{radio:'1'}], //品牌类型
       radio3: "1", //商标注册人类型
       value1: "", //营业期限
       value2: "", //组织机构代码证有效期
       value3: "", //证件有效日期
-      value: [{value:[]}],
+      value: [{value1:[{value2:''}]}],
       checked: true, //同意合作协议
       show: false,
       show2: [{show : false}],
@@ -386,8 +402,65 @@ export default {
           this.$router.push({ path: "flagShip" });
         }
       }else{
-
-        this.$router.push({ path: "flagShip" });
+        if(this.license==''){
+          this.$message({
+            message: "请上传营业执照",
+            type: "warning"
+          });
+        }else if(this.company==''){
+           this.$message({
+            message: "请输入公司名称",
+            type: "warning"
+          });
+        }else if(this.mark==''){
+           this.$message({
+            message: "请输入营业执照注册号",
+            type: "warning"
+          });
+        }else if(this.value1==''){
+           this.$message({
+            message: "请选择营业期限",
+            type: "warning"
+          });
+        }else if(this.organization==''){
+           this.$message({
+            message: "请输入组织机构代码",
+            type: "warning"
+          });
+        }else if(this.taxpayer==''){
+           this.$message({
+            message: "请输入纳税人识别码",
+            type: "warning"
+          });
+        }else if(this.value2==''){
+           this.$message({
+            message: "请选择组织机构代码证有效期",
+            type: "warning"
+          });
+        }else if(this.organizationCard==''){
+           this.$message({
+            message: "请上传组织机构代码证",
+            type: "warning"
+          });
+        }else if(this.attest==''){
+           this.$message({
+            message: "请上传税务登记证明",
+            type: "warning"
+          });
+        }else if(this.voucher==''){
+          this.$message({
+            message: "请上传开户许可证或基本账户存款凭证",
+            type: "warning"
+          });
+        }else if(this.site==''){
+          this.$message({
+            message: "请输入公司经营地址",
+            type: "warning"
+          });
+        }else{
+          this.$router.push({ path: "flagShip" });
+        }
+        
       }
       
     },
@@ -405,21 +478,20 @@ export default {
         this.show2[index].show = true;
       } else {
         this.show2[index].show = false;
-        this.show3 = false;
+        for(var i=0;i<this.bra[index].radio.length;i++){
+          this.bra[index].radio[i]=''
+        }
+        
       }
     },
-    registrant(inde) {
-      console.log(this.radio[inde]);
-      // console.log(this.radio3);
-      if (this.radio[inde] == 2) {
-        this.show3 = true;
-      } else {
-        this.show3 = false;
-      }
+    registrant(inde,index) {
+      console.log(this.bra[index].radio[inde]);
+      
     },
     addbrand(index) {
       console.log(index);
-      this.value.push();
+      console.log(this.value[index]);
+      this.value[index].value1.push({value2:''});
 
       this.bra[index].radio.push("");
       console.log(this.radio);
@@ -429,16 +501,27 @@ export default {
       this.bra.push({ radio: [""] });
       this.radio2.push({radio:'1'});
       this.show2.push({show:false});
-      this.value.push({value:[]});
+      this.value.push({value1:[{value2:''}]});
       console.log(this.bra);
     },
-    chDate(inde) {
-      console.log(inde)
-      console.log(this.value[inde].value[inde]);
+    chDate(inde,index) {
+      console.log(inde,index)
+      console.log(this.value[index].value1[inde].value2);
     },
     aa(inde) {
       console.log(inde);
-    }
+    },
+    getFile(e) {
+      let _this = this;
+      var files = e.target.files[0];
+      if (!e || !window.FileReader) return; // 看支持不支持FileReader
+      let reader = new FileReader();
+      reader.readAsDataURL(files); // 这里是最关键的一步，转换就在这里
+      reader.onloadend = function() {
+        _this.license = this.result;
+        console.log(_this.license);
+      };
+    },
   }
 };
 </script>
@@ -619,5 +702,54 @@ export default {
   width: 328px;
   margin: 0 auto;
   margin-top: 20px;
+}
+.upImg {
+  border: 1px solid #ddd;
+  width: 200px;
+  height: 125px;
+  border-radius: 6px;
+  position: relative;
+  margin-left: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ddd;
+  font-size: 24px;
+}
+.dsfafd {
+  display: none;
+}
+.upImg img {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+.upImg.active {
+  border: 1px solid #0090fa;
+}
+.upImgbtn {
+  position: absolute;
+  left: 30%;
+  bottom: 5%;
+  width: 35%;
+  height: 15%;
+  border-radius: 15px;
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
+.upseccs {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20px;
+  background: #0090fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 12px;
 }
 </style>
