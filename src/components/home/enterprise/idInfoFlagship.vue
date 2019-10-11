@@ -263,7 +263,7 @@ export default {
         } else if (
           !/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)
         ) {
-          this.$message({
+          this.$message({ 
             message: "请输入正确管理人姓名",
             type: "warning"
           });

@@ -18,7 +18,7 @@
             <div>{{ item.title }}</div>
             <div>{{ item.text }}</div>
           </div>
-          
+            
           <div class="selectBtns">下一步</div>
         </el-tab-pane>
       </el-tabs>
