@@ -477,9 +477,14 @@ export default {
       shopLink: "", //第三方店铺链接
       invitation: "", //入驻邀请码
       activeClass: "1",
-      ismessage: ""
+      ismessage: "",
+      idinfo:'',
       // imggg:'',
     };
+  },
+  created() {
+    console.log(this.$route.params);
+    this.idinfo=this.$route.params
   },
   methods: {
     last() {
@@ -566,7 +571,7 @@ export default {
                       this.ismessage = "密码不一致";
 
                       break;
-                    }else if(this.checked!==true){
+                    } else if (this.checked !== true) {
                       isSubmit = false;
                       this.ismessage = "请认真阅读并同意合作协议";
 
@@ -656,12 +661,12 @@ export default {
                         isSubmit = false;
 
                         break;
-                      }else if(this.checked!==true){
-                      isSubmit = false;
-                      this.ismessage = "请认真阅读并同意合作协议";
+                      } else if (this.checked !== true) {
+                        isSubmit = false;
+                        this.ismessage = "请认真阅读并同意合作协议";
 
-                      break;
-                    }
+                        break;
+                      }
                     } else {
                       //自然人(个人)
                       const trademark = this.trademark[i].mark[j].marks; //商标注册号
@@ -699,12 +704,12 @@ export default {
                         isSubmit = false;
 
                         break;
-                      }else if(this.checked!==true){
-                      isSubmit = false;
-                      this.ismessage = "请认真阅读并同意合作协议";
+                      } else if (this.checked !== true) {
+                        isSubmit = false;
+                        this.ismessage = "请认真阅读并同意合作协议";
 
-                      break;
-                    }
+                        break;
+                      }
                     }
                   }
                 }
@@ -844,7 +849,7 @@ export default {
                       isSubmit = false;
 
                       break;
-                    }else if(this.checked!==true){
+                    } else if (this.checked !== true) {
                       isSubmit = false;
                       this.ismessage = "请认真阅读并同意合作协议";
 
@@ -940,12 +945,12 @@ export default {
                         isSubmit = false;
 
                         break;
-                      }else if(this.checked!==true){
-                      isSubmit = false;
-                      this.ismessage = "请认真阅读并同意合作协议";
+                      } else if (this.checked !== true) {
+                        isSubmit = false;
+                        this.ismessage = "请认真阅读并同意合作协议";
 
-                      break;
-                    }
+                        break;
+                      }
                     } else {
                       //自然人(个人)
                       const trademark = this.trademark[i].mark[j].marks; //商标注册号
@@ -983,12 +988,12 @@ export default {
                         isSubmit = false;
 
                         break;
-                      }else if(this.checked!==true){
-                      isSubmit = false;
-                      this.ismessage = "请认真阅读并同意合作协议";
+                      } else if (this.checked !== true) {
+                        isSubmit = false;
+                        this.ismessage = "请认真阅读并同意合作协议";
 
-                      break;
-                    }
+                        break;
+                      }
                     }
                   }
                 }
