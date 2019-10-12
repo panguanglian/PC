@@ -89,7 +89,7 @@
         </div>
         <div style="flex:2;" class="date">
           <div class="block">
-            <el-date-picker v-model="value3" type="date" placeholder="选择日"></el-date-picker>
+            <el-date-picker v-model="value" type="date" placeholder="选择日"></el-date-picker>
           </div>
           <el-checkbox v-model="checked">长期</el-checkbox>
         </div>
@@ -105,11 +105,14 @@
           <strong>*</strong>法人与管理人是否同一人
         </div>
         <div style="flex:2; margin-left: 15px;">
-          <el-radio v-model="radio" label="1" @change="alike">是同一个人</el-radio>
-          <el-radio v-model="radio" label="2" @change="different">不是同一个人</el-radio>
+          <el-radio-group v-model="radio" @change="radios">
+            <el-radio :label="1">是同一人</el-radio>
+            <el-radio :label="2">不是同一人</el-radio>
+          </el-radio-group>
         </div>
       </div>
-      <div class="list">
+      <div v-if="idshifou">
+          <div class="list">
         <div style="flex:1; text-align: right;">
           <strong>*</strong>姓名
         </div>
@@ -166,11 +169,13 @@
         </div>
         <div style="flex:2;" class="date">
           <div class="block">
-            <el-date-picker v-model="value2" type="date" placeholder="选择日"></el-date-picker>
+            <el-date-picker v-model="values" type="date" placeholder="选择日"></el-date-picker>
           </div>
-          <el-checkbox v-model="checkeds">长期</el-checkbox>
+          <el-checkbox v-model="checkeds" @change="longtime">长期</el-checkbox>
         </div>
       </div>
+      </div>
+      
     </div>
     <div class="operate">
       <div class="last" @click="last">上一步</div>
@@ -190,16 +195,16 @@ export default {
       trwosrcx: [], //身份证背面2
       checked: true, //是否长期1
       checkeds: true, //是否长期2
-      value3: "", //选择日期1
-      value2: "", //选择日期2
-      radio: "2", //是否同一人
+      value: "", //选择日期1
+      values: "", //选择日期2
+      radio: 1, //是否同一人
       phone: "", //手机号
       usName: "", //用户名1
       usNames: "", //用户名2
       idCard: "", //身份证号1
       idCards: "", //身份证号2
-
-      upShow: true
+      upShow: true,
+      idshifou:false,
     };
   },
   methods: {
@@ -207,96 +212,146 @@ export default {
       this.$router.go(-1);
     },
     next() {
-      if (this.phone == "") {
-        this.$message({
-          message: "请输入法定代表人手机号",
-          type: "warning"
-        });
-      } else if (!/^1[34578]\d{9}$/.test(this.phone)) {
-        this.$message({
-          message: "请输入正确的手机号",
-          type: "warning"
-        });
-      } else if (this.usName == "") {
-        this.$message({
-          message: "请填写店铺法定代表人姓名",
-          type: "warning"
-        });
-      } else if (!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usName)) {
-        this.$message({
-          message: "请输入正确代表人姓名",
-          type: "warning"
-        });
-      } else if (this.idCard == "") {
-        this.$message({
-          message: "请输入18位身份证号码",
-          type: "warning"
-        });
-      } else if (!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.idCard)) {
-        this.$message({
-          message: "请输入正确的身份证号",
-          type: "warning"
-        });
-      } else if (this.onesrc == "") {
-        this.$message({
-          message: "请上传身份证正面照",
-          type: "warning"
-        });
-      } else if (this.trwosrc == "") {
-        this.$message({
-          message: "请上传身份证背面照",
-          type: "warning"
-        });
-      } else if (this.value3 == "") {
-        this.$message({
-          message: "请选择有效日期",
-          type: "warning"
-        });
-      } else if (this.radio == "1") {
-        this.$router.push({ path: "storeInfo" });
-      } else {
-        if (this.usNames == "") {
-          this.$message({
-            message: "请填写店铺管理人姓名",
-            type: "warning"
-          });
-        } else if (
-          !/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)
-        ) {
-          this.$message({ 
-            message: "请输入正确管理人姓名",
-            type: "warning"
-          });
-        } else if (this.idCards == "") {
-          this.$message({
-            message: "请填写店铺管理人身份证号",
-            type: "warning"
-          });
-        } else if (!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.idCards)) {
-          this.$message({
-            message: "请输入正确的身份证号",
-            type: "warning"
-          });
-        } else if (this.onesrcx == "") {
-          this.$message({
-            message: "请上传管理员身份证正面照",
-            type: "warning"
-          });
-        } else if (this.trwosrcx == "") {
-          this.$message({
-            message: "请上传管理员身份证背面照",
-            type: "warning"
-          });
-        } else if (this.value2 == "") {
-          this.$message({
-            message: "请选择有效日期",
-            type: "warning"
-          });
-        } else {
-          this.$router.push({ path: "storeInfo" });
+      if (this.phone == ""||!/^1[34578]\d{9}$/.test(this.phone)) {
+        this.$message({ message: "请输入正确的手机号码",type: "warning"});
+      } else if (this.usName == ""||!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usName)) {
+        this.$message({message: "请填写店铺法定代表人姓名",type: "warning"});
+      } else if (this.idCard == ""||!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.idCard)) {
+        this.$message({message: "请输入法人代表正确的18位身份证号码",type: "warning"});
+      } else if (this.onesrc == ""||this.trwosrc == "") {
+        this.$message({message: "请上传法人代表身份证正背面照",type: "warning"});
+      } else if (!this.checked) {//法人证件不是长期的时候
+        if(this.value==""){
+          this.$message({message: "请选择法人代表证件有效日期",type: "warning"});
+        }else if(this.radio==1){//管理人和法人同一人
+              var obj={
+                onesrc:this.onesrc,//法人身份证正面
+                trwosrc:this.trwosrc,//法人身份证背面
+                value:this.value,//法人身份证有效期
+                radio:this.radio,//同一个人
+                phone:this.phone,//法人手机号码
+                usName:this.usName,//法人姓名
+                idCard:this.idCard,//法人身份证号码
+              }
+              console.log(obj)
+              
+        }else if(this.radio!= 1){//管理人和法人不同一人
+          if(this.usNames == ""||!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)){
+            this.$message({message: "请填写店铺管理人姓名",type: "warning"});
+          }else if(this.idCards == ""||!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.idCards)){
+              this.$message({message: "请输入管理人正确的18位身份证号码",type: "warning"});
+          }else if(this.onesrcx == ""||this.trwosrcx == ""){
+              this.$message({message: "请上传管理人身份证正背面照",type: "warning"});
+          }else if(!this.checkeds){//管理人证件不是长期的时候
+              if(this.values==''){
+                  this.$message({message: "请选择管理人证件有效日期",type: "warning"});
+              }else{
+                var obj={
+                  onesrc:this.onesrc,//法人身份证正面
+                  trwosrc:this.trwosrc,//法人身份证背面          
+                  radio:this.radio,//不同一个人
+                  phone:this.phone,//手机号码
+                  usName:this.usName,//法人姓名
+                  idCard:this.idCard,//法人身份证号码
+                  usNames:this.usNames,//管理人姓名
+                  idCards:this.idCards,//管理人身份证号码
+                  onesrcx:this.onesrcx,//管理人的证件正面
+                  trwosrcx:this.trwosrcx,//管理人的证件背面
+                  values:this.values ,//管理人证件有效期  
+                }
+                console.log(obj)
+               
+              }
+          }else{
+            var obj={
+                  onesrc:this.onesrc,//法人身份证正面
+                  trwosrc:this.trwosrc,//法人身份证背面          
+                  radio:this.radio,//不同一个人
+                  phone:this.phone,//手机号码
+                  usName:this.usName,//法人姓名
+                  idCard:this.idCard,//法人身份证号码
+                  usNames:this.usNames,//管理人姓名
+                  idCards:this.idCards,//管理人身份证号码
+                  onesrcx:this.onesrcx,//管理人的证件正面
+                  trwosrcx:this.trwosrcx,//管理人的证件背面
+                  checkeds:this.checkeds ,//管理人证件有效期长期  
+                }
+                console.log(obj)
+                
+
+          }
         }
+
+        //
+      }else{
+         if(this.radio==1){//管理人和法人同一人
+              var obj={
+                onesrc:this.onesrc,//法人身份证正面
+                trwosrc:this.trwosrc,//法人身份证背面
+                checked:this.checked,//法人身份证长期    
+                radio:this.radio,//同一个人
+                phone:this.phone,//法人手机号码
+                usName:this.usName,//法人姓名
+                idCard:this.idCard,//法人身份证号码
+              }
+              console.log(obj)
+              
+        }else if(this.radio!= 1){//管理人和法人不同一人
+          if(this.usNames == ""||!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)){
+            this.$message({message: "请填写店铺管理人姓名",type: "warning"});
+          }else if(this.idCards == ""||!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.idCards)){
+              this.$message({message: "请输入管理人正确的18位身份证号码",type: "warning"});
+          }else if(this.onesrcx == ""||this.trwosrcx == ""){
+              this.$message({message: "请上传管理人身份证正背面照",type: "warning"});
+          }else if(!this.checkeds){//管理人证件不是长期的时候
+              if(this.values==''){
+                  this.$message({message: "请选择管理人证件有效日期",type: "warning"});
+              }else{
+                var obj={
+                  onesrc:this.onesrc,//法人身份证正面
+                  trwosrc:this.trwosrc,//法人身份证背面
+                  checked:this.checked,//法人身份证长期             
+                  radio:this.radio,//不同一个人
+                  phone:this.phone,//手机号码
+                  usName:this.usName,//法人姓名
+                  idCard:this.idCard,//法人身份证号码
+                  usNames:this.usNames,//管理人姓名
+                  idCards:this.idCards,//管理人身份证号码
+                  onesrcx:this.onesrcx,//管理人的证件正面
+                  trwosrcx:this.trwosrcx,//管理人的证件背面
+                  values:this.values ,//管理人证件有效期  
+                }
+                console.log(obj)
+
+              }
+          }else{
+              var obj={
+                  onesrc:this.onesrc,//法人身份证正面
+                  trwosrc:this.trwosrc,//法人身份证背面
+                  checked:this.checked,//法人身份证长期          
+                  radio:this.radio,//不同一个人
+                  phone:this.phone,//手机号码
+                  usName:this.usName,//法人姓名
+                  idCard:this.idCard,//法人身份证号码
+                  usNames:this.usNames,//管理人姓名
+                  idCards:this.idCards,//管理人身份证号码
+                  onesrcx:this.onesrcx,//管理人的证件正面
+                  trwosrcx:this.trwosrcx,//管理人的证件背面
+                  checkeds:this.checkeds ,//管理人证件有效期长期  
+                }
+                console.log(obj)
+                
+          }
+        }
+
       }
     },
+
+
+
+
+
+
     getFiless(e) {
       let _this = this;
       var filess = e.target.files[0];
@@ -339,20 +394,26 @@ export default {
         _this.onesrcx = this.result;
       };
     },
-    alike() {
-      this.usNames = this.usName;
-      this.idCards = this.idCard;
-      this.onesrcx = this.onesrc;
-      this.trwosrcx = this.trwosrc;
-      this.value2 = this.value3;
+    radios(){
+      if(this.radio == 1){
+        this.idshifou=false
+      }else{
+        this.idshifou=true
+        this.onesrcx=''
+        this.usNames=''
+        this.trwosrcx=''
+        this.idCards=''
+        this.values=''
+        this.checkeds=false
+
+      }
     },
-    different() {
-      this.usNames = "";
-      this.idCards = "";
-      this.onesrcx = "";
-      this.trwosrcx = "";
-      this.value2 = "";
+    longtime(){
+      if(this.checked){
+
+      }
     }
+    
   }
 };
 </script>

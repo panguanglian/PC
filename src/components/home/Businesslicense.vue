@@ -221,8 +221,8 @@ export default {
         dayss:'',//营业证件日
         name:'',//姓名
         idnumber:'',//身份证号码0000000000
-        Invitationcode:'',//第三方店铺链接
-        shoplink:'',//邀请码
+        Invitationcode:'',//邀请码
+        shoplink:'',//第三方店铺链接
         yeartimevalue:'长期',//身份证是长期
         yeartimesvalue:'长期',//营业执照是长期
         resourcenumber:'',//统一社会信用代码

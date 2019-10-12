@@ -42,7 +42,7 @@
             
             <p><span>*</span>主营类目</p>
             </div>
-            <input type="text" placeholder="请输入主营类目">
+            <input type="text" placeholder="请输入主营类目" v-model="category">
           </div>
 
           <div class="ThreeCards">
@@ -51,8 +51,10 @@
             </div>
             <div class="CardsInput">
               <div class="InputDiv">
-                <el-radio v-model="radio" label="1">是</el-radio>
-                <el-radio v-model="radio" label="2">否</el-radio>
+                <el-radio-group v-model="radio" >
+                <el-radio  :label=1 style="margin-left:5px;">是</el-radio>
+                <el-radio  :label=2 style="margin-left:10px;">否</el-radio>
+                </el-radio-group>
               </div>
             </div>
           </div>
@@ -63,7 +65,9 @@
             <p><span>*</span>营业执照</p>
             </div>
             <div class="TaleButton">
-              <button>点击上传</button>
+              <input type="file" class="dsfafd" @change="getFilesss"  multiple accept="image/png,image/jpeg,image/gif,image/jpg" id="filesss">
+              <label for="filesss" class="upImgbtns" >点击上传</label>
+              <img :src="strwisrc" v-if="strwisrc.length!=0" class="imgstrwi">
             </div>
           </div>
 
@@ -72,7 +76,7 @@
             
             <p><span>*</span>公司名称</p>
             </div>
-            <input type="text" placeholder="请输入公司名称">
+            <input type="text" placeholder="请输入公司名称" v-model="companyname">
           </div>
 
           <div class="TableInput">
@@ -80,7 +84,7 @@
             
             <p class="PUnified"><span>*</span>统一社会信用代码</p>
             </div>
-            <input type="text" placeholder="请输入统一的社会信用代码">
+            <input type="text" placeholder="请输入统一的社会信用代码" v-model="sociologycode">
           </div>
 
 
@@ -94,7 +98,9 @@
             <div class="DeadlineMain">
 
               <div class="DeadlineButton">
-                <button>点击上传</button>
+                <input type="file" class="dsfafd" @change="getFile"  multiple accept="image/png,image/jpeg,image/gif,image/jpg" id="file">
+              <label for="file" class="upImgbtns" >点击上传</label>
+              <img :src="imgstwo" v-if="imgstwo.length!=0" class="imgstrwi">
               </div>  
 
               <div class="DeadlineTileP">
@@ -114,7 +120,7 @@
             
             <p><span>*</span>公司经营地址</p>
             </div>
-            <input type="text" placeholder="请填写公司的详细地址">
+            <input type="text" placeholder="请填写公司的详细地址" v-model="companyaddress">
           </div>
 
         </div>
@@ -130,7 +136,7 @@
             <div class="TableName">
             <p><span>*</span>店铺名称</p>
             </div>
-            <input type="text" placeholder="请输入店铺名称">
+            <input type="text" placeholder="请输入店铺名称" v-model="shopname">
           </div>
 
           <div class="TableInput">
@@ -138,7 +144,7 @@
             
             <p><span>*</span>设置密码</p>
             </div>
-            <input type="text" placeholder="请输入密码">
+            <input type="text" placeholder="请输入密码" v-model="password">
           </div>
 
           <div class="TableInput">
@@ -146,28 +152,27 @@
             
             <p><span>*</span>确认密码</p>
             </div>
-            <input type="text" placeholder="请重新输入密码">
+            <input type="text" placeholder="请重新输入密码" v-model="passwordtwo">
           </div>
 
           <div class="TableInput">
             <div class="TableName">
             
-            <p><span>*</span>第三方店铺链接</p>
+            <p>第三方店铺链接</p>
             </div>
-            <input type="text" placeholder="填写真实的其他平台链接，若无可不填">
+            <input type="text" placeholder="填写真实的其他平台链接，若无可不填" v-model="shoplink">
           </div>
 
           <div class="TableInput">
             <div class="TableName">
             
-            <p><span>*</span>入驻邀请码</p>
+            <p>入驻邀请码</p>
             </div>
-            <input type="text" placeholder="填写邀请人的邀请码，若无可不填">
+            <input type="text" placeholder="填写邀请人的邀请码，若无可不填" v-model="Invitationcode">
           </div>
 
           <div class="TableAgreement">
-            <input type="checkbox" name="" id="">
-            <p>我已经阅读并同意</p>
+             <el-checkbox v-model="checked">我已经阅读并同意</el-checkbox>
             <span>《异业联盟平台合作协议》</span>
           </div>
           
@@ -175,8 +180,8 @@
 
         <div class="ReturnButton">
           <div class="ButtonDiv">
-            <button class="PreviousStep">上一步</button>
-            <button class="Establish">创建店铺</button>
+            <button class="PreviousStep" @click="comback">上一步</button>
+            <button class="Establish" @click="createshop">创建店铺</button>
           </div>
         </div>
 
@@ -191,17 +196,96 @@ export default {
   name: "generalStore",
   data() {
     return {
-      radio: '1'
+      category:'',//主营类目
+      radio: 1,//是否三证合一
+      strwisrc:[],//营业执照
+      companyname:'',//公司名称
+      sociologycode:'',//社会信用代码
+      imgstwo:[],//许可证存款证
+      companyaddress:'',//公司经营地址
+      shopname:'',//店铺名称
+      password:'',//密码
+      passwordtwo:'',//确认密码
+      shoplink:'',//第三方店铺链接
+      Invitationcode:'',//邀请码
+      checked:false,//同意异业联盟条约
     }
   },
   methods: {
-
+    createshop(){
+      var kong = /\s/;//含有空格正则
+      if(this.category.length==0||kong.test(this.category)){
+        this.$message({message: '类目名称不能为空',type: 'warning'});
+      }else if(this.strwisrc.length==0){
+          this.$message({message: '请上传营业执照照片',type: 'warning'});
+      }else if(this.companyname.length==0||kong.test(this.companyname)){
+          this.$message({message: '公司名称不能为空',type: 'warning'});
+      }else if(this.sociologycode.length==0||kong.test(this.sociologycode)){
+          this.$message({message: '社会信用代码不能为空',type: 'warning'});
+      }else if(this.imgstwo.length==0){
+             this.$message({message: '请上传营业执照照片',type: 'warning'});
+      }else if(this.companyaddress.length==0||kong.test(this.companyaddress)){
+            this.$message({message: '公司经营地址不能为空',type: 'warning'});
+      }else if(this.shopname.length==0||kong.test(this.shopname)){
+            this.$message({message: '店铺名称不能为空',type: 'warning'});
+      }else if(this.password.length==0||kong.test(this.password)){
+            this.$message({message: '密码不能为空',type: 'warning'});
+      }else if(this.password==0||this.password.length<6||this.password.length>20){
+            this.$message({message: '密码不能为空或者低于6位数或者超过20位数',type: 'warning'});
+      }else if(kong.test(this.password)){
+            this.$message({message: '密码不能为空或者低于6位数或者超过20位数',type: 'warning'});
+      }
+    },
+    comback(){
+      window.history.back(-1)
+    },
+    // 上传图片
+    getFilesss (e) {
+            let _this = this
+            var filesss = e.target.files[0]
+            if (!e || !window.FileReader) return 
+            let readersss = new FileReader()
+            readersss.readAsDataURL(filesss)
+            readersss.onloadend = function () {
+              _this.strwisrc = this.result
+            }
+          },
+          getFile(e) {
+            let _this = this
+            var files = e.target.files[0]
+            if (!e || !window.FileReader) return 
+            let readers= new FileReader()
+            readers.readAsDataURL(files)
+            readers.onloadend = function () {
+              _this.imgstwo = this.result
+            }
+          }
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.dsfafd{
+  display: none;
+}
+.imgstrwi{
+    width: 80%;
+    height: 200px;
+    margin-left: 5px;
+}
+.upImgbtns{
+    margin-left: 5px;
+    width: 15%;
+    height: 30px;
+    border: 1px solid #DDDDDD;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #ddd;0
+}
     *{
       margin: 0;
     }
@@ -250,7 +334,6 @@ export default {
       width: 15%;
       display: flex;
       justify-content: flex-end;
-      align-items: center;
     }
     .TableName span{
       font-size: 12px;
@@ -259,13 +342,11 @@ export default {
     .TableName p {
       font-size: 12px;
       letter-spacing: 1px;
-      width: 100%;
       display: flex;
       justify-content: flex-end;
-      align-items: center;
     }
     .TablePU{
-      width: 18%;
+      width: 25%;
       display: flex;
       justify-content: flex-end;
       align-items: center;
@@ -371,14 +452,11 @@ export default {
       width: 100%;
       display: flex;
       justify-content: center;
-      align-items: center;
       margin-bottom: 20px;
+
     }
     .TableName{
-      width: 15%;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
+      width: 25%;
     }
     .TableName span{
       font-size: 12px;
@@ -386,11 +464,9 @@ export default {
     }
     .TableName p {
       font-size: 12px;
-      letter-spacing: 1px;
       width: 100%;
       display: flex;
       justify-content: flex-end;
-      align-items: center;
     }
     .TableDeadline input{
       margin-left: 10px;
@@ -406,7 +482,6 @@ export default {
       height: 25px;
       display: flex;
       justify-content: center;
-      align-items: center;
       font-size: 12px;
     }
     
