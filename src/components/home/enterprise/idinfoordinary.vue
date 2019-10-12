@@ -234,9 +234,7 @@ export default {
                 idCard:this.idCard,//法人身份证号码
               }
               console.log(obj)
-              setTimeout(() => {
-                this.$router.push({name:"generalStore"})
-              }, 500);
+              this.$router.push({ path: "storeInfo" });
               
         }else if(this.radio!= 1){//管理人和法人不同一人
           if(this.usNames == ""||!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)){
@@ -263,9 +261,7 @@ export default {
                   values:this.values ,//管理人证件有效期  
                 }
                 console.log(obj)
-               setTimeout(() => {
-                this.$router.push({name:"generalStore"})
-              }, 500);
+               this.$router.push({ path: "storeInfo" });
               }
           }else{
             var obj={
@@ -282,9 +278,7 @@ export default {
                   checkeds:this.checkeds ,//管理人证件有效期长期  
                 }
                 console.log(obj)
-                setTimeout(() => {
-                this.$router.push({name:"generalStore"})
-              }, 500);
+                this.$router.push({ path: "storeInfo" });
 
           }
         }
@@ -302,9 +296,8 @@ export default {
                 idCard:this.idCard,//法人身份证号码
               }
               console.log(obj)
-              setTimeout(() => {
-                this.$router.push({name:"generalStore"})
-              }, 500);
+              this.$router.push({ path: "storeInfo" });
+              
         }else if(this.radio!= 1){//管理人和法人不同一人
           if(this.usNames == ""||!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)){
             this.$message({message: "请填写店铺管理人姓名",type: "warning"});
@@ -331,9 +324,8 @@ export default {
                   values:this.values ,//管理人证件有效期  
                 }
                 console.log(obj)
-                setTimeout(() => {
-                this.$router.push({name:"generalStore"})
-              }, 500);
+                this.$router.push({ path: "storeInfo" });
+
               }
           }else{
               var obj={
@@ -351,9 +343,8 @@ export default {
                   checkeds:this.checkeds ,//管理人证件有效期长期  
                 }
                 console.log(obj)
-                setTimeout(() => {
-                this.$router.push({name:"generalStore",})
-              }, 500);
+                this.$router.push({ path: "storeInfo" });
+                
           }
         }
 

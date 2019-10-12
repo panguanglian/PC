@@ -284,7 +284,7 @@ export default {
     justify-content: center;
     align-items: center;
     font-size: 14px;
-    color: #ddd;0
+    color: #ddd;
 }
     *{
       margin: 0;
