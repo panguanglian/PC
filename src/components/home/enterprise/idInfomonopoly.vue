@@ -212,6 +212,7 @@ export default {
       this.$router.go(-1);
     },
     next() {
+<<<<<<< HEAD
       if (this.phone == ""||!/^1[34578]\d{9}$/.test(this.phone)) {
         this.$message({ message: "请输入正确的手机号码",type: "warning"});
       } else if (this.usName == ""||!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usName)) {
@@ -280,6 +281,95 @@ export default {
                 
 
           }
+=======
+      if (this.phone == "") {
+        this.$message({
+          message: "请输入法定代表人手机号",
+          type: "warning"
+        });
+      } else if (!/^1[34578]\d{9}$/.test(this.phone)) {
+        this.$message({
+          message: "请输入正确的手机号",
+          type: "warning"
+        });
+      } else if (this.usName == "") {
+        this.$message({
+          message: "请填写店铺法定代表人姓名",
+          type: "warning"
+        });
+      } else if (!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usName)) {
+        this.$message({
+          message: "请输入正确代表人姓名",
+          type: "warning"
+        });
+      } else if (this.idCard == "") {
+        this.$message({
+          message: "请输入18位身份证号码",
+          type: "warning"
+        });
+      } else if (!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.idCard)) {
+        this.$message({
+          message: "请输入正确的身份证号",
+          type: "warning"
+        });
+      } else if (this.onesrc == "") {
+        this.$message({
+          message: "请上传身份证正面照",
+          type: "warning"
+        });
+      } else if (this.trwosrc == "") {
+        this.$message({
+          message: "请上传身份证背面照",
+          type: "warning"
+        });
+      } else if (this.value3 == "") {
+        this.$message({
+          message: "请选择有效日期",
+          type: "warning"
+        });
+      } else if (this.radio == "1") {
+        this.$router.push({ path: "storeInfo" });
+      } else {
+        if (this.usNames == "") {
+          this.$message({
+            message: "请填写店铺管理人姓名",
+            type: "warning"
+          });
+        } else if (
+          !/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)
+        ) {
+          this.$message({
+            message: "请输入正确管理人姓名",
+            type: "warning"
+          });
+        } else if (this.idCards == "") {
+          this.$message({
+            message: "请填写店铺管理人身份证号",
+            type: "warning"
+          });
+        } else if (!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.idCards)) {
+          this.$message({
+            message: "请输入正确的身份证号",
+            type: "warning"
+          });
+        } else if (this.onesrcx == "") {
+          this.$message({
+            message: "请上传管理员身份证正面照",
+            type: "warning"
+          });
+        } else if (this.trwosrcx == "") {
+          this.$message({
+            message: "请上传管理员身份证背面照",
+            type: "warning"
+          });
+        } else if (this.value2 == "") {
+          this.$message({
+            message: "请选择有效日期",
+            type: "warning"
+          });
+        } else {
+          this.$router.push({ path: "storeInfomonopoly" });
+>>>>>>> 5f986cc1f5a76a0a4c425a47ed009006ad028594
         }
 
         //

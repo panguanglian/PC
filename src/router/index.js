@@ -8,7 +8,12 @@ import idInfoFlagship from '@/components/home/enterprise/idInfoFlagship'
 import idInfomonopoly from '@/components/home/enterprise/idInfomonopoly'
 import idInfoMonopolize from '@/components/home/enterprise/idInfoMonopolize'
 import idinfoordinary from '@/components/home/enterprise/idinfoordinary'
+
+import storeInfoFlagship from '@/components/home/enterprise/storeInfoFlagship'
+import storeInfomonopoly from '@/components/home/enterprise/storeInfomonopoly'
+import storeInfoMonopoliz from '@/components/home/enterprise/storeInfoMonopoliz'
 import storeInfo from '@/components/home/enterprise/storeInfo'
+
 import flagShip from '@/components/home/flagShip'
 import generalStore from '@/components/home/generalStore'
 import Businesslicense from '@/components/home/Businesslicense'
@@ -57,6 +62,21 @@ export default new Router({
             path: '/idinfoordinary',
             name: 'idinfoordinary',
             component: idinfoordinary
+        },
+        {
+            path: '/storeInfoFlagship',
+            name: 'storeInfoFlagship',
+            component: storeInfoFlagship
+        },
+        {
+            path: '/storeInfomonopoly',
+            name: 'storeInfomonopoly',
+            component: storeInfomonopoly
+        },
+        {
+            path: '/storeInfoMonopoliz',
+            name: 'storeInfoMonopoliz',
+            component: storeInfoMonopoliz
         },
         {
             path: '/storeInfo',
