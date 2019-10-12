@@ -293,7 +293,7 @@ export default {
             type: "warning"
           });
         } else {
-          this.$router.push({ path: "storeInfo" });
+          this.$router.push({ path: "storeInfomonopoly" });
         }
       }
     },
