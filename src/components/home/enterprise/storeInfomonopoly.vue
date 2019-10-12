@@ -599,6 +599,7 @@ export default {
                   invitation: this.invitation,
                   valuex: this.valuex
                 };
+                obj.push(this.idinfo)
                 this.$router.push({ path: "flagShip" });
                 console.log(obj);
               } else {

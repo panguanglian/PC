@@ -308,7 +308,7 @@
                 <div style="flex:3; margin-left: 15px;">
                   <!-- <div class="UP" @click="aa(inde)">点击上传</div> -->
                   <div class="upImg">
-                    <span v-if="brandProve[index].brand[inde].prove.length==0"></span>
+                    <span v-if="brandProve[index].brand[inde].prove.length==0">商标注册证明</span>
                     <img
                       :src="brandProve[index].brand[inde].prove"
                       v-if="brandProve[index].brand[inde].prove.length!=0"
@@ -324,7 +324,7 @@
                     <!-- <input type="text" @click="aa(inde,index)"> -->
                     <label
                       class="upImgbtn"
-                      @click="aa(inde,index)"
+                      
                       v-if="brandProve[index].brand[inde].prove.length==0"
                     >点击上传</label>
                     <label class="upseccs" v-else>上传成功</label>
@@ -478,13 +478,14 @@ export default {
       invitation: "", //入驻邀请码
       activeClass: "1",
       ismessage: "",
-      idinfo:'',
+      idinfos:'',
+      information:[],
       // imggg:'',
     };
   },
   created() {
-    console.log(this.$route.params);
-    this.idinfo=this.$route.params
+    console.log(this.$route.params.idInfo);
+    this.idinfos=this.$route.params.idInfo
   },
   methods: {
     last() {
@@ -597,10 +598,14 @@ export default {
                   shopPasswords: this.shopPasswords,
                   shopLink: this.shopLink,
                   invitation: this.invitation,
-                  valuex: this.valuex
+                  valuex: this.valuex,
+                  idinfo:this.idinfos,
                 };
+                
+              //  this.information.push(this.idinfos)
                 this.$router.push({ path: "flagShip" });
                 console.log(obj);
+                
               } else {
                 console.log(this.ismessage);
                 this.$message({
@@ -733,7 +738,8 @@ export default {
                   invitation: this.invitation,
                   impowerBook: this.impowerBook,
                   valuex: this.valuex,
-                  idCard: this.idCard
+                  idCard: this.idCard,
+                  idinfo:this.idinfos,
                 };
                 this.$router.push({ path: "flagShip" });
               } else {
@@ -882,7 +888,8 @@ export default {
                   shopPasswords: this.shopPasswords,
                   shopLink: this.shopLink,
                   invitation: this.invitation,
-                  valuex: this.valuex
+                  valuex: this.valuex,
+                  idinfo:this.idinfos,
                 };
                 this.$router.push({ path: "flagShip" });
                 console.log(obj);
@@ -1024,7 +1031,8 @@ export default {
                   invitation: this.invitation,
                   impowerBook: this.impowerBook,
                   valuex: this.valuex,
-                  idCard: this.idCard
+                  idCard: this.idCard,
+                  idinfo:this.idinfos,
                 };
                 this.$router.push({ path: "flagShip" });
               } else {

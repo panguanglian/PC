@@ -437,7 +437,13 @@ export default {
   font-size: 24px;
 }
 .dsfafd {
-  display: none;
+  /* display: none; */
+  position: absolute;
+  opacity: 0;
+  width: 200px;
+  height: 100%;
+  z-index: 999;
+  left: 0%;
 }
 .upImg img {
   width: 100%;
