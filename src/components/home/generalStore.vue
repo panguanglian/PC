@@ -51,7 +51,7 @@
             </div>
             <div class="CardsInput">
               <div class="InputDiv">
-                <el-radio-group v-model="radio" >
+                <el-radio-group v-model="radios" >
                 <el-radio  :label=1 style="margin-left:5px;">是</el-radio>
                 <el-radio  :label=2 style="margin-left:10px;">否</el-radio>
                 </el-radio-group>
@@ -144,7 +144,7 @@
             
             <p><span>*</span>设置密码</p>
             </div>
-            <input type="text" placeholder="请输入密码" v-model="password">
+            <input type="password" placeholder="请输入密码" v-model="password" onkeyup="value=value.replace(/[^\w\.]/ig,'')" @change="passwords">
           </div>
 
           <div class="TableInput">
@@ -152,7 +152,7 @@
             
             <p><span>*</span>确认密码</p>
             </div>
-            <input type="text" placeholder="请重新输入密码" v-model="passwordtwo">
+            <input type="password" placeholder="请重新输入密码" v-model="passwordtwo" onkeyup="value=value.replace(/[^\w\.]/ig,'')">
           </div>
 
           <div class="TableInput">
@@ -172,12 +172,11 @@
           </div>
 
           <div class="TableAgreement">
-             <el-checkbox v-model="checked">我已经阅读并同意</el-checkbox>
+             <el-checkbox v-model="checked">我已经阅读并同意</el-checkbox> 
             <span>《异业联盟平台合作协议》</span>
           </div>
           
         </div>
-
         <div class="ReturnButton">
           <div class="ButtonDiv">
             <button class="PreviousStep" @click="comback">上一步</button>
@@ -197,7 +196,7 @@ export default {
   data() {
     return {
       category:'',//主营类目
-      radio: 1,//是否三证合一
+      radios: 1,//是否三证合一
       strwisrc:[],//营业执照
       companyname:'',//公司名称
       sociologycode:'',//社会信用代码
@@ -210,6 +209,9 @@ export default {
       Invitationcode:'',//邀请码
       checked:false,//同意异业联盟条约
     }
+  },
+  created(){
+      
   },
   methods: {
     createshop(){
@@ -232,13 +234,52 @@ export default {
             this.$message({message: '密码不能为空',type: 'warning'});
       }else if(this.password==0||this.password.length<6||this.password.length>20){
             this.$message({message: '密码不能为空或者低于6位数或者超过20位数',type: 'warning'});
-      }else if(kong.test(this.password)){
-            this.$message({message: '密码不能为空或者低于6位数或者超过20位数',type: 'warning'});
+      }else if(this.password!=this.passwordtwo){
+            this.$message({message: '两次密码不相同',type: 'warning'});
+      }else if(!this.checked){
+            this.$message({message: '请同意异业联盟合作协议',type: 'warning'});
+      }else{
+          
+        var obj={
+          category:this.category,
+          radios:this.radios,
+          strwisrc:this.strwisrc,
+          companyname:this.companyname,
+          sociologycode:this.sociologycode,
+          imgstwo:this.imgstwo,
+          companyaddress:this.companyaddress,
+          shopname:this.shopname,
+          password:this.password,
+          passwordtwo:this.passwordtwo,
+          shoplink:this.shoplink,
+          Invitationcode:this.Invitationcode,
+        }
+        // console.log(obj)
+        this.$message({
+          message:"创建店铺成功",
+          type:'success'
+        },1000)
+        setTimeout(() => {
+            this.$router.push({name:'flagShip'})
+        }, 500);
+        // obj.concat(JSON.parse(localStorage.getItem("idvaue")))  
+        Object.assign(obj,JSON.parse(localStorage.getItem("idvaue")));
+
+        console.log(obj)
+        
       }
     },
     comback(){
       window.history.back(-1)
     },
+    passwords(){
+      if(this.password.length<6){
+         this.$message({message: '密码不能低于6位数',type: 'warning'});
+      }
+      if(this.password.length>20){
+        this.$message({message: '密码不能超过20位数',type: 'warning'});
+      }
+   },
     // 上传图片
     getFilesss (e) {
             let _this = this
@@ -284,7 +325,7 @@ export default {
     justify-content: center;
     align-items: center;
     font-size: 14px;
-    color: #ddd;0
+    color: #ddd;
 }
     *{
       margin: 0;

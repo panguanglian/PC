@@ -259,8 +259,7 @@ export default {
                   trwosrcx:this.trwosrcx,//管理人的证件背面
                   values:this.values ,//管理人证件有效期  
                 }
-                console.log(obj)
-               
+                this.$router.push({name:'generalStore',params:{data:obj}})
               }
           }else{
             var obj={
@@ -276,8 +275,7 @@ export default {
                   trwosrcx:this.trwosrcx,//管理人的证件背面
                   checkeds:this.checkeds ,//管理人证件有效期长期  
                 }
-                console.log(obj)
-                
+                this.$router.push({name:'generalStore',params:{data:obj}})
 
           }
         }
@@ -294,8 +292,7 @@ export default {
                 usName:this.usName,//法人姓名
                 idCard:this.idCard,//法人身份证号码
               }
-              console.log(obj)
-              
+              this.$router.push({name:'generalStore',params:{data:obj}})
         }else if(this.radio!= 1){//管理人和法人不同一人
           if(this.usNames == ""||!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)){
             this.$message({message: "请填写店铺管理人姓名",type: "warning"});
@@ -321,8 +318,7 @@ export default {
                   trwosrcx:this.trwosrcx,//管理人的证件背面
                   values:this.values ,//管理人证件有效期  
                 }
-                console.log(obj)
-
+                
               }
           }else{
               var obj={

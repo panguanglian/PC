@@ -1,6 +1,6 @@
 
 <template>
-<!-- 旗舰店-企业身份信息 -->
+<!-- 专营店-企业身份信息 -->
 
   <div class="idInfo">
     <div class="step">
