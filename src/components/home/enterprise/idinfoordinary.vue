@@ -64,8 +64,8 @@
               accept="image/png, image/jpeg, image/gif, image/jpg"
               id="file"
             />
-            <label for="file" class="upImgbtn" v-if="onesrc.length==0">点击上传</label>
-            <label for="file" class="upseccs" v-else>上传成功</label>
+            <label  class="upImgbtn" v-if="onesrc.length==0">点击上传</label>
+            <label  class="upseccs" v-else>上传成功</label>
           </div>
           <div class="upImg">
             <span v-if="trwosrc.length==0">身份证背面</span>
@@ -447,7 +447,13 @@ export default {
   font-size: 24px;
 }
 .dsfafd {
-  display: none;
+  /* display: none; */
+  position: absolute;
+  opacity: 0;
+  width: 200px;
+  height: 100%;
+  z-index: 999;
+  left: 0%;
 }
 .upImg img {
   width: 100%;

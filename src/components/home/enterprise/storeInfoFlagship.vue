@@ -65,8 +65,8 @@
               accept="image/png, image/jpeg, image/gif, image/jpg"
               id="file"
             />
-            <label for="file" class="upImgbtn" v-if="license.length==0">点击上传</label>
-            <label for="file" class="upseccs" v-else>上传成功</label>
+            <label  class="upImgbtn" v-if="license.length==0">点击上传</label>
+            <label  class="upseccs" v-else>上传成功</label>
           </div>
         </div>
       </div>
@@ -145,8 +145,8 @@
                 accept="image/png, image/jpeg, image/gif, image/jpg"
                 id="filexs"
               />
-              <label for="filexs" class="upImgbtn" v-if="organizationCard.length==0">点击上传</label>
-              <label for="filexs" class="upseccs" v-else>上传成功</label>
+              <label  class="upImgbtn" v-if="organizationCard.length==0">点击上传</label>
+              <label  class="upseccs" v-else>上传成功</label>
             </div>
             <div style="color: #0090fa; margin-left: 15px;">查看事例</div>
           </div>
@@ -168,8 +168,8 @@
                 accept="image/png, image/jpeg, image/gif, image/jpg"
                 id="filesx"
               />
-              <label for="filesx" class="upImgbtn" v-if="attest.length==0">点击上传</label>
-              <label for="filesx" class="upseccs" v-else>上传成功</label>
+              <label  class="upImgbtn" v-if="attest.length==0">点击上传</label>
+              <label  class="upseccs" v-else>上传成功</label>
             </div>
             <div style="color: #0090fa; margin-left: 15px;">查看事例</div>
           </div>
@@ -201,8 +201,8 @@
               accept="image/png, image/jpeg, image/gif, image/jpg"
               id="filex"
             />
-            <label for="filex" class="upImgbtn" v-if="voucher.length==0">点击上传</label>
-            <label for="filex" class="upseccs" v-else>上传成功</label>
+            <label  class="upImgbtn" v-if="voucher.length==0">点击上传</label>
+            <label  class="upseccs" v-else>上传成功</label>
           </div>
           <div class="explain">
             <div>若所在地未取消开户许可证核发，请上传开户许可证</div>

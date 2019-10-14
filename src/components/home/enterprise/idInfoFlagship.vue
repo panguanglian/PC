@@ -64,8 +64,8 @@
               accept="image/png, image/jpeg, image/gif, image/jpg"
               id="file"
             />
-            <label for="file" class="upImgbtn" v-if="onesrc.length==0">点击上传</label>
-            <label for="file" class="upseccs" v-else>上传成功</label>
+            <label  class="upImgbtn" v-if="onesrc.length==0">点击上传</label>
+            <label  class="upseccs" v-else>上传成功</label>
           </div>
           <div class="upImg">
             <span v-if="trwosrc.length==0">身份证背面</span>
@@ -78,8 +78,8 @@
               accept="image/png, image/jpeg, image/gif, image/jpg"
               id="files"
             />
-            <label for="files" class="upImgbtn" v-if="trwosrc.length==0">点击上传</label>
-            <label for="files" class="upseccs" v-else>上传成功</label>
+            <label  class="upImgbtn" v-if="trwosrc.length==0">点击上传</label>
+            <label  class="upseccs" v-else>上传成功</label>
           </div>
         </div>
       </div>
@@ -144,8 +144,8 @@
               accept="image/png, image/jpeg, image/gif, image/jpg"
               id="filex"
             />
-            <label for="filex" class="upImgbtn" v-if="onesrcx.length==0">点击上传</label>
-            <label for="filex" class="upseccs" v-else>上传成功</label>
+            <label  class="upImgbtn" v-if="onesrcx.length==0">点击上传</label>
+            <label  class="upseccs" v-else>上传成功</label>
           </div>
           <div class="upImg">
             <span v-if="trwosrcx.length==0">身份证背面</span>
@@ -158,8 +158,8 @@
               accept="image/png, image/jpeg, image/gif, image/jpg"
               id="filesx"
             />
-            <label for="filesx" class="upImgbtn" v-if="trwosrcx.length==0">点击上传</label>
-            <label for="filesx" class="upseccs" v-else>上传成功</label>
+            <label  class="upImgbtn" v-if="trwosrcx.length==0">点击上传</label>
+            <label  class="upseccs" v-else>上传成功</label>
           </div>
         </div>
       </div>
@@ -260,7 +260,7 @@ export default {
                   trwosrcx:this.trwosrcx,//管理人的证件背面
                   values:this.values ,//管理人证件有效期  
                 }
-                this.$router.push({name:'generalStore',params:{data:obj}})
+                this.$router.push({name:'storeInfoFlagship',params:{data:obj}})
               }
           }else{
             var obj={
@@ -276,7 +276,7 @@ export default {
                   trwosrcx:this.trwosrcx,//管理人的证件背面
                   checkeds:this.checkeds ,//管理人证件有效期长期  
                 }
-                this.$router.push({name:'generalStore',params:{data:obj}})
+                this.$router.push({name:'storeInfoFlagship',params:{data:obj}})
 
           }
         }
@@ -293,7 +293,7 @@ export default {
                 usName:this.usName,//法人姓名
                 idCard:this.idCard,//法人身份证号码
               }
-              this.$router.push({name:'generalStore',params:{data:obj}})
+              this.$router.push({name:'storeInfoFlagship',params:{data:obj}})
         }else if(this.radio!= 1){//管理人和法人不同一人
           if(this.usNames == ""||!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)){
             this.$message({message: "请填写店铺管理人姓名",type: "warning"});
