@@ -135,7 +135,6 @@
             <button class="Establish" @click="creatshop">创建店铺</button>
           </div>
         </div>
-
     </div>
 
 
@@ -203,6 +202,11 @@ export default {
             shoplink:this.shoplink,
           }
           console.log(obj)
+          this.$message({
+            message:"创建店铺成功",
+            type:'success'
+          })
+            this.$router.push({name:"flagShip"})
         }
      }else{
         var obj={
@@ -219,12 +223,10 @@ export default {
           }
           console.log(obj)
           this.$message({
-            message:"创建店铺成功,3s后返回首页",
+            message:"创建店铺成功",
             type:'success'
           })
-          setTimeout(() => {
-            this.$router.push({name:"home"})
-          }, 3000);
+            this.$router.push({name:"flagShip"})
      }
 
    },

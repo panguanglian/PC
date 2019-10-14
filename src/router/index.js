@@ -17,88 +17,120 @@ import storeInfo from '@/components/home/enterprise/storeInfo'
 import flagShip from '@/components/home/flagShip'
 import generalStore from '@/components/home/generalStore'
 import Businesslicense from '@/components/home/Businesslicense'
-
+import navbars from '@/components/navbar/navbar'
 Vue.use(Router)
 
 export default new Router({
     routes: [{
-            path: '/',
-            redirect: '/home'
-        },
-        {
-            path: '/home',
-            name: 'home',
-            component: home,
-            meta:{
-                keepAlive:true
-            }
-        },
-        {
-            path: '/personalStore',
-            name: 'personalStore',
-            component: personalStore
-        },
-        {
-            path: '/individualBusiness',
-            name: 'individualBusiness',
-            component: individualBusiness
-        },
-        {
-            path: '/idInfoFlagship',
-            name: 'idInfoFlagship',
-            component: idInfoFlagship
-        },
-        {
-            path: '/idInfomonopoly',
-            name: 'idInfomonopoly',
-            component: idInfomonopoly
-        },
-        {
-            path: '/idInfoMonopolize',
-            name: 'idInfoMonopolize',
-            component: idInfoMonopolize
-        },
-        {
-            path: '/idinfoordinary',
-            name: 'idinfoordinary',
-            component: idinfoordinary
-        },
-        {
-            path: '/storeInfoFlagship',
-            name: 'storeInfoFlagship',
-            component: storeInfoFlagship
-        },
-        {
-            path: '/storeInfomonopoly',
-            name: 'storeInfomonopoly',
-            component: storeInfomonopoly
-        },
-        {
-            path: '/storeInfoMonopoliz',
-            name: 'storeInfoMonopoliz',
-            component: storeInfoMonopoliz
-        },
-        {
-            path: '/storeInfo',
-            name: 'storeInfo',
-            component: storeInfo
-        },
-        {
-            path: '/flagShip',
-            name: 'flagShip',
-            component: flagShip
-        },
-        {
-            path:'/generalStore',
-            name:'generalStore',
-            component: generalStore
-        },
-        {
-            path:'/Businesslicense',
-            name:'Businesslicense',
-            component: Businesslicense
-        }
-        
+        path: '/',
+        redirect: '/navbars/home',
+    },
+    {
+        path:'/navbars',
+        name:'navbars',
+        component:navbars,
+        children:[
+            {
+                path: 'home',
+                name: 'home',
+                component: home,
+                meta: {
+                    keepAlive: true
+                }
+            },
+            {
+                path: 'personalStore',
+                name: 'personalStore',
+                component: personalStore
+            },
+            {
+                path: 'individualBusiness',
+                name: 'individualBusiness',
+                component: individualBusiness
+            },
+            {
+                path: 'idInfoFlagship',
+                name: 'idInfoFlagship',
+                component: idInfoFlagship
+            },
+            {
+                path: 'idInfomonopoly',
+                name: 'idInfomonopoly',
+                component: idInfomonopoly
+            },
+            {
+                path: 'idInfoMonopolize',
+                name: 'idInfoMonopolize',
+                component: idInfoMonopolize
+            },
+            {
+                path: 'idinfoordinary',
+                name: 'idinfoordinary',
+                component: idinfoordinary
+            },
+            {
+                path: 'storeInfoFlagship',
+                name: 'storeInfoFlagship',
+                component: storeInfoFlagship
+            },
+            {
+                path: 'storeInfomonopoly',
+                name: 'storeInfomonopoly',
+                component: storeInfomonopoly
+            },
+            {
+                path: 'storeInfoMonopoliz',
+                name: 'storeInfoMonopoliz',
+                component: storeInfoMonopoliz
+            },
+            {
+                path: 'storeInfo',
+                name: 'storeInfo',
+                component: storeInfo
+            },
+            {
+                path: 'flagShip',
+                name: 'flagShip',
+                component: flagShip
+            },
+            {
+                path: 'generalStore',
+                name: 'generalStore',
+                component: generalStore
+            },
+            {
+                path: 'Businesslicense',
+                name: 'Businesslicense',
+                component: Businesslicense
+            },
+            {
+                path: 'contacthailu',
+                name: 'contacthailu',
+                component: () => import('@/components/contactUs/contacthailu')
+            },
+            {
+                path: 'downloadclient',
+                name: 'downloadclient',
+                component: () => import('@/components/Client/downloadclient')
+            },
+            {
+                path: 'rulecenter',
+                name: 'rulecenter',
+                component: () => import('@/components/ruleCenter/rulecenter')
+            },
+        ]
+    },
+   
+
+
+
+
+    {
+        path: '/login',
+        name: 'login',
+        component: () => import('@/components/login/login')
+    }
+
     ]
 
 })
