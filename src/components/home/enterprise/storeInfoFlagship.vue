@@ -484,8 +484,8 @@ export default {
     };
   },
   created() {
-    console.log(this.$route.params.idInfo);
-    this.idinfos=this.$route.params.idInfo
+    // console.log(this.$route.params.idInfo);
+    // this.idinfos=this.$route.params.idInfo
   },
   methods: {
     last() {
@@ -998,7 +998,6 @@ export default {
                       } else if (this.checked !== true) {
                         isSubmit = false;
                         this.ismessage = "请认真阅读并同意合作协议";
-
                         break;
                       }
                     }
