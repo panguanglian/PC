@@ -234,6 +234,7 @@ export default {
                 idCard:this.idCard,//法人身份证号码
               }
               console.log(obj)
+              this.$router.push({ name: "storeInfoFlagship",params: {idInfo: obj} });
               
         }else if(this.radio!= 1){//管理人和法人不同一人
           if(this.usNames == ""||!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)){
@@ -336,6 +337,7 @@ export default {
                   checkeds:this.checkeds ,//管理人证件有效期长期  
                 }
                 console.log(obj)
+                this.$router.push({ name: "storeInfoFlagship",params: {idInfo: obj} });
                 
           }
         }
@@ -429,7 +431,13 @@ export default {
   font-size: 24px;
 }
 .dsfafd {
-  display: none;
+  /* display: none; */
+  position: absolute;
+  opacity: 0;
+  width: 200px;
+  height: 100%;
+  z-index: 999;
+  left: 0%;
 }
 .upImg img {
   width: 100%;

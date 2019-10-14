@@ -477,9 +477,14 @@ export default {
       shopLink: "", //第三方店铺链接
       invitation: "", //入驻邀请码
       activeClass: "1",
-      ismessage: ""
+      ismessage: "",
+      idinfo:'',
       // imggg:'',
     };
+  },
+  created() {
+    console.log(this.$route.params);
+    this.idinfo=this.$route.params.idInfo
   },
   methods: {
     last() {
@@ -594,6 +599,7 @@ export default {
                   invitation: this.invitation,
                   valuex: this.valuex
                 };
+                obj.push(this.idinfo)
                 this.$router.push({ path: "flagShip" });
                 console.log(obj);
               } else {

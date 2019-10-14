@@ -73,7 +73,7 @@
             <input
               type="file"
               class="dsfafd"
-              @change="getFiless(0)"
+              @change="getFiless"
               multiple
               accept="image/png, image/jpeg, image/gif, image/jpg"
               id="files"
@@ -234,6 +234,7 @@ export default {
                 idCard:this.idCard,//法人身份证号码
               }
               console.log(obj)
+              this.$router.push({ name: "storeInfoMonopoliz",params: {idInfo: obj} });
               
         }else if(this.radio!= 1){//管理人和法人不同一人
           if(this.usNames == ""||!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)){
@@ -260,7 +261,7 @@ export default {
                   values:this.values ,//管理人证件有效期  
                 }
                 console.log(obj)
-               
+               this.$router.push({ name: "storeInfoMonopoliz",params: {idInfo: obj} });
               }
           }else{
             var obj={
@@ -277,7 +278,7 @@ export default {
                   checkeds:this.checkeds ,//管理人证件有效期长期  
                 }
                 console.log(obj)
-                
+                this.$router.push({ name: "storeInfoMonopoliz",params: {idInfo: obj} });
 
           }
         }
@@ -295,6 +296,7 @@ export default {
                 idCard:this.idCard,//法人身份证号码
               }
               console.log(obj)
+              this.$router.push({ name: "storeInfoMonopoliz",params: {idInfo: obj} });
               
         }else if(this.radio!= 1){//管理人和法人不同一人
           if(this.usNames == ""||!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)){
@@ -322,6 +324,7 @@ export default {
                   values:this.values ,//管理人证件有效期  
                 }
                 console.log(obj)
+                this.$router.push({ name: "storeInfoMonopoliz",params: {idInfo: obj} });
 
               }
           }else{
@@ -340,6 +343,7 @@ export default {
                   checkeds:this.checkeds ,//管理人证件有效期长期  
                 }
                 console.log(obj)
+                this.$router.push({ name: "storeInfoMonopoliz",params: {idInfo: obj} });
                 
           }
         }
@@ -360,7 +364,7 @@ export default {
       readers.readAsDataURL(filess); // 这里是最关键的一步，转换就在这里
       readers.onloadend = function() {
         _this.trwosrc = this.result;
-        // console.log(_this.trwosrc);
+        console.log(_this.trwosrc);
       };
     },
     getFile(e) {
@@ -371,7 +375,7 @@ export default {
       reader.readAsDataURL(files); // 这里是最关键的一步，转换就在这里
       reader.onloadend = function() {
         _this.onesrc = this.result;
-        // console.log(_this.onesrc);
+        console.log(_this.onesrc);
       };
     },
     b(e) {
@@ -381,7 +385,7 @@ export default {
       let readers = new FileReader();
       readers.readAsDataURL(filess); // 这里是最关键的一步，转换就在这里
       readers.onloadend = function() {
-        // _this.trwosrcx = this.result;
+        _this.trwosrcx = this.result;
       };
     },
     a(e) {
@@ -391,7 +395,7 @@ export default {
       let reader = new FileReader();
       reader.readAsDataURL(files); // 这里是最关键的一步，转换就在这里
       reader.onloadend = function() {
-        // _this.onesrcx = this.result;
+        _this.onesrcx = this.result;
       };
     },
     radios(){
@@ -572,7 +576,7 @@ export default {
   color: red;
 }
 .list > div > input {
-  width: 64%; 
+  width: 64%;
   padding: 5px 5px;
   border-radius: 5px;
   background: none;
