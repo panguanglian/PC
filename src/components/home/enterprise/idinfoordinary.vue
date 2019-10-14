@@ -1,6 +1,6 @@
 
 <template>
-<!-- 旗舰店-企业身份信息 -->
+<!-- 普通店-企业身份信息 -->
 
   <div class="idInfo">
     <div class="step">
@@ -233,8 +233,10 @@ export default {
                 usName:this.usName,//法人姓名
                 idCard:this.idCard,//法人身份证号码
               }
-              console.log(obj)
-              this.$router.push({ name: "storeInfo",params: {idInfo: obj} });
+              setTimeout(() => {
+                this.$router.push({name:"generalStore"})
+                localStorage.setItem("idvaue",JSON.stringify(obj))
+              }, 500);
               
         }else if(this.radio!= 1){//管理人和法人不同一人
           if(this.usNames == ""||!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)){
@@ -260,8 +262,10 @@ export default {
                   trwosrcx:this.trwosrcx,//管理人的证件背面
                   values:this.values ,//管理人证件有效期  
                 }
-                console.log(obj)
-               this.$router.push({ name: "storeInfo",params: {idInfo: obj} });
+               setTimeout(() => {
+                this.$router.push({name:"generalStore"})
+                localStorage.setItem("idvaue",JSON.stringify(obj))
+              }, 500);
               }
           }else{
             var obj={
@@ -277,8 +281,10 @@ export default {
                   trwosrcx:this.trwosrcx,//管理人的证件背面
                   checkeds:this.checkeds ,//管理人证件有效期长期  
                 }
-                console.log(obj)
-                this.$router.push({ name: "storeInfo",params: {idInfo: obj} });
+                setTimeout(() => {
+                this.$router.push({name:"generalStore"})
+                localStorage.setItem("idvaue",JSON.stringify(obj))
+              }, 500);
 
           }
         }
@@ -296,8 +302,10 @@ export default {
                 idCard:this.idCard,//法人身份证号码
               }
               console.log(obj)
-              this.$router.push({ name: "storeInfo",params: {idInfo: obj} });
-              
+              setTimeout(() => {
+                this.$router.push({name:"generalStore",params:{data:obj}})
+                localStorage.setItem("idvaue",JSON.stringify(obj))
+              }, 500);
         }else if(this.radio!= 1){//管理人和法人不同一人
           if(this.usNames == ""||!/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/.test(this.usNames)){
             this.$message({message: "请填写店铺管理人姓名",type: "warning"});
@@ -323,9 +331,10 @@ export default {
                   trwosrcx:this.trwosrcx,//管理人的证件背面
                   values:this.values ,//管理人证件有效期  
                 }
-                console.log(obj)
-                this.$router.push({ name: "storeInfo",params: {idInfo: obj} });
-
+                setTimeout(() => {
+                this.$router.push({name:"generalStore"})
+                localStorage.setItem("idvaue",JSON.stringify(obj))
+              }, 500);
               }
           }else{
               var obj={
@@ -342,9 +351,10 @@ export default {
                   trwosrcx:this.trwosrcx,//管理人的证件背面
                   checkeds:this.checkeds ,//管理人证件有效期长期  
                 }
-                console.log(obj)
-                this.$router.push({ name: "storeInfo",params: {idInfo: obj} });
-                
+                setTimeout(() => {
+                this.$router.push({name:"generalStore"})
+                localStorage.setItem("idvaue",JSON.stringify(obj))
+              }, 500);
           }
         }
 
@@ -364,7 +374,7 @@ export default {
       readers.readAsDataURL(filess); // 这里是最关键的一步，转换就在这里
       readers.onloadend = function() {
         _this.trwosrc = this.result;
-        console.log(_this.trwosrc);
+        // console.log(_this.trwosrc);
       };
     },
     getFile(e) {
@@ -375,7 +385,7 @@ export default {
       reader.readAsDataURL(files); // 这里是最关键的一步，转换就在这里
       reader.onloadend = function() {
         _this.onesrc = this.result;
-        console.log(_this.onesrc);
+        // console.log(_this.onesrc);
       };
     },
     b(e) {
