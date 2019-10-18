@@ -13,10 +13,15 @@ import storeInfoFlagship from '@/components/home/enterprise/storeInfoFlagship'
 import storeInfomonopoly from '@/components/home/enterprise/storeInfomonopoly'
 import storeInfoMonopoliz from '@/components/home/enterprise/storeInfoMonopoliz'
 import storeInfo from '@/components/home/enterprise/storeInfo'
+import claimCate from '@/components/home/cates/claimCate'
+
 
 import flagShip from '@/components/home/flagShip'
 import generalStore from '@/components/home/generalStore'
 import Businesslicense from '@/components/home/Businesslicense'
+import navbars from '@/components/navbar/navbar'
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -34,11 +39,14 @@ export default new Router({
                     requireAuth: true, // 判断是否需要登录
                 }
             },
+           
+            
             {
                 path: '/personalStore',
                 name: 'personalStore',
                 component: personalStore
             },
+           
             {
                 path: '/individualBusiness',
                 name: 'individualBusiness',
@@ -100,6 +108,14 @@ export default new Router({
                 component: Businesslicense
             },
             {
+                path: '/claimCate',
+                name: 'claimCate',
+                // component: () => import('@/components/home/cates/claimCate')
+                component: claimCate
+            },
+           
+            
+            {
                 path: '/contacthailu',
                 name: 'contacthailu',
                 component: () => import('@/components/contactUs/contacthailu')
@@ -116,7 +132,6 @@ export default new Router({
             },
         
     
-
 
 
 
@@ -140,6 +155,11 @@ export default new Router({
         path: '/Forgetpasswordsuccess',
         name: 'Forgetpasswordsuccess',
         component: () => import('@/components/login/Forgetpasswordsuccess')
+    },
+    {
+        path: '/enroll',
+        name: 'enroll',
+        component: () => import('@/components/login/enroll')
     },
     {
         path: '/Choiceoption',

@@ -18,7 +18,7 @@
           <el-input placeholder="请输入账户名/手机号" prefix-icon="el-icon-user-solid" v-model="username" class="input"></el-input>
           <el-input type="password" placeholder="请输入密码" prefix-icon="el-icon-unlock" v-model="password" class="input"></el-input>
           <div class="button" @click="login_in">登录</div>
-          <router-link tag="div" class="button logins" to=''>注册账号，免费入住</router-link>
+          <router-link tag="div" class="button logins" to='enroll'>注册账号，免费入住</router-link>
           <router-link tag="p" class="p" to="Forgetpassword">忘记密码</router-link>
         </div>
 

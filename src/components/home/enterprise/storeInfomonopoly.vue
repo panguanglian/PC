@@ -1288,8 +1288,8 @@ export default {
 </script>
 
 <style scoped>
-.impowerLink {
-}
+/* .impowerLink {
+} */
 .circle {
   width: 10px;
   height: 10px;
