@@ -68,7 +68,7 @@ export default {
   methods: {
     neststep(){
         var kong = /\s/;//含有空格正则
-        if(kong.test(this.password)||this.password.length<6||this.password>20){
+        if(kong.test(this.password)||this.password.length<6||this.password.length>20){
               this.$message({
                 message:'输入的密码格式不正确',
                 type:'warning'

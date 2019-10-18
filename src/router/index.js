@@ -14,10 +14,13 @@ import storeInfomonopoly from '@/components/home/enterprise/storeInfomonopoly'
 import storeInfoMonopoliz from '@/components/home/enterprise/storeInfoMonopoliz'
 import storeInfo from '@/components/home/enterprise/storeInfo'
 
+
 import flagShip from '@/components/home/flagShip'
 import generalStore from '@/components/home/generalStore'
 import Businesslicense from '@/components/home/Businesslicense'
 import navbars from '@/components/navbar/navbar'
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -40,11 +43,14 @@ export default new Router({
                     requireAuth: true, // 判断是否需要登录
                 }
             },
+           
+            
             {
                 path: 'personalStore',
                 name: 'personalStore',
                 component: personalStore
             },
+           
             {
                 path: 'individualBusiness',
                 name: 'individualBusiness',
@@ -105,6 +111,9 @@ export default new Router({
                 name: 'Businesslicense',
                 component: Businesslicense
             },
+            
+           
+            
             {
                 path: 'contacthailu',
                 name: 'contacthailu',
@@ -122,7 +131,6 @@ export default new Router({
             },
         ]
     },
-
 
 
 
@@ -146,6 +154,11 @@ export default new Router({
         path: '/Forgetpasswordsuccess',
         name: 'Forgetpasswordsuccess',
         component: () => import('@/components/login/Forgetpasswordsuccess')
+    },
+    {
+        path: '/enroll',
+        name: 'enroll',
+        component: () => import('@/components/login/enroll')
     }
 
     ]
