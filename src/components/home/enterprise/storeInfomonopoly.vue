@@ -65,8 +65,8 @@
               accept="image/png, image/jpeg, image/gif, image/jpg"
               id="file"
             />
-            <label  class="upImgbtn" v-if="license.length==0">点击上传</label>
-            <label  class="upseccs" v-else>上传成功</label>
+            <label class="upImgbtn" v-if="license.length==0">点击上传</label>
+            <label class="upseccs" v-else>上传成功</label>
           </div>
         </div>
       </div>
@@ -145,8 +145,8 @@
                 accept="image/png, image/jpeg, image/gif, image/jpg"
                 id="filexs"
               />
-              <label  class="upImgbtn" v-if="organizationCard.length==0">点击上传</label>
-              <label  class="upseccs" v-else>上传成功</label>
+              <label class="upImgbtn" v-if="organizationCard.length==0">点击上传</label>
+              <label class="upseccs" v-else>上传成功</label>
             </div>
             <div style="color: #0090fa; margin-left: 15px;">查看事例</div>
           </div>
@@ -168,8 +168,8 @@
                 accept="image/png, image/jpeg, image/gif, image/jpg"
                 id="filesx"
               />
-              <label  class="upImgbtn" v-if="attest.length==0">点击上传</label>
-              <label  class="upseccs" v-else>上传成功</label>
+              <label class="upImgbtn" v-if="attest.length==0">点击上传</label>
+              <label class="upseccs" v-else>上传成功</label>
             </div>
             <div style="color: #0090fa; margin-left: 15px;">查看事例</div>
           </div>
@@ -201,8 +201,8 @@
               accept="image/png, image/jpeg, image/gif, image/jpg"
               id="filex"
             />
-            <label  class="upImgbtn" v-if="voucher.length==0">点击上传</label>
-            <label  class="upseccs" v-else>上传成功</label>
+            <label class="upImgbtn" v-if="voucher.length==0">点击上传</label>
+            <label class="upseccs" v-else>上传成功</label>
           </div>
           <div class="explain">
             <div>若所在地未取消开户许可证核发，请上传开户许可证</div>
@@ -226,7 +226,12 @@
         <strong class="blue">2</strong> 商标信息上传
       </div>
       <div class="brand" v-for="(item, index) in bra" :key="index">
-        <i class="el-icon-close" style="float: right; margin:5px; color:red;" @click="isDel(index)" v-if="isDelss"></i>
+        <i
+          class="el-icon-close"
+          style="float: right; margin:5px; color:red;"
+          @click="isDel(index)"
+          v-if="isDelss"
+        ></i>
         <div class="list">
           <div style="flex:1; text-align: right;">品牌类型</div>
           <div style="flex:3;  margin-left: 15px;">
@@ -247,6 +252,41 @@
         </div>
         <div v-if="shows[index].show">
           <div class="list">
+            <div style="flex:1; text-align: right;">品牌授权链路</div>
+            <div style="flex:3; margin-left: 15px;" class="impowerLink">
+              <div class="upShop">
+                <div class="circle"></div>
+                <div>品牌方授权给您的开店公司</div>
+              </div>
+              <div class="substance">
+                <div class="line"></div>
+                <div class="carrier">
+                  <div class="authorization">
+                    <div class="accredit">
+                      <div class="first">授权书</div>
+                      <div class="upAccredit">点击上传</div>
+                    </div>
+                    <div class="accredit">
+                      <div class="first">授权有效期</div>
+                      <div><el-date-picker v-model="valuex[index].value" type="date" placeholder="选择日期"></el-date-picker></div>
+                    </div>
+                  </div>
+                  <div class="agency">
+                    <div class="addAgency" @click="addAgency(index)">添加代理公司</div>
+                    <div class="illustrate">
+                      需要上传品牌方到开店公司的完整品牌授权链路的授权书（专卖店不超过二级）
+                      以二级授权链路为例：需要上传品牌方给一级代理公司的授权书，一级代理公司给开店公司的授权书
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="upShop">
+                <div class="circle"></div>
+                <div>一级代理公司授权给您的开店公司 <span style="color:red;" @click="cancel">删除</span></div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="list">
             <div style="flex:1; text-align: right;">品牌独占授权书</div>
             <div style="flex:3; margin-left: 15px;">
               <div class="upImg">
@@ -276,7 +316,7 @@
                 <el-date-picker v-model="valuex[index].value" type="date" placeholder="选择日期"></el-date-picker>
               </div>
             </div>
-          </div>
+          </div>-->
         </div>
         <div class="list" v-for="(item, inde) in item.radio" :key="inde">
           <div style="flex:1; text-align: right;">品牌注册商标</div>
@@ -326,7 +366,6 @@
                     <!-- <input type="text" @click="aa(inde,index)"> -->
                     <label
                       class="upImgbtn"
-                      
                       v-if="brandProve[index].brand[inde].prove.length==0"
                     >点击上传</label>
                     <label class="upseccs" v-else>上传成功</label>
@@ -480,15 +519,14 @@ export default {
       invitation: "", //入驻邀请码
       activeClass: "1",
       ismessage: "",
-      idinfos:'',
-      information:[],
-      delss:[{del:false}],
-      isDelss:false,
+      idinfos: "",
+      information: [],
+      delss: [{ del: false }],
+      isDelss: false
       // imggg:'',
     };
   },
   created() {
-    
     // console.log(this.$route.params.idInfo);
     // this.idinfos=this.$route.params.idInfo
   },
@@ -604,13 +642,12 @@ export default {
                   shopLink: this.shopLink,
                   invitation: this.invitation,
                   valuex: this.valuex,
-                  idinfo:this.idinfos,
+                  idinfo: this.idinfos
                 };
-                
-              //  this.information.push(this.idinfos)
+
+                //  this.information.push(this.idinfos)
                 this.$router.push({ path: "flagShip" });
                 console.log(obj);
-                
               } else {
                 console.log(this.ismessage);
                 this.$message({
@@ -744,7 +781,7 @@ export default {
                   impowerBook: this.impowerBook,
                   valuex: this.valuex,
                   idCard: this.idCard,
-                  idinfo:this.idinfos,
+                  idinfo: this.idinfos
                 };
                 this.$router.push({ path: "flagShip" });
               } else {
@@ -894,7 +931,7 @@ export default {
                   shopLink: this.shopLink,
                   invitation: this.invitation,
                   valuex: this.valuex,
-                  idinfo:this.idinfos,
+                  idinfo: this.idinfos
                 };
                 this.$router.push({ path: "flagShip" });
                 console.log(obj);
@@ -1036,7 +1073,7 @@ export default {
                   impowerBook: this.impowerBook,
                   valuex: this.valuex,
                   idCard: this.idCard,
-                  idinfo:this.idinfos,
+                  idinfo: this.idinfos
                 };
                 this.$router.push({ path: "flagShip" });
               } else {
@@ -1104,23 +1141,23 @@ export default {
       if (this.radios[index].radio == 2) {
         this.shows[index].show = true;
         this.bra[index].radio = [""];
-        this.brandName[index].name =''
-        this.trademark[index].mark =[{ marks: "" }]
-        this.brandProve[index].brand=[{prove:''}]
-        this.value[index].valuex=[{valuexs:''}]
+        this.brandName[index].name = "";
+        this.trademark[index].mark = [{ marks: "" }];
+        this.brandProve[index].brand = [{ prove: "" }];
+        this.value[index].valuex = [{ valuexs: "" }];
 
         console.log(this.bra[index].radio);
       } else {
         this.shows[index].show = false;
         this.bra[index].radio = [""];
-        this.brandName[index].name =''
-        this.trademark[index].mark =[{ marks: "" }]
-        this.brandProve[index].brand=[{prove:''}]
-        this.value[index].valuex=[{valuexs:''}]
-        this.impowerBook[index].boox=''
-        this.valuex[index].value=''
-        this.radioss[index].radiox=[{radios:''}]
-        this.idCard[index].card=[{id:''}]
+        this.brandName[index].name = "";
+        this.trademark[index].mark = [{ marks: "" }];
+        this.brandProve[index].brand = [{ prove: "" }];
+        this.value[index].valuex = [{ valuexs: "" }];
+        this.impowerBook[index].boox = "";
+        this.valuex[index].value = "";
+        this.radioss[index].radiox = [{ radios: "" }];
+        this.idCard[index].card = [{ id: "" }];
         for (var i = 0; i < this.bra[index].radio.length; i++) {
           this.bra[index].radio[i] = "";
         }
@@ -1141,8 +1178,8 @@ export default {
       // console.log(this.radio);
       this.radioss[index].radiox.push({ radios: "" });
       console.log(this.bra);
-      console.log(this.bra[index].radio.length)
-      this.delss[index].del=true
+      console.log(this.bra[index].radio.length);
+      this.delss[index].del = true;
     },
     addBra() {
       this.bra.push({ radio: ["1"] });
@@ -1157,8 +1194,8 @@ export default {
       this.valuex.push({ value: "" });
       this.idCard.push({ card: [{ id: "" }] });
       this.radioss.push({ radiox: [{ radios: "" }] });
-      this.delss.push({del:false})
-      this.isDelss=true
+      this.delss.push({ del: false });
+      this.isDelss = true;
     },
     chDate(inde, index) {
       console.log(event);
@@ -1204,48 +1241,127 @@ export default {
         _this.idCard[index].card[inde].id = this.result;
       };
     },
-    del(index,inde){//删除
-      console.log(this.bra[index].radio)
-      this.$delete(this.bra[index].radio,inde)
-      this.$delete(this.trademark[index].mark,inde)
-      this.$delete(this.brandProve[index].brand,inde)
-      this.$delete(this.value[index].valuex,inde)
-      this.$delete(this.radioss[index].radiox,inde)
-      this.$delete(this.idCard[index].card,inde)
-      console.log(this.bra[index].radio)
-      console.log(index,inde)
-      if (this.bra[index].radio.length==1) {
-        this.delss[index].del=false
+    del(index, inde) {
+      //删除
+      console.log(this.bra[index].radio);
+      this.$delete(this.bra[index].radio, inde);
+      this.$delete(this.trademark[index].mark, inde);
+      this.$delete(this.brandProve[index].brand, inde);
+      this.$delete(this.value[index].valuex, inde);
+      this.$delete(this.radioss[index].radiox, inde);
+      this.$delete(this.idCard[index].card, inde);
+      console.log(this.bra[index].radio);
+      console.log(index, inde);
+      if (this.bra[index].radio.length == 1) {
+        this.delss[index].del = false;
       } else {
-        this.delss[index].del=true
+        this.delss[index].del = true;
       }
     },
-    isDel(index){
-     
-      this.$delete(this.bra,index)
-      this.$delete(this.radios,index)
-      this.$delete(this.brandName,index)
-      this.$delete(this.impowerBook,index)
-      this.$delete(this.valuex,index)
-      this.$delete(this.trademark,index)
-      this.$delete(this.brandProve,index)
-      this.$delete(this.value,index)
-      this.$delete(this.radioss,index)
-      this.$delete(this.idCard,index)
+    isDel(index) {
+      this.$delete(this.bra, index);
+      this.$delete(this.radios, index);
+      this.$delete(this.brandName, index);
+      this.$delete(this.impowerBook, index);
+      this.$delete(this.valuex, index);
+      this.$delete(this.trademark, index);
+      this.$delete(this.brandProve, index);
+      this.$delete(this.value, index);
+      this.$delete(this.radioss, index);
+      this.$delete(this.idCard, index);
       this.shows[index].show = false;
-   
-      if (this.bra.length==1) {
-        this.isDelss=false
+
+      if (this.bra.length == 1) {
+        this.isDelss = false;
       } else {
-        this.isDelss=true
+        this.isDelss = true;
       }
+    },
+    addAgency(index){
+      console.log(index)
+    },
+    cancel(){
+      console.log(1)
     }
   }
 };
 </script>
 
 <style scoped>
-.del{
+.impowerLink {
+}
+.circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #0090fa;
+  margin-right: 5px;
+}
+.upShop {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.substance {
+  display: flex;
+  margin-bottom: 10px;
+}
+.line {
+  width: 2px;
+  height: 211px;
+  background: #dddddd;
+  margin-left: 4px;
+  margin-right: 20px;
+}
+.authorization {
+  width: 590px;
+  height: 154px;
+  background: #f7f7f7;
+  border-radius: 4px;
+  
+}
+.agency{
+  display: flex;
+  margin-top: 20px;
+}
+.illustrate{
+  width: 480px;
+  font-size: 12px;
+  color: #9597A6;
+}
+.addAgency{
+  
+  width: 98px;
+  height: 30px;
+  border: 1px solid #030303;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+  line-height: 30px;
+  margin-right: 10px;
+}
+.accredit{
+  display: flex;
+  margin-left: 50px;
+  padding-top: 30px;
+  align-items: center;
+}
+.first{
+  font-size: 14px;
+  width: 70px;
+  text-align: right;
+  margin-right: 20px;
+}
+.upAccredit{
+  width: 98px;
+  height: 30px;
+  border: 1px solid #030303;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 30px;
+  
+}
+.del {
   position: absolute;
   right: 10px;
   top: 10px;
@@ -1297,7 +1413,6 @@ export default {
   margin-left: 15px;
 }
 .step {
-  
   display: flex;
   justify-content: center;
   padding: 2%;
