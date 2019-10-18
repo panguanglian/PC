@@ -177,7 +177,11 @@ export default new Router({
         name: 'Choiceoption',
         component: () => import('@/components/home/Choiceoption')
     },
-    
+    {
+        path: '/hotelone',
+        name: 'hotelone',
+        component: () => import('@/components/home/HotelIndustry/hotelone')
+    },
     
 
     ]
