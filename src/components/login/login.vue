@@ -63,7 +63,7 @@ export default {
           this.token=true
           localStorage.setItem("token",this.token)
           this.$message({message:'登录成功',type:'success'})
-          this.$router.push({name:'home'})
+          this.$router.push({name:'system'})
       }
     },
     changes(index) {
