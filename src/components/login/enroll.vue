@@ -84,7 +84,7 @@ export default {
                 type:'warning'
             })
       }else{
-          console.log("ok")
+          this.$router.push({name:'home'})
       }
     },
     codes() {

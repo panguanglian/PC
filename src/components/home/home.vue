@@ -14,6 +14,7 @@
         <el-tab-pane>
           <div slot="label">企业店</div>
           <div slot="label" class="aa">适合公司/企业开店提供营业执照等资料即可开店</div>
+          <p>暂无内容，请谅解</p>
           <div class="individual" v-for="(item, i) in firm" :key="`firm${ i }`" @click="idinfo(item)">
             <div>{{ item.title }}</div>
             <div>{{ item.text }}</div>
@@ -33,37 +34,37 @@ export default {
     return {
       personal: [
         {
-          title: '个人店',
+          title: '个体工商店',
           text: '个人身份开店（有营业执照）',
-          link: '/navbars/Businesslicense'
+          link: '/Businesslicense'
         },
-        {
-          title: '个人店',
-          text: '个人身份开店（无营业执照）',
-          link: '/navbars/personalStore'
-        }
+        // {
+        //   title: '个人店',
+        //   text: '个人身份开店（无营业执照）',
+        //   link: '/personalStore'
+        // }
       ],
       firm: [
-        {
-          title: '旗舰店',
-          text: '经营1个自有品牌或1级授权品牌旗舰店',
-          link: '/navbars/idInfoFlagship'
-        },
-        {
-          title: '专卖店',
-          text: '经营1个自有品牌或授权销售专卖店',
-          link: '/navbars/idInfomonopoly'
-        },
-        {
-          title: '专营店',
-          text: '经营1个或多个自有/他人品牌的专营店',
-          link: '/navbars/idInfoMonopolize'
-        },
-        {
-          title: '普通店',
-          text: '普通企业店铺',
-          link: '/navbars/idinfoordinary'
-        }
+        // {
+        //   title: '旗舰店',
+        //   text: '经营1个自有品牌或1级授权品牌旗舰店',
+        //   link: '/navbars/idInfoFlagship'
+        // },
+        // {
+        //   title: '专卖店',
+        //   text: '经营1个自有品牌或授权销售专卖店',
+        //   link: '/navbars/idInfomonopoly'
+        // },
+        // {
+        //   title: '专营店',
+        //   text: '经营1个或多个自有/他人品牌的专营店',
+        //   link: '/navbars/idInfoMonopolize'
+        // },
+        // {
+        //   title: '普通店',
+        //   text: '普通企业店铺',
+        //   link: '/navbars/idinfoordinary'
+        // }
       ],
     }
   },

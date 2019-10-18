@@ -20,7 +20,6 @@ import claimCate from '@/components/home/cates/claimCate'
 import flagShip from '@/components/home/flagShip'
 import generalStore from '@/components/home/generalStore'
 import Businesslicense from '@/components/home/Businesslicense'
-import navbars from '@/components/navbar/navbar'
 
 
 Vue.use(Router)
