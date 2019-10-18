@@ -16,9 +16,9 @@
         </div>
         <div v-if="arrnum ==0 ">
           <el-input placeholder="请输入账户名/手机号" prefix-icon="el-icon-user-solid" v-model="username" class="input"></el-input>
-          <el-input type="password" placeholder="请输入账户名/手机号" prefix-icon="el-icon-unlock" v-model="password" class="input"></el-input>
-          <div class="button">登录</div>
-          <p class="p">忘记密码</p>
+          <el-input type="password" placeholder="请输入密码" prefix-icon="el-icon-unlock" v-model="password" class="input"></el-input>
+          <div class="button" @click="login_in">登录</div>
+          <router-link tag="p" class="p" to="Forgetpassword">忘记密码</router-link>
         </div>
 
          <div v-else>
@@ -42,11 +42,28 @@ export default {
       username: "",
       password:'',
       reusername:'',
-      repassword:'',
+      repassword:'', 
       repasswords:'',
+      token:null,
     };
   },
+  created(){
+      
+  },
   methods: {
+    login_in(){
+       var kong = /\s/;//含有空格正则
+      if(this.username.length==0||kong.test(this.username)){
+        this.$message({message:'请输入账号名或手机号',type:'warning'})
+      }else if(this.password.length==0||kong.test(this.password)){
+        this.$message({message:'请输入密码',type:'warning'})
+      }else{
+          this.token=true
+          localStorage.setItem("token",this.token)
+          this.$message({message:'登录成功',type:'success'})
+          this.$router.push({name:'home'})
+      }
+    },
     changes(index) {
       this.arrnum = index;
     }

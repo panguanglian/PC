@@ -7,9 +7,11 @@
             <div class="operation">
                 <router-link tag="div" to='/navbars/contacthailu'>联系海露</router-link>
                 | <router-link tag="div" to='/navbars/rulecenter'>规则中心</router-link>
-                 |<router-link tag="div" to='/navbars/downloadclient'>下载客户端</router-link>
+                |<router-link tag="div" to='/navbars/downloadclient'>下载客户端</router-link>
                 <div>159998888</div>|<div class="login" @click="dialogVisible = true">退出</div>
+                
                 <!-- <div class="login">登录</div>|<div class="login">注册</div> -->
+
             </div>
         </div>
         <el-dialog
@@ -17,13 +19,13 @@
             :visible.sync="dialogVisible"
             width="30%"
             >
-            <span>这是一段信息</span>
+            <span>确定登出当前账号吗</span>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="signout">确 定</el-button>
+                <el-button type="primary" @click="signout">确 定</el-button> 
             </span>
-        </el-dialog>
-        <router-view></router-view>
+        </el-dialog> 
+        <router-view></router-view> 
     </div>
     
 </template>
@@ -34,12 +36,17 @@ export default {
             dialogVisible:false,
         }
     },
+    
     methods:{
         signout(){
             this.dialogVisible=false
-            
+            localStorage.removeItem("token")
+            this.$router.push({name:'login'})
         },
         
+    },
+    computed(){
+       
     }
     
 }

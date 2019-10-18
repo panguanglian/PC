@@ -6,11 +6,27 @@ import router from './router'
 import ElementUI from 'element-ui'
 import axios from 'axios'
 import 'element-ui/lib/theme-chalk/index.css'
+import './assets/styles/iconfont.css' //使用icon
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.prototype.axios = axios;
 
+// router.beforeEach((to, from, next) => {
+//     if (to.matched.some(r => r.meta.requireAuth)) {
+//         if (localStorage.getItem("token")) {
+//             next();
+//         }else {
+//             next({
+//                 name: 'login',
+//             })
+//         }
+//     }
+//     else {
+//         next();
+//     }
+
+// })
 
 new Vue({
     el: '#app',
