@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import system from '@/components/home/system'
-
 import home from '@/components/home/home'
 import individualBusiness from '@/components/home/individualBusiness'
 import personalStore from '@/components/home/personalStore'
@@ -48,8 +47,7 @@ export default new Router({
                 meta: {
                     keepAlive: true,
                     requireAuth: true, // 判断是否需要登录
-                },
-               
+                }
             },
             
             {
@@ -177,11 +175,7 @@ export default new Router({
         name: 'Choiceoption',
         component: () => import('@/components/home/Choiceoption')
     },
-    {
-        path: '/hotelone',
-        name: 'hotelone',
-        component: () => import('@/components/home/HotelIndustry/hotelone')
-    },
+    
     
 
     ]
