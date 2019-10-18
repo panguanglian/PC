@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="enroll">
     <div class="color">
       <img src="../../assets/logo.png" />
       <span>海露后台管理系统</span>
@@ -116,7 +116,16 @@ export default {
 </script>
 
 <style>
-
+html{
+    height: 100%;
+}
+body{
+    height: 100%;
+}
+.enroll{
+    height: 100%;
+    background: #EFF8FB;
+}
 .color {
   padding: 2%;
   display: flex;
@@ -125,6 +134,7 @@ export default {
   color: #2e7bee;
   font-size: 26px;
   font-weight: bold;
+  background: white;
 }
 .color img {
   width: 50px;
@@ -135,6 +145,7 @@ export default {
   height: 749px;
   background: white;
   margin: 0 auto;
+  margin-top: 20px;
 }
 
 .title {
