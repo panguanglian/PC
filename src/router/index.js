@@ -26,16 +26,18 @@ export default new Router({
         redirect: '/navbars/home',
     },
     {
-        path:'/navbars',
-        name:'navbars',
-        component:navbars,
-        children:[
+        path: '/navbars',
+        name: 'navbars',
+        component: navbars,
+       
+        children: [
             {
                 path: 'home',
                 name: 'home',
                 component: home,
                 meta: {
-                    keepAlive: true
+                    keepAlive: true,
+                    requireAuth: true, // 判断是否需要登录
                 }
             },
             {
@@ -120,7 +122,7 @@ export default new Router({
             },
         ]
     },
-   
+
 
 
 
@@ -129,6 +131,21 @@ export default new Router({
         path: '/login',
         name: 'login',
         component: () => import('@/components/login/login')
+    },
+    {
+        path: '/Forgetpassword',
+        name: 'Forgetpassword',
+        component: () => import('@/components/login/Forgetpassword')
+    },
+    {
+        path: '/Forgetpasswordtwo',
+        name: 'Forgetpasswordtwo',
+        component: () => import('@/components/login/Forgetpasswordtwo')
+    },
+    {
+        path: '/Forgetpasswordsuccess',
+        name: 'Forgetpasswordsuccess',
+        component: () => import('@/components/login/Forgetpasswordsuccess')
     }
 
     ]
