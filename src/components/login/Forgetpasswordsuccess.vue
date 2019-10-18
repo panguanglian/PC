@@ -25,13 +25,23 @@
             </div>
 
             <div class="biaodan">
-                <div class="form">
+                <div class="form" v-if="successerror">
                    <i class="iconfont icon-xiaolian sizes"></i>
                    <h3 class="hstren">恭喜你成功完成密码重置</h3>
                    <p class="ps">请使用新设置的密码重新登录系统</p>
                    <div class="buttonsbox">
                         <div class="buttons" @click="conbacklogin">
                                 完成
+                        </div>
+                   </div>
+                </div>
+                <div class="form" v-else>
+                   <i class="iconfont icon-kuliankulian sizes"></i>
+                   <h3 class="hstren">对不起！ 由于你错误次数太多账号暂时被冻结</h3>
+                   <p class="ps">请联系我们客户服务人员进行咨询！</p>
+                   <div class="buttonsbox">
+                        <div class="buttons" @click="conbacklogin">
+                                退出
                         </div>
                    </div>
                 </div>
@@ -53,7 +63,7 @@
 export default {
   data() {
     return {
-      
+      successerror:false
     };
   },
   methods: {
