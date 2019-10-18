@@ -20,9 +20,7 @@ export default {
 *{
   margin: 0;
 }
-html{
-  background: #EFF8FB;
-}
+
 
     
 </style>

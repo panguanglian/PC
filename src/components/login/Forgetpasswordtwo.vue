@@ -37,9 +37,7 @@
                     </div>
                    
                     <div class="buttons">
-                        <div class="comback" @click="comback">
-                            上一步
-                        </div>
+                        <!-- <div class="comback" @click="comback">上一步</div> -->
                         <div class="neix" @click="neststep">确定重置</div>
                     </div>
                 </div>
@@ -157,7 +155,7 @@ export default {
 }
 .divbox {
   height: 700px;
-  background: #2e7bee;
+  /* background: #2e7bee; */
   display: flex;
   align-items: center;
   justify-content: center;

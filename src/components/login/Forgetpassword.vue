@@ -26,15 +26,19 @@
 
             <div class="biaodan">
                 <div class="form">
-                    <div class="dian">
-                        <p>您注册的手机号码</p>
-                        <el-input v-model="phone" placeholder="请输入注册的手机号码"></el-input>
+                  <div class="dian">
+                        <p>请输入你需要找回登录密码的账户名/手机号</p>
+                        <el-input v-model="username" placeholder="请输入账户名/手机号"></el-input>
                     </div>
                     <div class="dian">
-                        <p>请输入验证码</p>
+                        <p>您注册时填写的手机号码</p>
+                        <el-input v-model="phone" placeholder="请输入注册时的手机号码"></el-input>
+                    </div>
+                    <div class="dian">
+                        <p>验证码</p>
                         <el-form :inline="true"  class="demo-form-inline">
                             <el-form-item>
-                            <el-input v-model="code" placeholder="请输入验证码"></el-input>
+                            <el-input v-model="code" placeholder="请输入短信验证码"></el-input>
                             </el-form-item>
                             <el-form-item>
                                 <el-button :type="zhuantai" @click="codes" :disabled="aaaa" >{{txes}}</el-button>
@@ -66,9 +70,10 @@
 export default {
   data() {
     return {
+      username:'',
       phone:'',
       code:'',
-      txes:"获取验证码",
+      txes:"发送验证码",
       num:60,
       zhuantai:'primary',
       aaaa:false
@@ -81,6 +86,11 @@ export default {
           if(!phones.test(this.phone)){
               this.$message({
                 message:'输入的手机号码格式不对',
+                type:'warning'
+            })
+          }else if(kong.test(this.username)||this.username.length==0){
+              this.$message({
+                message:'请输入账户名/手机号',
                 type:'warning'
             })
           }else if(kong.test(this.code)||this.code.length<4){
@@ -184,7 +194,7 @@ export default {
 }
 .divbox {
   height: 700px;
-  background: #2e7bee;
+  /* background: #2e7bee; */
   display: flex;
   align-items: center;
   justify-content: center;

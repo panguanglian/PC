@@ -17,22 +17,16 @@ import storeInfo from '@/components/home/enterprise/storeInfo'
 import flagShip from '@/components/home/flagShip'
 import generalStore from '@/components/home/generalStore'
 import Businesslicense from '@/components/home/Businesslicense'
-import navbars from '@/components/navbar/navbar'
 Vue.use(Router)
 
 export default new Router({
     routes: [{
         path: '/',
-        redirect: '/navbars/home',
+        redirect: '/home',
     },
-    {
-        path: '/navbars',
-        name: 'navbars',
-        component: navbars,
-       
-        children: [
+   
             {
-                path: 'home',
+                path: '/home',
                 name: 'home',
                 component: home,
                 meta: {
@@ -41,87 +35,87 @@ export default new Router({
                 }
             },
             {
-                path: 'personalStore',
+                path: '/personalStore',
                 name: 'personalStore',
                 component: personalStore
             },
             {
-                path: 'individualBusiness',
+                path: '/individualBusiness',
                 name: 'individualBusiness',
                 component: individualBusiness
             },
             {
-                path: 'idInfoFlagship',
+                path: '/idInfoFlagship',
                 name: 'idInfoFlagship',
                 component: idInfoFlagship
             },
             {
-                path: 'idInfomonopoly',
+                path: '/idInfomonopoly',
                 name: 'idInfomonopoly',
                 component: idInfomonopoly
             },
             {
-                path: 'idInfoMonopolize',
+                path: '/idInfoMonopolize',
                 name: 'idInfoMonopolize',
                 component: idInfoMonopolize
             },
             {
-                path: 'idinfoordinary',
+                path: '/idinfoordinary',
                 name: 'idinfoordinary',
                 component: idinfoordinary
             },
             {
-                path: 'storeInfoFlagship',
+                path: '/storeInfoFlagship',
                 name: 'storeInfoFlagship',
                 component: storeInfoFlagship
             },
             {
-                path: 'storeInfomonopoly',
+                path: '/storeInfomonopoly',
                 name: 'storeInfomonopoly',
                 component: storeInfomonopoly
             },
             {
-                path: 'storeInfoMonopoliz',
+                path: '/storeInfoMonopoliz',
                 name: 'storeInfoMonopoliz',
                 component: storeInfoMonopoliz
             },
             {
-                path: 'storeInfo',
+                path: '/storeInfo',
                 name: 'storeInfo',
                 component: storeInfo
             },
             {
-                path: 'flagShip',
+                path: '/flagShip',
                 name: 'flagShip',
                 component: flagShip
             },
             {
-                path: 'generalStore',
+                path: '/generalStore',
                 name: 'generalStore',
                 component: generalStore
             },
             {
-                path: 'Businesslicense',
+                path: '/Businesslicense',
                 name: 'Businesslicense',
                 component: Businesslicense
             },
             {
-                path: 'contacthailu',
+                path: '/contacthailu',
                 name: 'contacthailu',
                 component: () => import('@/components/contactUs/contacthailu')
             },
             {
-                path: 'downloadclient',
+                path: '/downloadclient',
                 name: 'downloadclient',
                 component: () => import('@/components/Client/downloadclient')
             },
             {
-                path: 'rulecenter',
+                path: '/rulecenter',
                 name: 'rulecenter',
                 component: () => import('@/components/ruleCenter/rulecenter')
             },
-        ]
-    },
+        
+    
 
 
 
@@ -146,7 +140,13 @@ export default new Router({
         path: '/Forgetpasswordsuccess',
         name: 'Forgetpasswordsuccess',
         component: () => import('@/components/login/Forgetpasswordsuccess')
+    },
+    {
+        path: '/Choiceoption',
+        name: 'Choiceoption',
+        component: () => import('@/components/home/Choiceoption')
     }
+    
 
     ]
 
