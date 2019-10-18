@@ -1,5 +1,13 @@
 <template>
+<div style="height:100%;background:#EFF8FB;">
+  <div class="color">
+      <img src="../../assets/logo.png" />
+      <span>商家后台管理</span>
+    </div>
+
   <div class="personalStore">
+    
+
     <div class="StoreTable">
         
         <!-- 店铺信息 -->
@@ -17,23 +25,20 @@
           </div>
           <div class="TableInput">
             <div class="TableName">
-            <p><span>*</span>设置密码</p>
-            </div>
-            <input type="password" placeholder="输入英文或数字或小数点" v-model="password" onkeyup="value=value.replace(/[^\w\.]/ig,'')" @change="passwords"/>
-          </div>
-          <div class="TableInput">
-            <div class="TableName">
-       
-            <p><span>*</span>确认密码</p>
-            </div>
-            <input type="password" placeholder="请再次输入密码" v-model="confirmpassword" onkeyup="value=value.replace(/[^\w\.]/ig,'')">
-          </div>
-          <div class="TableInput">
-            <div class="TableName">
             
             <p><span>*</span>主营类目</p>
             </div>
-            <input type="text" placeholder="请输入主营类目"  v-model="Category">
+            <div class="tesu">
+              <el-select v-model="value" filterable placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            </div>
+            
           </div>
         </div>
 
@@ -52,6 +57,13 @@
             <p><span>*</span>姓名</p>
             </div>
             <input type="text" placeholder="请输入开店人的真实姓名" v-model="name">
+          </div>
+          <div class="TableInput">
+            <div class="TableName">
+            
+            <p><span>*</span>手机号</p>
+            </div>
+            <input type="text" placeholder="请输入经营者手机号" v-model="phonenumber">
           </div>
           <div class="TableInput">
             <div class="TableName">
@@ -104,29 +116,33 @@
         <div class="TableTitle">
           <div class="TitleContent">
             <span>3</span>
-            <p>营业执照信息</p>
-          </div>
-
-          <div class="TableInput">
-            <div class="TableName">
-            <p><span>*</span>是否三证合一</p>
-            </div>
-             <div class="fjakljfl">
-                 <el-radio-group v-model="resource">
-                <el-radio label="0" >是</el-radio>
-                <el-radio label="1" >否</el-radio>
-                </el-radio-group>
-             </div>
+            <p>营业执照</p>
           </div>
 
           <div class="TableInput">
             <div class="TableName">
             
-            <p><span>*</span>统一社会信用代码</p>
+            <p><span>*</span>注册号／信用代码</p>
             </div>
-            <input type="text" placeholder="请输入统一社会信用代码" v-model="resourcenumber">
+            <input type="text" placeholder="请输入营业执照上的注册号或统一社会信用代码" v-model="resourcenumber">
+          </div>
+
+          <div class="TableInput">
+            <div class="TableName">
+            
+            <p><span>*</span>执照名称</p>
+            </div>
+            <input type="text" placeholder="营业执照“名称”一栏的内容" v-model="resourcename">
           </div>
           
+          <div class="TableInput">
+            <div class="TableName">
+            
+            <p><span>*</span>法人姓名</p>
+            </div>
+            <input type="text" placeholder="营业执照上法人或经营者姓名" v-model="legalperson">
+          </div>
+
           <div class="TableDeadline">
             <div class="TableName">
             <p><span>*</span>营业期限</p>
@@ -148,43 +164,20 @@
             <p><span>*</span>营业执照</p>
             </div>
              <div class="fjakljfl">
-                <input type="file" class="dsfafd" @change="getFilesss"  multiple accept="image/png,image/jpeg,image/gif,image/jpg" id="filesss">
-                <label for="filesss" class="upImgbtns" >点击上传</label>
-                <img :src="strwisrc" v-if="strwisrc.length!=0" class="imgstrwi">
+                <div class="upImg">
+               <span v-if="strwisrc.length==0">工商营业执照</span>
+               <img :src="strwisrc" v-if="strwisrc.length!=0" >
+              <input type="file" class="dsfafd" @change="getFilesss"  multiple accept="image/png,image/jpeg,image/gif,image/jpg" id="filesss">
+              <label for="filesss" class="upImgbtn" v-if="strwisrc.length==0" >点击上传</label>
+              <label for="filesss" class="upseccs" v-else >上传成功</label>
+            </div>
              </div>
           </div>
-
-        </div>
-
-        <!-- 第三方店铺链接 -->
-
-        <div class="TableTitle">
-
-          <div class="TitleContent">
-            <span>4</span>
-            <p>第三方店铺链接</p>
-          </div>
-
-          <div class="TableInput">
-            <div class="TableName">
-            <p>第三方店铺链接</p>
-            </div>
-            <input type="text" placeholder="填写真实的其他平台链接，若无可不填" v-model="shoplink">
-          </div>
-          <div class="TableInput">
-            <div class="TableName">
-            
-            <p>入驻邀请码</p>
-            </div>
-            <input type="text" placeholder="填写邀请人的邀请码,若无可不填 " v-model="Invitationcode">
-          </div>
-
           <div class="TableAgreement">
             <el-checkbox v-model="checkque">我已经阅读并同意<span>《异业联盟平台合作协议》</span></el-checkbox>
           </div>
-          
-        </div>
 
+        </div>
         <div class="ReturnButton">
           <div class="ButtonDiv">
             <button class="PreviousStep" @click="comback">上一步</button>
@@ -196,23 +189,21 @@
 
 
   </div>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-        resource:'0',//三证
         onesrc:[],//第一张照片
         trwosrc:[],//第二张照片
         strwisrc:[],//第三张照片
         checkque:false,//同意平台协议
         yeartime:false,//身份证是否长期
         yeartimes:false,//营业执照是否长期
+        phonenumber:'',//手机号码
         shopName:'',//店铺名称
-        password:'',//密码
-        confirmpassword:'',//确认密码
-        Category:'',//类目
         years:'',//证件年
         months:'',//证件月
         days:'',//证件日
@@ -221,27 +212,44 @@ export default {
         dayss:'',//营业证件日
         name:'',//姓名
         idnumber:'',//身份证号码0000000000
-        Invitationcode:'',//邀请码
-        shoplink:'',//第三方店铺链接
         yeartimevalue:'长期',//身份证是长期
         yeartimesvalue:'长期',//营业执照是长期
-        resourcenumber:'',//统一社会信用代码
+        resourcenumber:'',//注册号／信用代码
+        resourcename:'',//执照名称
+        value: '',//类目
+        legalperson:'',//法人
+         options: [{
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }, {
+          value: '选项3',
+          label: '蚵仔煎'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+        }],
     }
   },
   
   methods: {
    creatshop(){
      var kong = /\s/;//含有空格正则
+     var phones = /^1[34578]\d{9}$/;//手机正则
+     var xing = /^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/;//中文姓名正则
      if(this.shopName.length==0||kong.test(this.shopName)){
         this.$message({message: '店铺名称含有为空格或者为空',type: 'warning'});
-     }else if(this.password==0||this.password.length<6||this.password.length>20){
-            this.$message({message: '密码不能为空或者低于6位数或者超过20位数',type: 'warning'});
-     }else if(this.confirmpassword!=this.password){
-            this.$message({message: '两次密码不相同',type: 'warning'});
-     }else if(this.Category.length==0||kong.test(this.Category)){
+     }else if(this.value ==''){
          this.$message({message: '类目含有为空格或者为空',type: 'warning'});
-     }else if(this.name.length==0||kong.test(this.name)){
+     }else if(!xing.test(this.name)){
           this.$message({message: '姓名含有为空格或者为空',type: 'warning'});
+     }else if(!phones.test(this.phonenumber)){
+        this.$message({message: '手机号码格式不正确',type: 'warning'});
      }else if(this.idnumber.length!=18||kong.test(this.idnumber)){
         this.$message({message: '身份证号码输入错误',type: 'warning'});
      }else if(this.onesrc.length==0||this.trwosrc.length==0){
@@ -249,7 +257,11 @@ export default {
      }else if(this.strwisrc.length==0){
             this.$message({message: '请上传营业执照图片',type: 'warning'});
      }else if(this.resourcenumber.length==0||kong.test(this.resourcenumber)){
-            this.$message({message: '统一社会信用代码含有为空格或者为空',type: 'warning'});
+            this.$message({message: '注册号／信用代码含有为空格或者为空',type: 'warning'});
+     }else if(this.resourcename.length==0||kong.test(this.resourcename)){
+            this.$message({message: '执照名称含有为空格或者为空',type: 'warning'});
+     }else if(!xing.test(this.legalperson)){
+            this.$message({message: '法人姓名格式不正确',type: 'warning'});
      }else if(!this.checkque){
           this.$message({message: '请阅读同意平台协议',type: 'warning'});
      }else if(!this.yeartime){
@@ -260,28 +272,11 @@ export default {
               this.$message({message: '营业执照年限含有为空格或者为空',type: 'warning'});
             }else{
                 var obj={
-                  shopName:this.shopName,
-                  password:this.password,
-                  Category:this.Category,
-                  name:this.name,
-                  idnumber:this.idnumber,
-                  years:this.years,
-                  months:this.months,
-                  days:this.days,
-                  yearss:this.yearss,
-                  monthss:this.monthss,
-                  dayss:this.dayss,
-                  onesrc:this.onesrc,
-                  trwosrc:this.trwosrc,
-                  strwisrc:this.strwisrc,
-                  resource:this.resource,
-                  Invitationcode:this.Invitationcode,
-                  shoplink:this.shoplink,
-                  resource:this.resource,
+                  
                   
 
                 }
-                console.log(obj)
+                // console.log(obj)
                 this.$message({
                   message:"创建店铺成功",
                   type:'success'
@@ -295,22 +290,7 @@ export default {
               
         }else{
             var obj={
-                shopName:this.shopName,
-                password:this.password,
-                Category:this.Category,
-                name:this.name,
-                idnumber:this.idnumber,
-                years:this.years,
-                months:this.months,
-                days:this.days,
-                onesrc:this.onesrc,
-                trwosrc:this.trwosrc,
-                strwisrc:this.strwisrc,
-                resource:this.resource,
-                Invitationcode:this.Invitationcode,
-                shoplink:this.shoplink,
-                resource:this.resource,
-                yeartimesvalue:this.yeartimesvalue,
+                
 
               }
               console.log(obj)
@@ -331,22 +311,7 @@ export default {
               this.$message({message: '营业执照年限含有为空格或者为空',type: 'warning'});
             }else{
                 var obj={
-                  shopName:this.shopName,
-                  password:this.password,
-                  Category:this.Category,
-                  name:this.name,
-                  idnumber:this.idnumber,
-                  yearss:this.yearss,
-                  monthss:this.monthss,
-                  dayss:this.dayss,
-                  onesrc:this.onesrc,
-                  trwosrc:this.trwosrc,
-                  strwisrc:this.strwisrc,
-                  resource:this.resource,
-                  Invitationcode:this.Invitationcode,
-                  shoplink:this.shoplink,
-                  resource:this.resource,
-                  yeartimevalue:this.yeartimevalue,
+                  
                 }
                 console.log(obj)
                 this.$message({
@@ -362,23 +327,7 @@ export default {
               
         }else{
             var obj={
-                shopName:this.shopName,
-                password:this.password,
-                Category:this.Category,
-                name:this.name,
-                idnumber:this.idnumber,
-                years:this.years,
-                months:this.months,
-                days:this.days,
-                onesrc:this.onesrc,
-                trwosrc:this.trwosrc,
-                strwisrc:this.strwisrc,
-                resource:this.resource,
-                Invitationcode:this.Invitationcode,
-                shoplink:this.shoplink,
-                resource:this.resource,
-                yeartimesvalue:this.yeartimesvalue,
-                yeartimevalue:this.yeartimevalue,
+                
 
               }
               console.log(obj)
@@ -442,6 +391,24 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.tesu{
+  width:55%;
+  margin-left: 10px;
+}
+.color {
+  padding: 1%;
+  display: flex;
+  align-items: center;
+  padding-left: 10%;
+  color: #2e7bee;
+  font-size: 26px;
+  font-weight: bold;
+  background: #fff;
+}
+.color img {
+  width: 50px;
+  height: 50px;
+}
 .imgstrwi{
     width: 80%;
     height: 200px;
@@ -520,7 +487,8 @@ export default {
     }
     /* 第一块信息区域 */
     .personalStore{
-      width: 100%;
+      margin: 0 auto;
+      width: 80%;
       height: 100%;
       display: flex;
       justify-content: center;
@@ -529,7 +497,7 @@ export default {
     }
     .StoreTable{
       margin-top: 20px;
-      width: 50%;
+      width: 60%;
       background-color: white;
       padding: 40px 100px 0px 100px;
     }
