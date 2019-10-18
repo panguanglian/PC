@@ -226,6 +226,7 @@
         <strong class="blue">2</strong> 商标信息上传
       </div>
       <div class="brand" v-for="(item, index) in bra" :key="index">
+        <i class="el-icon-close" style="float: right; margin:5px; color:red;" @click="isDel(index)" v-if="isDelss"></i>
         <div class="list">
           <div style="flex:1; text-align: right;">品牌类型</div>
           <div style="flex:3;  margin-left: 15px;">
@@ -294,6 +295,7 @@
                 </div>
               </div>
               <div class="list">
+                <div class="del" @click="del(index,inde)" v-if="delss[index].del">删除品牌</div>
                 <div style="flex:1; text-align: right;">商标注册号</div>
                 <div style="flex:3;">
                   <input
@@ -441,7 +443,7 @@ export default {
     return {
       ban: false,
       radiox: "1", //是否三证合一
-      radios: [{ radio: "1" }], //品牌类型
+      radios: [{ radio: "1" }], //品牌类型***
       radioss: [{ radiox: [{ radios: "" }] }], //商标注册人类型
       values: "", //营业有效期
       valuex: [{ value: "" }], //授权有效期
@@ -454,7 +456,7 @@ export default {
       showss: false,
       num: 3,
       radio: [""],
-      bra: [{ radio: [""] }],
+      bra: [{ radio: ["1"] }],
       category: "", //主营类目
       license: "", //营业执照
       company: "", //公司名称
@@ -466,9 +468,9 @@ export default {
       taxpayer: "", //纳税人识别码
       organizationCard: "", //组织机构代码证
       attest: "", //税务登记证明
-      brandName: [{ name: "" }], //品牌名称
-      trademark: [{ mark: [{ marks: "" }] }], //商标注册号
-      brandProve: [{ brand: [{ prove: "" }] }], //商标注册证明
+      brandName: [{ name: "" }], //品牌名称****
+      trademark: [{ mark: [{ marks: "" }] }], //商标注册号****
+      brandProve: [{ brand: [{ prove: "" }] }], //商标注册证明****
       impowerBook: [{ boox: "" }], //品牌独占授权书
       idCard: [{ card: [{ id: "" }] }], //持有人身份证明
       shopName: "", //店铺名称
@@ -480,10 +482,13 @@ export default {
       ismessage: "",
       idinfos:'',
       information:[],
+      delss:[{del:false}],
+      isDelss:false,
       // imggg:'',
     };
   },
   created() {
+    
     // console.log(this.$route.params.idInfo);
     // this.idinfos=this.$route.params.idInfo
   },
@@ -1099,10 +1104,23 @@ export default {
       if (this.radios[index].radio == 2) {
         this.shows[index].show = true;
         this.bra[index].radio = [""];
+        this.brandName[index].name =''
+        this.trademark[index].mark =[{ marks: "" }]
+        this.brandProve[index].brand=[{prove:''}]
+        this.value[index].valuex=[{valuexs:''}]
+
         console.log(this.bra[index].radio);
       } else {
         this.shows[index].show = false;
         this.bra[index].radio = [""];
+        this.brandName[index].name =''
+        this.trademark[index].mark =[{ marks: "" }]
+        this.brandProve[index].brand=[{prove:''}]
+        this.value[index].valuex=[{valuexs:''}]
+        this.impowerBook[index].boox=''
+        this.valuex[index].value=''
+        this.radioss[index].radiox=[{radios:''}]
+        this.idCard[index].card=[{id:''}]
         for (var i = 0; i < this.bra[index].radio.length; i++) {
           this.bra[index].radio[i] = "";
         }
@@ -1118,14 +1136,16 @@ export default {
       this.value[index].valuex.push({ valuexs: "" });
       this.trademark[index].mark.push({ marks: "" });
       this.brandProve[index].brand.push({ prove: "" });
-      this.bra[index].radio.push("");
+      this.bra[index].radio.push(index);
       this.idCard[index].card.push({ id: "" });
       // console.log(this.radio);
       this.radioss[index].radiox.push({ radios: "" });
       console.log(this.bra);
+      console.log(this.bra[index].radio.length)
+      this.delss[index].del=true
     },
     addBra() {
-      this.bra.push({ radio: [""] });
+      this.bra.push({ radio: ["1"] });
       this.radios.push({ radio: "1" });
       this.shows.push({ show: false });
       this.value.push({ valuex: [{ valuexs: "" }] });
@@ -1137,6 +1157,8 @@ export default {
       this.valuex.push({ value: "" });
       this.idCard.push({ card: [{ id: "" }] });
       this.radioss.push({ radiox: [{ radios: "" }] });
+      this.delss.push({del:false})
+      this.isDelss=true
     },
     chDate(inde, index) {
       console.log(event);
@@ -1181,12 +1203,55 @@ export default {
       reader.onloadend = function() {
         _this.idCard[index].card[inde].id = this.result;
       };
+    },
+    del(index,inde){//删除
+      console.log(this.bra[index].radio)
+      this.$delete(this.bra[index].radio,inde)
+      this.$delete(this.trademark[index].mark,inde)
+      this.$delete(this.brandProve[index].brand,inde)
+      this.$delete(this.value[index].valuex,inde)
+      this.$delete(this.radioss[index].radiox,inde)
+      this.$delete(this.idCard[index].card,inde)
+      console.log(this.bra[index].radio)
+      console.log(index,inde)
+      if (this.bra[index].radio.length==1) {
+        this.delss[index].del=false
+      } else {
+        this.delss[index].del=true
+      }
+    },
+    isDel(index){
+     
+      this.$delete(this.bra,index)
+      this.$delete(this.radios,index)
+      this.$delete(this.brandName,index)
+      this.$delete(this.impowerBook,index)
+      this.$delete(this.valuex,index)
+      this.$delete(this.trademark,index)
+      this.$delete(this.brandProve,index)
+      this.$delete(this.value,index)
+      this.$delete(this.radioss,index)
+      this.$delete(this.idCard,index)
+      this.shows[index].show = false;
+   
+      if (this.bra.length==1) {
+        this.isDelss=false
+      } else {
+        this.isDelss=true
+      }
     }
   }
 };
 </script>
 
 <style scoped>
+.del{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 12px;
+  color: red;
+}
 .list > div .red {
   border: red 1px solid;
 }
@@ -1232,6 +1297,7 @@ export default {
   margin-left: 15px;
 }
 .step {
+  
   display: flex;
   justify-content: center;
   padding: 2%;
@@ -1341,6 +1407,7 @@ export default {
   border-radius: 5px;
   margin-left: 15px;
   padding: 10px 15px 20px 0;
+  position: relative;
 }
 .addBrand {
   width: 880px;
