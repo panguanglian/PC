@@ -50,9 +50,14 @@ export default new Router({
                         component: () => import('@/components/home/system/operation/operation'),
                         children:[
                             {
-                                path: 'substance',
-                                name: 'substance',
-                                component: () => import('@/components/home/system/operation/substance'),
+                                path: 'shipments',
+                                name: 'shipments',
+                                component: () => import('@/components/home/system/operation/shipments'),
+                            },
+                            {
+                                path: 'goods',
+                                name: 'goods',
+                                component: () => import('@/components/home/system/operation/goods'),
                             }
                         ]
                     }

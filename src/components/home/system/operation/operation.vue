@@ -1,55 +1,54 @@
 <template>
   <div class="overall">
-      <div class="hello">
-    <div>
-      <i class="el-icon-s-home"></i>
-      <span style="margin-left: 15px; font-size: 22px;">后台管理</span>
-    </div>
-    <div class="header">
-      <!-- 循环数据在点击调用changeli方法时将当前索引和本条数据传进去,并使用当前数据show的bool值添加或移除样式 -->
-      <div
-        @click="changeli(index,item)"
-        v-for="(item,index) in headerData"
-        :key="index"
-        class="sidebar"
-      >
-        <!-- 在这里打印出boll值方便查看 -->
-        <!-- <i :class="item.icon"></i> <span>{{item.name}}</span><i :class="item.rigth" style="float: right;"></i> -->
-        <div class="barInfo">
-          <div>
-            <i :class="item.icon"></i>
+    <div class="hello">
+      <div>
+        <i class="el-icon-s-home"></i>
+        <span style="margin-left: 15px; font-size: 22px;">后台管理</span>
+      </div>
+      <div class="header">
+        <div
+          @click="changeli(index,item)"
+          v-for="(item,index) in headerData"
+          :key="index"
+          class="sidebar"
+        >
+          <div class="barInfo">
+            <div>
+              <i :class="item.icon"></i>
+            </div>
+            <div>
+              <span>{{item.name}}</span>
+            </div>
+            <div>
+              <i :class="item.rigth"></i>
+            </div>
           </div>
-          <div>
-            <span>{{item.name}}</span>
+
+          <div v-show="item.show" class="barOption">
+            <div
+              v-for="(a,index) in item.list"
+              v-on:click.stop="doThis(a,index)"
+              :key="index"
+              class="option"
+            >
+              <router-link tag="div" :to="a.url">{{a.name}}</router-link>
+            </div>
           </div>
-          <div>
-            <i :class="item.rigth"></i>
-          </div>
-        </div>
-        <!-- 判断当前这条数据的bool值如果是true就打开二级菜单,如果是false就关闭二级菜单 -->
-        <div v-show="item.show" class="barOption">
-          <!-- 循环二级菜单数据并使用.stop阻止冒泡 -->
-          <div
-            v-for="(a,index) in item.list"
-            v-on:click.stop="doThis(index)"
-            :key="index"
-            class="option"
-          ><router-link tag="div" :to="a.url">{{a.name}}</router-link></div>
-          
         </div>
       </div>
     </div>
-    
-  </div>
-  <div class="navs">
-      <div class="isnav" v-for="(item,index) in navs" :key="index">
-          <!-- <i class="el-icon-arrow-right" v-if="item[index].nav==''? false :true"></i> -->
-          {{1}}
+    <div class="navs">
+      <div class="isnav" style="display: flex;">
+        <div v-for="(item,index) in navs" :key="index">
+          <i class="el-icon-arrow-right" v-if="item.nav==''? false : true"></i>
+          {{item.nav}}
+        </div>
       </div>
-  <div class="substance">
-      <router-view></router-view>
-  </div>
-  </div>
+
+      <div class="shipments">
+        <router-view></router-view>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -58,19 +57,17 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-        
-        navs:[{nav:'后台管理'},{nav:''},{nav:''}],
+      navs: [{ nav: "后台管理" }, { nav: "" }, { nav: "" }],
       headerData: [
         {
           name: "发货管理",
           list: [
-            {name:"订单查询",url:'/system/operation/substance'},
-            {name:"发货中心",url:'/system/operation/substance'},
-            {name:"物流工具",url:'/system/operation/substance'},
-            {name:"物流概况",url:'/system/operation/substance'},
-            {name:"物流工具",url:'/system/operation/substance'},
-            {name:"物流概况",url:'/system/operation/substance'},
-           
+            { name: "订单查询", url: "/system/operation/goods" },
+            { name: "发货中心", url: "/system/operation/shipments" },
+            { name: "物流工具", url: "/system/operation/shipments" },
+            { name: "物流概况", url: "/system/operation/shipments" },
+            { name: "物流工具", url: "/system/operation/shipments" },
+            { name: "物流概况", url: "/system/operation/shipments" }
           ],
           show: false,
           icon: "el-icon-s-order",
@@ -79,12 +76,12 @@ export default {
         {
           name: "售后管理",
           list: [
-           {name:"订单查询",url:'/system/operation/substance'},
-            {name:"发货中心",url:'/system/operation/substance'},
-            {name:"物流工具",url:'/system/operation/substance'},
-            {name:"物流概况",url:'/system/operation/substance'},
-            {name:"物流工具",url:'/system/operation/substance'},
-            {name:"物流概况",url:'/system/operation/substance'},
+            { name: "订单查询", url: "/system/operation/shipments" },
+            { name: "发货中心", url: "/system/operation/shipments" },
+            { name: "物流工具", url: "/system/operation/shipments" },
+            { name: "物流概况", url: "/system/operation/shipments" },
+            { name: "物流工具", url: "/system/operation/shipments" },
+            { name: "物流概况", url: "/system/operation/shipments" }
           ],
           show: false,
           icon: "el-icon-s-order",
@@ -93,12 +90,12 @@ export default {
         {
           name: "商品管理",
           list: [
-            {name:"订单查询",url:'/system/operation/substance'},
-            {name:"发货中心",url:'/system/operation/substance'},
-            {name:"物流工具",url:'/system/operation/substance'},
-            {name:"物流概况",url:'/system/operation/substance'},
-            {name:"物流工具",url:'/system/operation/substance'},
-            {name:"物流概况",url:'/system/operation/substance'},
+            { name: "订单查询", url: "/system/operation/shipments" },
+            { name: "发货中心", url: "/system/operation/shipments" },
+            { name: "物流工具", url: "/system/operation/shipments" },
+            { name: "物流概况", url: "/system/operation/shipments" },
+            { name: "物流工具", url: "/system/operation/shipments" },
+            { name: "物流概况", url: "/system/operation/shipments" }
           ],
           show: false,
           icon: "el-icon-s-order",
@@ -107,12 +104,12 @@ export default {
         {
           name: "店铺营销",
           list: [
-           {name:"订单查询",url:'/system/operation/substance'},
-            {name:"发货中心",url:'/system/operation/substance'},
-            {name:"物流工具",url:'/system/operation/substance'},
-            {name:"物流概况",url:'/system/operation/substance'},
-            {name:"物流工具",url:'/system/operation/substance'},
-            {name:"物流概况",url:'/system/operation/substance'},
+            { name: "订单查询", url: "/system/operation/shipments" },
+            { name: "发货中心", url: "/system/operation/shipments" },
+            { name: "物流工具", url: "/system/operation/shipments" },
+            { name: "物流概况", url: "/system/operation/shipments" },
+            { name: "物流工具", url: "/system/operation/shipments" },
+            { name: "物流概况", url: "/system/operation/shipments" }
           ],
           show: false,
           icon: "el-icon-s-order",
@@ -121,12 +118,12 @@ export default {
         {
           name: "数据中心",
           list: [
-           {name:"订单查询",url:'/system/operation/substance'},
-            {name:"发货中心",url:'/system/operation/substance'},
-            {name:"物流工具",url:'/system/operation/substance'},
-            {name:"物流概况",url:'/system/operation/substance'},
-            {name:"物流工具",url:'/system/operation/substance'},
-            {name:"物流概况",url:'/system/operation/substance'},
+            { name: "订单查询", url: "/system/operation/shipments" },
+            { name: "发货中心", url: "/system/operation/shipments" },
+            { name: "物流工具", url: "/system/operation/shipments" },
+            { name: "物流概况", url: "/system/operation/shipments" },
+            { name: "物流工具", url: "/system/operation/shipments" },
+            { name: "物流概况", url: "/system/operation/shipments" }
           ],
           show: false,
           icon: "el-icon-s-order",
@@ -135,12 +132,12 @@ export default {
         {
           name: "账户资金",
           list: [
-          {name:"订单查询",url:'/system/operation/substance'},
-            {name:"发货中心",url:'/system/operation/substance'},
-            {name:"物流工具",url:'/system/operation/substance'},
-            {name:"物流概况",url:'/system/operation/substance'},
-            {name:"物流工具",url:'/system/operation/substance'},
-            {name:"物流概况",url:'/system/operation/substance'},
+            { name: "订单查询", url: "/system/operation/shipments" },
+            { name: "发货中心", url: "/system/operation/shipments" },
+            { name: "物流工具", url: "/system/operation/shipments" },
+            { name: "物流概况", url: "/system/operation/shipments" },
+            { name: "物流工具", url: "/system/operation/shipments" },
+            { name: "物流概况", url: "/system/operation/shipments" }
           ],
           show: false,
           icon: "el-icon-s-order",
@@ -149,12 +146,12 @@ export default {
         {
           name: "店铺管理",
           list: [
-            {name:"订单查询",url:'/system/operation/substance'},
-            {name:"发货中心",url:'/system/operation/substance'},
-            {name:"物流工具",url:'/system/operation/substance'},
-            {name:"物流概况",url:'/system/operation/substance'},
-            {name:"物流工具",url:'/system/operation/substance'},
-            {name:"物流概况",url:'/system/operation/substance'},
+            { name: "订单查询", url: "/system/operation/shipments" },
+            { name: "发货中心", url: "/system/operation/shipments" },
+            { name: "物流工具", url: "/system/operation/shipments" },
+            { name: "物流概况", url: "/system/operation/shipments" },
+            { name: "物流工具", url: "/system/operation/shipments" },
+            { name: "物流概况", url: "/system/operation/shipments" }
           ],
           show: false,
           icon: "el-icon-s-order",
@@ -186,9 +183,11 @@ export default {
       // item.rigth='el-icon-arrow-down'
       console.log(item.show);
       console.log(item.name);
+      this.navs[1].nav = item.name;
+      // this.navs[2].nav=''
     },
-    doThis: function(index) {
-      console.log(22);
+    doThis: function(a, index) {
+      this.navs[2].nav = a.name;
     }
   }
 };
@@ -203,20 +202,19 @@ html {
 body {
   height: 100%;
 }
-.overall{
-    display: flex;
-    margin: 20px;
+.overall {
+  display: flex;
+  margin: 20px;
 }
-.navs{
-    
-    margin-left: 30px;
+.navs {
+  margin-left: 30px;
+  width: 80%;
 }
 .hello {
-  width: 250px;
+  width: 12%;
   height: 800px;
   background: #ffffff;
   padding: 25px;
-  
 }
 .sidebar {
   width: 100%;
@@ -252,14 +250,17 @@ body {
 .barOption {
   margin-top: 8px;
 }
-.isnav{
-    width: 1424px;
-    background: white;
-    padding: 20px
+.isnav {
+  width: 98%;
+  background: white;
+  padding: 1%;
 }
-.substance{
-    width: 1464px;
-    height: 780px;
-    background: white;
+.isnav div:first-child i {
+  display: none;
+}
+.shipments {
+  width: 100%;
+  height: 800px;
+  background: white;
 }
 </style>
