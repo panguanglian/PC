@@ -59,7 +59,12 @@ export default new Router({
                                 path: 'goods',
                                 name: 'goods',
                                 component: () => import('@/components/home/system/operation/goods'),
-                            }
+                            },
+                            {
+                                path: 'shopInfo',
+                                name: 'shopInfo',
+                                component: () => import('@/components/home/system/operation/shopInfo'),
+                            },
                         ]
                     }
                 ]

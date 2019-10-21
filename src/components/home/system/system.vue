@@ -74,7 +74,7 @@ export default {
 <style scoped>
 html{
   height: 100%;
-  background: #EFF8FB;
+  
 }
 body{
   height: 100%;

@@ -18,7 +18,7 @@ export default {
 <style>
 html{
   height: 100%;
-  
+  background: #eff8fb;
 }
 body{
   height: 100%;

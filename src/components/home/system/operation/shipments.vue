@@ -237,6 +237,7 @@ export default {
       if (this.i == false) {
       } else {
         console.log(this.information);
+        this.$router.push({ name: "shopInfo" })
       }
     }
   }

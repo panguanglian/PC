@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background: white; height: 100%;">
     <div class="color">
       <img src="../../assets/logo.png" />
       <span>商家后台管理</span>
@@ -69,7 +69,11 @@ export default {
   }
 };
 </script>
-<style  scoped>
+<style scoped>
+
+html{
+  background: white;
+}
 .qrcode{
   display: flex;
   justify-content: center;
