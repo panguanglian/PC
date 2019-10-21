@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import system from '@/components/home/system'
+import system from '@/components/home/system/system'
 import home from '@/components/home/home'
 import individualBusiness from '@/components/home/individualBusiness'
 import personalStore from '@/components/home/personalStore'
@@ -43,12 +43,29 @@ export default new Router({
                 path: '/system',
                 name: 'system',
                 component: system,
-                
-                meta: {
-                    // keepAlive: true,
-                    // requireAuth: true, // 判断是否需要登录
-                },
-                
+                children:[
+                    {
+                        path: 'operation',
+                        name: 'operation',
+                        component: () => import('@/components/home/system/operation/operation'),
+                        children:[
+                            {
+                                path: 'shipments',
+                                name: 'shipments',
+                                component: () => import('@/components/home/system/operation/shipments'),
+                            },
+                            {
+                                path: 'goods',
+                                name: 'goods',
+                                component: () => import('@/components/home/system/operation/goods'),
+                            }
+                        ]
+                    }
+                ]
+                // meta: {
+                //     keepAlive: true,
+                //     requireAuth: true, // 判断是否需要登录
+                // }
             },
             
             {
