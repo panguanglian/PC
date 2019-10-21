@@ -43,9 +43,6 @@ export default {
       arrnum: 0,
       username: "",
       password:'',
-      reusername:'',
-      repassword:'', 
-      repasswords:'',
       token:null,
     };
   },

@@ -43,10 +43,12 @@ export default new Router({
                 path: '/system',
                 name: 'system',
                 component: system,
+                
                 meta: {
-                    keepAlive: true,
-                    requireAuth: true, // 判断是否需要登录
-                }
+                    // keepAlive: true,
+                    // requireAuth: true, // 判断是否需要登录
+                },
+                
             },
             
             {
