@@ -43,6 +43,7 @@ export default new Router({
                 path: '/system',
                 name: 'system',
                 component: system,
+                redirect:'/system/operation',
                 children:[
                     {
                         path: 'operation',

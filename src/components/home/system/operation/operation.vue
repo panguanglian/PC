@@ -37,6 +37,7 @@
         </div>
       </div>
     </div>
+    
     <div class="navs">
       <div class="isnav" style="display: flex;">
         <div v-for="(item,index) in navs" :key="index">
