@@ -30,7 +30,9 @@
               </div>
             </div>
             <div class="alter">
-              找不到想要的分类？可<span>修改主营类目</span>或<span>一键开新店</span>
+              找不到想要的分类？可
+              <span>修改主营类目</span>或
+              <span>一键开新店</span>
             </div>
           </div>
           <div class="modity">
@@ -72,9 +74,7 @@
                 :class="{blue:threeHue===index}"
               >
                 <div class="isdetails">{{item.value}}</div>
-                <div class="comIcon">
-                  <!-- <i class="el-icon-caret-right"></i> -->
-                </div>
+                <div class="comIcon"></div>
               </div>
             </div>
           </div>
@@ -100,8 +100,8 @@ export default {
       threeHue: "",
       oneIndex: "a",
       twoIndex: "a",
-      i:false,
-      information:[{oneList:'',twoList:'',threeList:'',}],
+      i: false,
+      information: [{ oneList: "", twoList: "", threeList: "" }],
       list: [
         {
           content: "食品/生鲜",
@@ -147,7 +147,16 @@ export default {
                 { value: "沙发" },
                 { value: "床" }
               ]
-            }
+            },
+             {
+              label: "厨具",
+              children: [
+                { value: "刀具" },
+                { value: "碗筷" },
+                { value: "砧板" },
+                
+              ]
+            },
           ]
         },
         {
@@ -184,7 +193,8 @@ export default {
                 { value: "奥迪" },
                 { value: "日产" }
               ]
-            }
+            },
+            
           ]
         }
       ]
@@ -198,35 +208,35 @@ export default {
         this.oneIndex = index;
       } else {
         this.twoIndex = "a";
-        this.i=false
+        this.i = false;
         this.twoHue = "";
         this.threeHue = "";
-        this.information[0].oneList=this.list[index].content
+        this.information[0].oneList = this.list[index].content;
         this.oneIndex = index;
       }
       this.oneIndex = index;
       this.oneHue = index;
-      
-      
     },
     twoList(index) {
       this.twoIndex = index;
       this.twoHue = index;
       this.threeHue = "";
-      this.i=false
-      this.information[0].twoList=this.list[this.oneIndex].children[index].label
+      this.i = false;
+      this.information[0].twoList = this.list[this.oneIndex].children[
+        index
+      ].label;
     },
     threeList(index) {
       this.threeHue = index;
-      this.i=true
-      this.information[0].threeList=this.list[this.oneIndex].children[this.twoIndex].children[index].value
-      
+      this.i = true;
+      this.information[0].threeList = this.list[this.oneIndex].children[
+        this.twoIndex
+      ].children[index].value;
     },
-    shibtn(){
-      if(this.i==false){
-
-      }else{
-        console.log(this.information)
+    shibtn() {
+      if (this.i == false) {
+      } else {
+        console.log(this.information);
       }
     }
   }
@@ -359,14 +369,14 @@ export default {
   border-radius: 5px;
   margin-top: 10px;
 }
-.alter span{
+.alter span {
   color: #225af6;
 }
 .blue {
   background: #dbdbdb;
 }
-.shibtns{
-  cursor:pointer;
+.shibtns {
+  cursor: pointer;
   background: #2e7bee;
 }
 </style>
