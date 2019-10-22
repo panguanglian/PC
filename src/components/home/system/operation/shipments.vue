@@ -51,7 +51,7 @@
               >
                 <div class="isdetails">{{item.label}}</div>
                 <div class="comIcon">
-                  <i class="el-icon-caret-right"></i>
+                  <!-- <i class="el-icon-caret-right"></i> -->
                 </div>
               </div>
             </div>
@@ -62,18 +62,9 @@
                 <i slot="suffix" class="el-input__icon el-icon-search"></i>
               </el-input>
             </div>
-            <div
-              class="comList"
-              v-if="twoIndex=='a' || twoIndex>list[oneIndex].children.length? false : true"
-            >
-              <div
-                class="list"
-                v-for="(item,index) in list[oneIndex].children[twoIndex].children"
-                :key="index"
-                @click="threeList(index)"
-                :class="{blue:threeHue===index}"
-              >
-                <div class="isdetails">{{item.value}}</div>
+            <div class="comList">
+              <div class="list">
+                <div class="isdetails"></div>
                 <div class="comIcon"></div>
               </div>
             </div>
@@ -101,37 +92,19 @@ export default {
       oneIndex: "a",
       twoIndex: "a",
       i: false,
-      information: [{ oneList: "", twoList: "", threeList: "" }],
+      information: [{ oneList: "", twoList: "" }],
       list: [
         {
           content: "食品/生鲜",
           children: [
             {
-              label: "新鲜水果",
-              children: [
-                { value: "苹果" },
-                { value: "猕猴桃" },
-                { value: "橙子" },
-                { value: "樱桃" }
-              ]
+              label: "新鲜水果"
             },
             {
-              label: "蔬菜蛋类",
-              children: [
-                { value: "鸡蛋" },
-                { value: "玉米" },
-                { value: "山药" },
-                { value: "地瓜" }
-              ]
+              label: "蔬菜蛋类"
             },
             {
-              label: "精选肉类",
-              children: [
-                { value: "猪肉" },
-                { value: "鸡肉" },
-                { value: "鸭肉" },
-                { value: "牛肉" }
-              ]
+              label: "精选肉类"
             }
           ]
         },
@@ -139,46 +112,21 @@ export default {
           content: "家居/家具",
           children: [
             {
-              label: "家具",
-              children: [
-                { value: "衣架" },
-                { value: "书架" },
-                { value: "窗帘" },
-                { value: "沙发" },
-                { value: "床" }
-              ]
+              label: "家具"
             },
-             {
-              label: "厨具",
-              children: [
-                { value: "刀具" },
-                { value: "碗筷" },
-                { value: "砧板" },
-                
-              ]
-            },
+            {
+              label: "厨具"
+            }
           ]
         },
         {
           content: "男装/女装",
           children: [
             {
-              label: "男装",
-              children: [
-                { value: "T恤" },
-                { value: "西装" },
-                { value: "工装" },
-                { value: "风衣" }
-              ]
+              label: "男装"
             },
             {
-              label: "女装",
-              children: [
-                { value: "T恤" },
-                { value: "裙子" },
-                { value: "毛衣" },
-                { value: "婚纱" }
-              ]
+              label: "女装"
             }
           ]
         },
@@ -186,15 +134,8 @@ export default {
           content: "房产/汽车",
           children: [
             {
-              label: "汽车品牌",
-              children: [
-                { value: "丰田" },
-                { value: "大众" },
-                { value: "奥迪" },
-                { value: "日产" }
-              ]
-            },
-            
+              label: "汽车品牌"
+            }
           ]
         }
       ]
@@ -210,7 +151,7 @@ export default {
         this.twoIndex = "a";
         this.i = false;
         this.twoHue = "";
-        this.threeHue = "";
+
         this.information[0].oneList = this.list[index].content;
         this.oneIndex = index;
       }
@@ -220,24 +161,26 @@ export default {
     twoList(index) {
       this.twoIndex = index;
       this.twoHue = index;
-      this.threeHue = "";
-      this.i = false;
+
+      this.i = true;
       this.information[0].twoList = this.list[this.oneIndex].children[
         index
       ].label;
     },
-    threeList(index) {
-      this.threeHue = index;
-      this.i = true;
-      this.information[0].threeList = this.list[this.oneIndex].children[
-        this.twoIndex
-      ].children[index].value;
-    },
+    // threeList(index) {
+    //   this.threeHue = index;
+    //   this.i = true;
+    //   this.information[0].threeList = this.list[this.oneIndex].children[
+    //     this.twoIndex
+    //   ].children[index].value;
+    // },
     shibtn() {
       if (this.i == false) {
       } else {
         console.log(this.information);
-        this.$router.push({ name: "shopInfo" })
+        
+        sessionStorage.setItem("genre", JSON.stringify(this.information));
+        this.$router.push({ name: "shopInfo" });
       }
     }
   }
