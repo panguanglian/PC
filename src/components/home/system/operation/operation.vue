@@ -2,8 +2,8 @@
   <div class="overall">
     <div class="hello">
       <div>
-        <i class="el-icon-s-home"></i>
-        <span style="margin-left: 15px; font-size: 22px;">后台管理</span>
+        <i class="el-icon-s-home" style="font-size:20px;"></i>
+        <span style="margin-left: 15px; font-size: 20px;">后台管理</span>
       </div>
       <div class="header">
         <div
@@ -12,12 +12,12 @@
           :key="index"
           class="sidebar"
         >
-          <div class="barInfo">
+          <div class="barInfo" @click="curnum=null">
             <div>
-              <i :class="item.icon"></i>
+              <i :class="item.icon" style="font-size:20px;"></i>
             </div>
             <div>
-              <span>{{item.name}}</span>
+              <span style="font-size:20px;">{{item.name}}</span>
             </div>
             <div>
               <i :class="item.rigth"></i>
@@ -30,6 +30,7 @@
               v-on:click.stop="doThis(a,index)"
               :key="index"
               class="option"
+              :class="curnum==index?'active':''"
             >
               <router-link tag="div" :to="a.url">{{a.name}}</router-link>
             </div>
@@ -59,6 +60,7 @@ export default {
   data() {
     return {
       navs: [{ nav: "后台管理" }, { nav: "" }, { nav: "" }],
+      curnum:null,
       headerData: [
         {
           name: "发货管理",
@@ -189,7 +191,9 @@ export default {
     },
     doThis: function(a, index) {
       this.navs[2].nav = a.name;
-    }
+      this.curnum=index
+    },
+    
   }
 };
 </script>
@@ -212,7 +216,7 @@ body {
   width: 80%;
 }
 .hello {
-  width: 12%;
+  width: 8%;
   height: 800px;
   background: #ffffff;
   padding: 25px;
@@ -247,6 +251,10 @@ body {
   padding: 8px 0;
   text-align: center;
   color: #707070;
+}
+.option.active{
+  background: #2e7bee;
+  color: #ffffff;
 }
 .barOption {
   margin-top: 8px;
