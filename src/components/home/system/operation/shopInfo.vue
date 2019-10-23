@@ -12,7 +12,7 @@
           <div class="title">商品名称:</div>
           <div>
             <div class="int">
-              <input type="text" />
+              <input type="text" v-model="shopName" />
             </div>
             <div class="explain">商品标题名称长度至少3个字符，最长50个汉字</div>
           </div>
@@ -21,7 +21,7 @@
           <div class="title">商品副标题:</div>
           <div>
             <div class="int">
-              <input type="text" />
+              <input type="text" v-model="shopNames" />
             </div>
             <div class="explain">商品副标题做商品特殊说明，位于详情页商品名称下面</div>
           </div>
@@ -30,12 +30,20 @@
           <div class="title">商品价格:</div>
           <div>
             <div class="int" style="width: 200px;">
-              <input type="text" />
+              <input type="text" v-model="shopPrice" />
             </div>
             <div class="explain">
               <p>商品价格必须是0.01~1000000之间的数字</p>
               <p>若启用了库存配置，请在下方商品库存区域进行管理</p>
               <p>商品规格库存表中如有价格差异，店铺价格显示为价格区间形式</p>
+            </div>
+          </div>
+        </div>
+        <div class="variety">
+          <div class="title">商品描述:</div>
+          <div>
+            <div class="shoparea">
+              <textarea name id cols="30" rows="10"></textarea>
             </div>
           </div>
         </div>
@@ -51,21 +59,44 @@
           </div>
         </div>
         <div class="variety">
-          <div class="title">规格:</div>
+          <div class="title">商品规格:</div>
           <div>
             <div style="width: 800px;">
-              <el-checkbox-group v-model="specification">
-                <el-checkbox v-for="(item,index) in genres" :key="index" :label="item.name"></el-checkbox>
-              </el-checkbox-group>
+              <div class="explain">最多添加2个商品规格</div>
+              <div class="format" v-for="(item,index) in specification" :key="index">
+                <div class="isSelect">
+                  <div>
+                    <el-select v-model="item.value" placeholder="请选择">
+                      <el-option
+                        v-for="item in item.options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      ></el-option>
+                    </el-select>
+                  </div>
+                  <div>删除规格</div>
+                </div>
+                <div class="isRests">
+                  <div style="display: flex;">
+                    <div class="formatList" v-for="item in item.formatList" :key="item">{{item}}</div>
+                  </div>
+                  <div class="product">
+                    <div class="productInt">
+                      <input type="text" placeholder="请输入产品规格" v-model="item.foInput"/>
+                    </div>
+                    <div class="productBtn" @click="productBtn(index)">添加</div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="explain">必须添加一条规格，否则在前台不显示！</div>
           </div>
         </div>
         <div class="variety">
           <div class="title">商品库存:</div>
           <div>
             <div class="int" style="width: 200px;">
-              <input type="text" />
+              <input type="text" v-model="inventory" />
             </div>
             <div class="explain">
               <p>商铺库存数量必须为1~1000000000之间的整数</p>
@@ -77,7 +108,7 @@
           <div class="title">商品货号:</div>
           <div>
             <div class="int" style="width: 200px;">
-              <input type="text" />
+              <input type="text" v-model="serial" />
             </div>
             <div class="explain">
               <p>商品货号是指卖家个人管理商品的编号，买家不可见</p>
@@ -202,7 +233,52 @@
             </div>
           </div>
         </div>
-
+        <div class="head">服务与承诺</div>
+        <div class="variety">
+          <div class="title">是否二手:</div>
+          <div>
+            <el-radio v-model="second" label="1">非二手</el-radio>
+            <el-radio v-model="second" label="2">二手</el-radio>
+          </div>
+        </div>
+        <div class="variety">
+          <div class="title">是否预售:</div>
+          <div>
+            <el-radio v-model="presell" label="1">非预售</el-radio>
+            <el-radio v-model="presell" label="2">预售</el-radio>
+          </div>
+        </div>
+        <div class="variety">
+          <div class="title">发货时间承诺:</div>
+          <div>
+            <el-radio v-model="shoptime" label="1">当日发货</el-radio>
+            <el-radio v-model="shoptime" label="2">24小时</el-radio>
+            <el-radio v-model="shoptime" label="3">48小时</el-radio>
+          </div>
+        </div>
+        <div class="variety">
+          <div class="title">发票:</div>
+          <div>
+            <el-checkbox v-model="invoice">有</el-checkbox>
+          </div>
+        </div>
+        <div class="variety">
+          <div class="title">承诺:</div>
+          <div>
+            <div>
+              <el-checkbox v-model="reimburse">七天无理由退货</el-checkbox>
+            </div>
+            <div>
+              <el-checkbox v-model="install">海露会员可以免费安装、免费检测水质</el-checkbox>
+            </div>
+            <div>
+              <el-checkbox v-model="change">免费包换两次滤芯</el-checkbox>
+            </div>
+            <div>
+              <el-checkbox v-model="guarantee">免费售后免费售后保障</el-checkbox>
+            </div>
+          </div>
+        </div>
         <div class="head">
           <div class="putin">提交</div>
         </div>
@@ -256,6 +332,80 @@ import axios from "axios";
 export default {
   data() {
     return {
+      // 1
+      shopName: "", //商品名称
+      shopNames: "", //商品副标题
+      shopPrice: "", //商品价格
+      checkList: [], //配件类型
+      specification: [
+        {
+          options: [
+            {
+              value: "选项1",
+              label: "颜色"
+            },
+            {
+              value: "选项2",
+              label: "尺码"
+            },
+            {
+              value: "选项3",
+              label: "配件类型"
+            },
+            {
+              value: "选项4",
+              label: "型号"
+            },
+            {
+              value: "选项5",
+              label: "器型"
+            }
+          ],
+          value: "",
+          formatList: [],
+          foInput:'',
+        },
+        {
+          options: [
+            {
+              value: "选项1",
+              label: "颜色"
+            },
+            {
+              value: "选项2",
+              label: "尺码"
+            },
+            {
+              value: "选项3",
+              label: "配件类型"
+            },
+            {
+              value: "选项4",
+              label: "型号"
+            },
+            {
+              value: "选项5",
+              label: "器型"
+            }
+          ],
+          value: "",
+          formatList: [],
+          foInput:'',
+        }
+      ], //规格
+      inventory: "", //商品库存
+      serial: "", //商品货号
+      imgList: [], //商品图片
+      second: "1",
+      presell: "1",
+      shoptime: "1",
+      invoice: true,
+      guarantee: true,
+      reimburse: true,
+      install: true,
+      change: true,
+
+      //1
       isbgblue: "",
       dialogVisible: false,
       deal: false,
@@ -269,8 +419,7 @@ export default {
       qu1: [],
       city: "",
       block: "",
-      checkList: [],
-      specification: [],
+
       operationPar: [{ name: "", value: "" }],
       packAfter: [{ name: "", value: "" }],
       radio: "1",
@@ -321,19 +470,18 @@ export default {
         }
       ],
 
-      imgList: [],
+      // imgList: [],
       addState: true,
       imgLen: 0,
       addshow: "",
-      classification:''
+      classification: ""
     };
   },
-  mounted(){
-    this.classification=JSON.parse(sessionStorage.getItem('genre'))
-    console.log(this.classification[0].twoList)
+  mounted() {
+    this.classification = JSON.parse(sessionStorage.getItem("genre"));
+    console.log(this.classification[0].twoList);
   },
   methods: {
-   
     fileClick() {
       document.getElementById("inpu").click();
     },
@@ -411,7 +559,7 @@ export default {
         } else {
           then.addState = false;
           then.imgList.length = 10;
-          this.$message({
+          then.$message({
             message: "最多上传10张图片",
             type: "warning"
           });
@@ -565,8 +713,20 @@ export default {
       this.modGenre = this.modules[this.isbgblue].wayL;
       this.dialogVisible = false;
     },
-    amend(){
+    amend() {
       this.$router.push({ name: "shipments" });
+    },
+    productBtn(index){
+      if(this.specification[index].foInput==''){
+        this.$message({
+          message: '输入不能为空',
+          type: 'warning'
+        });
+      }else{
+        this.specification[index].formatList.push(this.specification[index].foInput)
+      this.specification[index].foInput=''
+      }
+      
     }
   },
   created: function() {
@@ -576,9 +736,9 @@ export default {
 </script>
 
 <style>
-/* .shopImg {
-  
-} */
+.shopImg {
+  width: 900px;
+}
 .el-dialog {
   width: 60%;
 }
@@ -806,5 +966,67 @@ export default {
   color: white;
   text-align: center;
   margin: 0 auto;
+}
+.shoparea {
+  width: 800px;
+  border: 1px solid #dddddd;
+  overflow: hidden;
+}
+.shoparea textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  outline: none;
+  padding: 10px;
+}
+.format {
+  width: 800px;
+  margin-top: 10px;
+}
+.isSelect {
+  width: 90%;
+  padding: 5px;
+  background: #f1f1f1;
+}
+.isSelect > div {
+  display: inline-block;
+}
+.isSelect > div:first-child {
+  width: 200px;
+  background: white;
+}
+.isSelect > div:last-child {
+  float: right;
+  line-height: 40px;
+  margin-right: 20px;
+  color: #2e7bee;
+}
+.isRests {
+  width: 90%;
+  padding: 5px;
+  background: rgb(252, 249, 249);
+}
+.product {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+.productInt {
+  border: 1px solid #dddddd;
+  width: 120px;
+  border-radius: 5px;
+  padding: 2px;
+  background: white;
+}
+.productBtn {
+  margin-left: 20px;
+  color: #2e7bee;
+}
+.formatList {
+  padding: 3px 8px;
+  border: 1px solid #dddddd;
+  font-size: 14px;
+  border-radius: 5px;
+  margin-left: 20px;
 }
 </style>

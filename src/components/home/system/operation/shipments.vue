@@ -187,7 +187,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .shipments {
   width: 90%;
   height: 700px;
