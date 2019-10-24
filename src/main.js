@@ -5,12 +5,14 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import axios from 'axios'
+// import depot from './request/index'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/styles/iconfont.css' //使用icon
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.prototype.axios = axios;
+// depot();
 
 // router.beforeEach((to, from, next) => {
 //     if (to.matched.some(r => r.meta.requireAuth)) {

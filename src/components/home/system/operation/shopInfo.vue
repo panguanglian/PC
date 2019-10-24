@@ -40,25 +40,49 @@
           </div>
         </div>
         <div class="variety">
+          <div class="title">商品会员价格:</div>
+          <div>
+            <div class="int" style="width: 200px;">
+              <input type="text" v-model="shopPrices" />
+            </div>
+            <div class="explain">
+              <p>商品价格必须是0.01~1000000之间的数字</p>
+              <p>若启用了库存配置，请在下方商品库存区域进行管理</p>
+              <p>商品规格库存表中如有价格差异，店铺价格显示为价格区间形式</p>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="variety">
           <div class="title">商品描述:</div>
           <div>
             <div class="shoparea">
               <textarea name id cols="30" rows="10"></textarea>
             </div>
           </div>
-        </div>
-        <div class="variety" v-if="genre.length">
-          <div class="title">配件类型:</div>
+        </div>-->
+       <div v-for="(item,index) in genre" :key="index">
+          <div class="variety">
+          <div class="title">{{item.spName}}:</div>
           <div>
             <div style="width: 800px;">
               <el-checkbox-group v-model="checkList">
-                <el-checkbox v-for="(item,index) in genre" :key="index" :label="item.name"></el-checkbox>
+                <el-checkbox
+                  v-for="(items,index) in item.specValueList"
+                  :key="index"
+                  :label="items.specName"
+                ></el-checkbox>
               </el-checkbox-group>
             </div>
             <div class="explain">必须添加一条规格，否则在前台不显示！</div>
           </div>
+          
         </div>
         <div class="variety">
+          <div>库存配置</div>
+          <div>132</div>
+        </div>
+       </div>
+        <!-- <div class="variety">
           <div class="title">商品规格:</div>
           <div>
             <div style="width: 800px;">
@@ -79,11 +103,16 @@
                 </div>
                 <div class="isRests">
                   <div style="display: flex;">
-                    <div class="formatList" v-for="item in item.formatList" :key="item">{{item}}</div>
+                    <div class="formatList" v-for="item in item.formatList" :key="item">
+                      {{item}}
+                      <div class="forIcon" @click="forIcon(index)">
+                        <i class="el-icon-error"></i>
+                      </div>
+                    </div>
                   </div>
                   <div class="product">
                     <div class="productInt">
-                      <input type="text" placeholder="请输入产品规格" v-model="item.foInput"/>
+                      <input type="text" placeholder="请输入产品规格" v-model="item.foInput" />
                     </div>
                     <div class="productBtn" @click="productBtn(index)">添加</div>
                   </div>
@@ -91,7 +120,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
         <div class="variety">
           <div class="title">商品库存:</div>
           <div>
@@ -193,19 +222,21 @@
         <div class="variety">
           <div class="title">所在地:</div>
           <div>
-            <el-select v-model="sheng" @change="choseProvince" placeholder="省级地区">
+            <el-select v-model="townValue" placeholder="请选择">
               <el-option
-                v-for="item in province"
-                :key="item.id"
-                :label="item.value"
-                :value="item.id"
+                v-for="item in town"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
               ></el-option>
             </el-select>
-            <el-select v-model="shi" @change="choseCity" placeholder="市级地区">
-              <el-option v-for="item in shi1" :key="item.id" :label="item.value" :value="item.id"></el-option>
-            </el-select>
-            <el-select v-model="qu" @change="choseBlock" placeholder="区级地区">
-              <el-option v-for="item in qu1" :key="item.id" :label="item.value" :value="item.id"></el-option>
+            <el-select v-model="districtValue" placeholder="请选择">
+              <el-option
+                v-for="item in district"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
             </el-select>
           </div>
         </div>
@@ -229,6 +260,7 @@
               <div class="examine">
                 <div>{{modGenre}}</div>
                 <div class="examineBtn" @click="dialogVisible = true">查看我的运费模板</div>
+                <!-- <div class="examineBtn" @click="addfreight = true">新增运费模板</div> -->
               </div>
             </div>
           </div>
@@ -277,6 +309,9 @@
             <div>
               <el-checkbox v-model="guarantee">免费售后免费售后保障</el-checkbox>
             </div>
+            <div>
+              <el-checkbox v-model="ban" disabled>假一赔十 该类商品，必须支持假一赔十服务</el-checkbox>
+            </div>
           </div>
         </div>
         <div class="head">
@@ -322,6 +357,49 @@
             </span>
           </el-dialog>
         </div>
+
+        <!-- <div>
+          <el-dialog title="模板基础信息" :visible.sync="addfreight" :before-close="handleClose">
+            <div class="basicsInfo">
+              <div class="infoName">
+                <div>模板名称</div>
+                <div>
+                  <input type="text" />
+                </div>
+              </div>
+              <div class="infoSite">
+                <div>发货地址</div>
+                <div>
+                  <input type="text" />
+                </div>
+              </div>
+              <div class="contract">
+                <div>包邮配送区域</div>
+                <div>
+                  <el-checkbox
+                    :indeterminate="isIndeterminate"
+                    v-model="checkAll"
+                    @change="handleCheckAllChange"
+                  >全选</el-checkbox>
+                  <div style="margin: 15px 0;"></div>
+                  <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+                    <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+                  </el-checkbox-group>
+                </div>
+              </div>
+              <div>
+                <div>买家付邮费区域</div>
+                <div>
+                  <div>设置指定区域运费</div>
+                </div>
+              </div>
+            </div>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="addfreight = false">取 消</el-button>
+              <el-button type="primary" @click="addfreight = false">确 定</el-button>
+            </span>
+          </el-dialog>
+        </div>-->
       </div>
     </div>
   </div>
@@ -333,120 +411,42 @@ export default {
   data() {
     return {
       // 1
+
+      isIndeterminate: true,
       shopName: "", //商品名称
       shopNames: "", //商品副标题
       shopPrice: "", //商品价格
+      shopPrices: "", //商品会员价格
       checkList: [], //配件类型
-      specification: [
-        {
-          options: [
-            {
-              value: "选项1",
-              label: "颜色"
-            },
-            {
-              value: "选项2",
-              label: "尺码"
-            },
-            {
-              value: "选项3",
-              label: "配件类型"
-            },
-            {
-              value: "选项4",
-              label: "型号"
-            },
-            {
-              value: "选项5",
-              label: "器型"
-            }
-          ],
-          value: "",
-          formatList: [],
-          foInput:'',
-        },
-        {
-          options: [
-            {
-              value: "选项1",
-              label: "颜色"
-            },
-            {
-              value: "选项2",
-              label: "尺码"
-            },
-            {
-              value: "选项3",
-              label: "配件类型"
-            },
-            {
-              value: "选项4",
-              label: "型号"
-            },
-            {
-              value: "选项5",
-              label: "器型"
-            }
-          ],
-          value: "",
-          formatList: [],
-          foInput:'',
-        }
-      ], //规格
+
       inventory: "", //商品库存
       serial: "", //商品货号
       imgList: [], //商品图片
       second: "1",
       presell: "1",
       shoptime: "1",
+      ban: true,
       invoice: true,
       guarantee: true,
       reimburse: true,
       install: true,
       change: true,
-
+      // addfreight: false,
       //1
       isbgblue: "",
       dialogVisible: false,
       deal: false,
-      radios: "1",
-      mapJson: "../../../static/json/map.json",
-      province: "",
-      sheng: "",
-      shi: "",
-      shi1: [],
-      qu: "",
-      qu1: [],
-      city: "",
-      block: "",
+      town: [],
+      district: [],
+      townValue: "",
+      districtValue:'',
 
       operationPar: [{ name: "", value: "" }],
       packAfter: [{ name: "", value: "" }],
       radio: "1",
       modGenre: "",
-      genre: [
-        { name: "制氧机" },
-        { name: "净水器" },
-        { name: "雾化器" },
-        { name: "按摩枕" },
-        { name: "电动牙刷" },
-        { name: "颈椎按摩仪" }
-      ],
-      genres: [
-        { name: "3.5cm" },
-        { name: "1.5cm" },
-        { name: "50cm" },
-        { name: "3米" },
-        { name: "德达制氧机通用" },
-        { name: "直径5.5mm" },
-        { name: "耳挂式" },
+      genre: [],
 
-        { name: "DEDAKJ通用" },
-        { name: "德达DEDA 1L机" },
-
-        { name: "积水器+水箱胶塞" },
-        { name: "雾化通用配件" }
-      ],
       modules: [
         {
           measure: "重量",
@@ -477,9 +477,17 @@ export default {
       classification: ""
     };
   },
+
   mounted() {
+    // console.log(this.$router.params.gcIds)
     this.classification = JSON.parse(sessionStorage.getItem("genre"));
-    console.log(this.classification[0].twoList);
+    // console.log(this.classification[0].twoList);
+    var _this = this;
+    this.axios.post("/merchant/goods/initPublishPageData?gcId="+this.$route.params.gcIds).then(res => {
+      console.log(res.data.data);
+      _this.genre=res.data.data.specs
+      // _this.town=res.data.data
+    });
   },
   methods: {
     fileClick() {
@@ -604,94 +612,7 @@ export default {
     },
 
     //123
-    getCityData: function() {
-      var that = this;
-      axios
-        .get(this.mapJson)
-        .then(function(response) {
-          if (response.status == 200) {
-            var data = response.data;
-            that.province = [];
-            that.city = [];
-            that.block = [];
-            // 省市区数据分类
-            for (var item in data) {
-              if (item.match(/0000$/)) {
-                //省
-                that.province.push({
-                  id: item,
-                  value: data[item],
-                  children: []
-                });
-              } else if (item.match(/00$/)) {
-                //市
-                that.city.push({ id: item, value: data[item], children: [] });
-              } else {
-                //区
-                that.block.push({ id: item, value: data[item] });
-              }
-            }
-            // 分类市级
-            for (var index in that.province) {
-              for (var index1 in that.city) {
-                if (
-                  that.province[index].id.slice(0, 2) ===
-                  that.city[index1].id.slice(0, 2)
-                ) {
-                  that.province[index].children.push(that.city[index1]);
-                }
-              }
-            }
-            // 分类区级
-            for (var item1 in that.city) {
-              for (var item2 in that.block) {
-                if (
-                  that.block[item2].id.slice(0, 4) ===
-                  that.city[item1].id.slice(0, 4)
-                ) {
-                  that.city[item1].children.push(that.block[item2]);
-                }
-              }
-            }
-          } else {
-            console.log(response.status);
-          }
-        })
-        .catch(function(error) {
-          console.log(typeof +error);
-        });
-    },
-    // 选省
-    choseProvince: function(e) {
-      for (var index2 in this.province) {
-        if (e === this.province[index2].id) {
-          console.log(this.province[index2].id); //你选择的省级编码
-          console.log(this.province[index2].value); //省级编码 对应的汉字
-          this.shi1 = this.province[index2].children;
-          this.shi = this.province[index2].children[0].value;
-          this.qu1 = this.province[index2].children[0].children;
-          this.qu = this.province[index2].children[0].children[0].value;
-          this.E = this.qu1[0].id;
-        }
-      }
-    },
-    // 选市
-    choseCity: function(e) {
-      for (var index3 in this.city) {
-        if (e === this.city[index3].id) {
-          this.qu1 = this.city[index3].children;
-          this.qu = this.city[index3].children[0].value;
-          this.E = this.qu1[0].id;
-          console.log(this.E);
-          // console.log(this.shi1[index3].value);
-        }
-      }
-    },
-    // 选区
-    choseBlock: function(e) {
-      this.E = e;
-      console.log(this.E);
-    },
+
     buy() {
       if (this.radio == 1) {
         this.deal = false;
@@ -716,22 +637,35 @@ export default {
     amend() {
       this.$router.push({ name: "shipments" });
     },
-    productBtn(index){
-      if(this.specification[index].foInput==''){
+    productBtn(index) {
+      if (this.specification[index].foInput == "") {
         this.$message({
-          message: '输入不能为空',
-          type: 'warning'
+          message: "输入不能为空",
+          type: "warning"
         });
-      }else{
-        this.specification[index].formatList.push(this.specification[index].foInput)
-      this.specification[index].foInput=''
+      } else {
+        this.specification[index].formatList.push(
+          this.specification[index].foInput
+        );
+        this.specification[index].foInput = "";
       }
-      
-    }
-  },
-  created: function() {
-    this.getCityData();
+    },
+    // handleCheckAllChange(val) {
+    //   this.checkedCities = val ? cityOptions : [];
+    //   this.isIndeterminate = false;
+    // },
+    // handleCheckedCitiesChange(value) {
+    //   let checkedCount = value.length;
+    //   this.checkAll = checkedCount === this.cities.length;
+    //   this.isIndeterminate =
+    //     checkedCount > 0 && checkedCount < this.cities.length;
+    // },
+    forIcon(index) {}
   }
+  // created: function() {
+  //   console.log(this.$route.params.gcIds)
+  //   this.getCityData();
+  // }
 };
 </script>
 
@@ -823,7 +757,7 @@ export default {
   background: #d3e5f3;
 }
 .el-checkbox {
-  width: 150px;
+  width: 50px;
   margin: 5px;
   margin-right: 25px;
 }
@@ -1023,10 +957,61 @@ export default {
   color: #2e7bee;
 }
 .formatList {
-  padding: 3px 8px;
+  padding: 3px 20px;
   border: 1px solid #dddddd;
   font-size: 14px;
   border-radius: 5px;
+  margin-left: 20px;
+  position: relative;
+}
+.forIcon {
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  top: -2px;
+  right: 10px;
+}
+
+.basicsInfo {
+  width: 100%;
+}
+.basicsInfo > div {
+  display: flex;
+  /* align-items: center; */
+  margin-top: 20px;
+}
+.basicsInfo > div > div:first-child {
+  width: 120px;
+  text-align: right;
+}
+.basicsInfo input {
+  border: none;
+  width: 100%;
+  outline: none;
+  height: 100%;
+  padding: 0 10px;
+}
+.infoName > div:last-child {
+  width: 500px;
+  border: 1px solid #dddddd;
+  margin-left: 20px;
+  border-radius: 5px;
+  height: 28px;
+  overflow: hidden;
+}
+.infoSite > div:last-child {
+  width: 500px;
+  border: 1px solid #dddddd;
+  margin-left: 20px;
+  border-radius: 5px;
+  height: 28px;
+  overflow: hidden;
+}
+.contract > div:last-child {
+  width: 60%;
+  border: 1px solid #dddddd;
+  padding: 10px;
+  background: #f5f5f5;
   margin-left: 20px;
 }
 </style>
