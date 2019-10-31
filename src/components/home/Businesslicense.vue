@@ -207,6 +207,7 @@ export default {
   created(){
     this.numid=sessionStorage.getItem('numid')
   },
+  
   methods: {
    creatshop(){
      var kong = /\s/;//含有空格正则
@@ -255,13 +256,14 @@ export default {
                 params.append('realname',this.name);
                 params.append('shopname',this.shopName);
                 params.append('businesslicensenumber',this.resourcenumber);
-
-                if(this.numid==''){
+                  // console.log(this.numid)
+                if(!this.numid){
+                    // console.log(1)
                     this.axios({
                       method:'post',
                       url:'/pc/merchantsettledin/entryInformation',
                       headers: { 
-                        'Access-token' : localStorage.getItem('accessToken')
+                        'Access-token' : localStorage.getItem('Access_token')
                       },
                       data:params
                     }).then((res)=>{
@@ -285,7 +287,7 @@ export default {
                       method:'post',
                       url:'/pc/merchantsettledin/updEntryInformation',
                       headers: { 
-                        'Access-token' : localStorage.getItem('accessToken')
+                        'Access-token' : localStorage.getItem('Access_token')
                       },
                       data:params
                     }).then((res)=>{
@@ -326,13 +328,13 @@ export default {
                 params.append('realname',this.name);
                 params.append('shopname',this.shopName);
                 params.append('businesslicensenumber',this.resourcenumber);
-
-                if(this.numid==''){
+                
+                if(!this.numid){
                     this.axios({
                       method:'post',
                       url:'/pc/merchantsettledin/entryInformation',
                       headers: { 
-                        'Access-token' : localStorage.getItem('accessToken')
+                        'Access-token' : localStorage.getItem('Access_token')
                       },
                       data:params
                     }).then((res)=>{
@@ -356,7 +358,7 @@ export default {
                       method:'post',
                       url:'/pc/merchantsettledin/updEntryInformation',
                       headers: { 
-                        'Access-token' : localStorage.getItem('accessToken')
+                        'Access-token' : localStorage.getItem('Access_token')
                       },
                       data:params
                     }).then((res)=>{
@@ -400,12 +402,12 @@ export default {
                 params.append('realname',this.name);
                 params.append('shopname',this.shopName);
                 params.append('businesslicensenumber',this.resourcenumber);
-                if(this.numid==''){
+                if(!this.numid){
                     this.axios({
                       method:'post',
                       url:'/pc/merchantsettledin/entryInformation',
                       headers: { 
-                        'Access-token' : localStorage.getItem('accessToken')
+                        'Access-token' : localStorage.getItem('Access_token')
                       },
                       data:params
                     }).then((res)=>{
@@ -429,7 +431,7 @@ export default {
                       method:'post',
                       url:'/pc/merchantsettledin/updEntryInformation',
                       headers: { 
-                        'Access-token' : localStorage.getItem('accessToken')
+                        'Access-token' : localStorage.getItem('Access_token')
                       },
                       data:params
                     }).then((res)=>{
@@ -470,12 +472,12 @@ export default {
                 params.append('realname',this.name);
                 params.append('shopname',this.shopName);
                 params.append('businesslicensenumber',this.resourcenumber);
-                if(this.numid==''){
+                if(!this.numid){
                     this.axios({
                       method:'post',
                       url:'/pc/merchantsettledin/entryInformation',
                       headers: { 
-                        'Access-token' : localStorage.getItem('accessToken')
+                        'Access-token' : localStorage.getItem('Access_token')
                       },
                       data:params
                     }).then((res)=>{
@@ -499,7 +501,7 @@ export default {
                       method:'post',
                       url:'/pc/merchantsettledin/updEntryInformation',
                       headers: { 
-                        'Access-token' : localStorage.getItem('accessToken')
+                        'Access-token' : localStorage.getItem('Access_token')
                       },
                       data:params
                     }).then((res)=>{
@@ -545,7 +547,7 @@ export default {
           url:'/pc/merchantsettledin/save.do',
           headers: { 
             "Content-Type": "multipart/form-data",
-          'Access-token' : localStorage.getItem('accessToken')
+          'Access-token' : localStorage.getItem('Access_token')
           },
           data:params
         }).then((res)=>{
@@ -573,7 +575,7 @@ export default {
         this.axios({
           method:'post',
           url:'/pc/merchantsettledin/save.do',
-          headers: { "Content-Type": "multipart/form-data" ,'Access-token' : localStorage.getItem('accessToken')},
+          headers: { "Content-Type": "multipart/form-data" ,'Access-token' : localStorage.getItem('Access_token')},
           data:params
         }).then((res)=>{
           console.log(res)
@@ -596,7 +598,7 @@ export default {
         this.axios({
           method:'post',
           url:'/pc/merchantsettledin/save.do',
-          headers: { "Content-Type": "multipart/form-data",'Access-token' : localStorage.getItem('accessToken') },
+          headers: { "Content-Type": "multipart/form-data",'Access-token' : localStorage.getItem('Access_token') },
           data:params
         }).then((res)=>{
           if (!e || !window.FileReader) return 
@@ -611,7 +613,11 @@ export default {
         })
         
       }
-  }
+  },
+  beforeDestroy(){
+      sessionStorage.removeItem('numid')
+  },
+
 };
 </script>
 

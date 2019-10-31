@@ -96,7 +96,7 @@ export default {
          }).then((res)=>{
           //  console.log(res)
            if(res.data.code==0){
-             localStorage.setItem('accessToken',res.data.data.accessToken)
+             localStorage.setItem('Access_token',res.data.data.accessToken)
              this.$message({
                message:'注册'+res.data.msg+'',
                type:'success'

@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import axios from 'axios'
-import $ from 'jquery'
+
 import '../static/ueditor/ueditor.config.js'
 import '../static/ueditor/ueditor.all.min.js'
 import '../static/ueditor/lang/zh-cn/zh-cn.js'
