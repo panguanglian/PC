@@ -12,25 +12,24 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.prototype.axios = axios;
 
-// router.beforeEach((to, from, next) => {
-//     if (to.matched.some(r => r.meta.requireAuth)) {
-//         if (localStorage.getItem("token")) {
-//             next();
-//         }else {
-//             next({
-//                 name: 'login',
-//             })
-//         }
-//     }
-//     else {
-//         next();
-//     }
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(r => r.meta.requireAuth)) {
+        if (localStorage.getItem("Access_token")) {  
+            next();
+        }else {
+            next({
+                name: 'login',
+            })
+        }
+    }else {
+        next();
+    }
 
-// })
+})
 
 new Vue({
     el: '#app',
     router,
     components: { App },
-    template: '<App/>'
+    template: '<App/>',
 })

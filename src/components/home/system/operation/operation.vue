@@ -65,101 +65,101 @@ export default {
         {
           name: "发货管理",
           list: [
-            { name: "订单查询", url: "/system/operation/goods" },
+            // { name: "订单查询", url: "/system/operation/goods" },
             { name: "发货中心", url: "/system/operation/shipments" },
-            { name: "物流工具", url: "/system/operation/shipments" },
-            { name: "物流概况", url: "/system/operation/shipments" },
-            { name: "物流工具", url: "/system/operation/shipments" },
-            { name: "物流概况", url: "/system/operation/shipments" }
+            // { name: "物流工具", url: "/system/operation/shipments" },
+            // { name: "物流概况", url: "/system/operation/shipments" },
+            // { name: "物流工具", url: "/system/operation/shipments" },
+            // { name: "物流概况", url: "/system/operation/shipments" }
           ],
           show: false,
           icon: "el-icon-s-order",
           rigth: "el-icon-arrow-right"
         },
-        {
-          name: "售后管理",
-          list: [
-            { name: "订单查询", url: "/system/operation/shipments" },
-            { name: "发货中心", url: "/system/operation/shipments" },
-            { name: "物流工具", url: "/system/operation/shipments" },
-            { name: "物流概况", url: "/system/operation/shipments" },
-            { name: "物流工具", url: "/system/operation/shipments" },
-            { name: "物流概况", url: "/system/operation/shipments" }
-          ],
-          show: false,
-          icon: "el-icon-s-order",
-          rigth: "el-icon-arrow-right"
-        },
-        {
-          name: "商品管理",
-          list: [
-            { name: "订单查询", url: "/system/operation/shipments" },
-            { name: "发货中心", url: "/system/operation/shipments" },
-            { name: "物流工具", url: "/system/operation/shipments" },
-            { name: "物流概况", url: "/system/operation/shipments" },
-            { name: "物流工具", url: "/system/operation/shipments" },
-            { name: "物流概况", url: "/system/operation/shipments" }
-          ],
-          show: false,
-          icon: "el-icon-s-order",
-          rigth: "el-icon-arrow-right"
-        },
-        {
-          name: "店铺营销",
-          list: [
-            { name: "订单查询", url: "/system/operation/shipments" },
-            { name: "发货中心", url: "/system/operation/shipments" },
-            { name: "物流工具", url: "/system/operation/shipments" },
-            { name: "物流概况", url: "/system/operation/shipments" },
-            { name: "物流工具", url: "/system/operation/shipments" },
-            { name: "物流概况", url: "/system/operation/shipments" }
-          ],
-          show: false,
-          icon: "el-icon-s-order",
-          rigth: "el-icon-arrow-right"
-        },
-        {
-          name: "数据中心",
-          list: [
-            { name: "订单查询", url: "/system/operation/shipments" },
-            { name: "发货中心", url: "/system/operation/shipments" },
-            { name: "物流工具", url: "/system/operation/shipments" },
-            { name: "物流概况", url: "/system/operation/shipments" },
-            { name: "物流工具", url: "/system/operation/shipments" },
-            { name: "物流概况", url: "/system/operation/shipments" }
-          ],
-          show: false,
-          icon: "el-icon-s-order",
-          rigth: "el-icon-arrow-right"
-        },
-        {
-          name: "账户资金",
-          list: [
-            { name: "订单查询", url: "/system/operation/shipments" },
-            { name: "发货中心", url: "/system/operation/shipments" },
-            { name: "物流工具", url: "/system/operation/shipments" },
-            { name: "物流概况", url: "/system/operation/shipments" },
-            { name: "物流工具", url: "/system/operation/shipments" },
-            { name: "物流概况", url: "/system/operation/shipments" }
-          ],
-          show: false,
-          icon: "el-icon-s-order",
-          rigth: "el-icon-arrow-right"
-        },
-        {
-          name: "店铺管理",
-          list: [
-            { name: "订单查询", url: "/system/operation/shipments" },
-            { name: "发货中心", url: "/system/operation/shipments" },
-            { name: "物流工具", url: "/system/operation/shipments" },
-            { name: "物流概况", url: "/system/operation/shipments" },
-            { name: "物流工具", url: "/system/operation/shipments" },
-            { name: "物流概况", url: "/system/operation/shipments" }
-          ],
-          show: false,
-          icon: "el-icon-s-order",
-          rigth: "el-icon-arrow-right"
-        }
+        // {
+        //   name: "售后管理",
+        //   list: [
+        //     { name: "订单查询", url: "/system/operation/shipments" },
+        //     { name: "发货中心", url: "/system/operation/shipments" },
+        //     { name: "物流工具", url: "/system/operation/shipments" },
+        //     { name: "物流概况", url: "/system/operation/shipments" },
+        //     { name: "物流工具", url: "/system/operation/shipments" },
+        //     { name: "物流概况", url: "/system/operation/shipments" }
+        //   ],
+        //   show: false,
+        //   icon: "el-icon-s-order",
+        //   rigth: "el-icon-arrow-right"
+        // },
+        // {
+        //   name: "商品管理",
+        //   list: [
+        //     { name: "订单查询", url: "/system/operation/shipments" },
+        //     { name: "发货中心", url: "/system/operation/shipments" },
+        //     { name: "物流工具", url: "/system/operation/shipments" },
+        //     { name: "物流概况", url: "/system/operation/shipments" },
+        //     { name: "物流工具", url: "/system/operation/shipments" },
+        //     { name: "物流概况", url: "/system/operation/shipments" }
+        //   ],
+        //   show: false,
+        //   icon: "el-icon-s-order",
+        //   rigth: "el-icon-arrow-right"
+        // },
+        // {
+        //   name: "店铺营销",
+        //   list: [
+        //     { name: "订单查询", url: "/system/operation/shipments" },
+        //     { name: "发货中心", url: "/system/operation/shipments" },
+        //     { name: "物流工具", url: "/system/operation/shipments" },
+        //     { name: "物流概况", url: "/system/operation/shipments" },
+        //     { name: "物流工具", url: "/system/operation/shipments" },
+        //     { name: "物流概况", url: "/system/operation/shipments" }
+        //   ],
+        //   show: false,
+        //   icon: "el-icon-s-order",
+        //   rigth: "el-icon-arrow-right"
+        // },
+        // {
+        //   name: "数据中心",
+        //   list: [
+        //     { name: "订单查询", url: "/system/operation/shipments" },
+        //     { name: "发货中心", url: "/system/operation/shipments" },
+        //     { name: "物流工具", url: "/system/operation/shipments" },
+        //     { name: "物流概况", url: "/system/operation/shipments" },
+        //     { name: "物流工具", url: "/system/operation/shipments" },
+        //     { name: "物流概况", url: "/system/operation/shipments" }
+        //   ],
+        //   show: false,
+        //   icon: "el-icon-s-order",
+        //   rigth: "el-icon-arrow-right"
+        // },
+        // {
+        //   name: "账户资金",
+        //   list: [
+        //     { name: "订单查询", url: "/system/operation/shipments" },
+        //     { name: "发货中心", url: "/system/operation/shipments" },
+        //     { name: "物流工具", url: "/system/operation/shipments" },
+        //     { name: "物流概况", url: "/system/operation/shipments" },
+        //     { name: "物流工具", url: "/system/operation/shipments" },
+        //     { name: "物流概况", url: "/system/operation/shipments" }
+        //   ],
+        //   show: false,
+        //   icon: "el-icon-s-order",
+        //   rigth: "el-icon-arrow-right"
+        // },
+        // {
+        //   name: "店铺管理",
+        //   list: [
+        //     { name: "订单查询", url: "/system/operation/shipments" },
+        //     { name: "发货中心", url: "/system/operation/shipments" },
+        //     { name: "物流工具", url: "/system/operation/shipments" },
+        //     { name: "物流概况", url: "/system/operation/shipments" },
+        //     { name: "物流工具", url: "/system/operation/shipments" },
+        //     { name: "物流概况", url: "/system/operation/shipments" }
+        //   ],
+        //   show: false,
+        //   icon: "el-icon-s-order",
+        //   rigth: "el-icon-arrow-right"
+        // }
       ]
     };
   },
@@ -213,19 +213,19 @@ body {
 }
 .navs {
   margin-left: 30px;
-  width: 80%;
+  width: 1600px;
 }
 .hello {
-  width: 8%;
-  height: 800px;
+  width: 200px;
+  min-height: 800px;
   background: #ffffff;
-  padding: 25px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 .sidebar {
   width: 100%;
   border-bottom: 1px solid #eff8fb;
-  /* height: 50px; */
-  /* line-height: 50px; */
+  cursor: pointer;
   padding: 20px 0;
 }
 .sidebar span {

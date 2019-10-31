@@ -30,7 +30,7 @@
                    <h3 class="hstren">提交资料成功</h3>
                    <p class="ps">店铺审核将在 2 个工作日内完成，如有第三方平台店铺，可先绑定第三方平台店铺</p>
                    <div class="buttonsbox">
-                        <div class="buttons" @click="conbacklogin">前往登录</div>
+                        <div class="buttons" @click="conbacklogin">完成</div>
                    </div>
                 </div>
                 

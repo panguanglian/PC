@@ -2,7 +2,7 @@
   <div class="enroll">
     <div class="color">
       <img src="../../assets/logo.png" />
-      <span>海露后台管理系统</span>
+      <span>海露后台管理</span>
     </div>
     <div class="contents">
       <div class="title">注册账号，免费入驻</div>
@@ -41,11 +41,11 @@ export default {
       aaaa: false,
       zhuantai: "primary",
       num:60,
-      code: "",
-      phone: "",
-      account:'',
-      password:'',
-      passwords:''
+      code: "",//验证码
+      phone: "",//手机号码
+      account:'',//用户账号
+      password:'',//密码
+      passwords:''//二次密码
     };
   },
   methods: {
@@ -84,19 +84,65 @@ export default {
                 type:'warning'
             })
       }else{
-          this.$router.push({name:'home'})
+         let params=new URLSearchParams();
+         params.append('phone',this.phone);
+         params.append('code',this.code );
+         params.append('landingaccount',this.account);
+         params.append('landingpassword',this.password);
+         this.axios({
+           method:'post',
+          url:'/pc/merchantlogin/register',
+          data:params
+         }).then((res)=>{
+          //  console.log(res)
+           if(res.data.code==0){
+             localStorage.setItem('accessToken',res.data.data.accessToken)
+             this.$message({
+               message:'注册'+res.data.msg+'',
+               type:'success'
+             })
+             this.$router.push({name:'home'})
+           }else if(res.data.code==233){
+              this.$message({
+               message:''+res.data.msg+'',
+               type:'error'
+             })
+           }else if(res.data.code==207){
+              this.$message({
+               message:''+res.data.msg+'',
+               type:'error'
+             })
+           }else if(res.data.code==807){
+              this.$message({
+               message:''+res.data.msg+'',
+               type:'error'
+             })
+           }
+         })
+          
       }
     },
     codes() {
       var phones = /^1[34578]\d{9}$/;
-      if (this.phone.length == 0 || !phones.test(this.phone)) {
+      if (!phones.test(this.phone)) {
         this.$message({
           message: "输入的手机号码格式不对",
           type: "warning"
         });
       } else {
-        var t = setInterval(() => {
+        let params=new URLSearchParams();
+        params.append('phone',this.phone);
+        this.axios({
+          method:'post',
+          url:'/pc/merchantlogin/existsms',
+          data:params
+        })
+        .then(res=>{
+          
+        })
+          var t = setInterval(() => {
           if (this.num > 0) {
+            this.axios.post()
             this.num = this.num - 1;
             this.zhuantai = "";
             this.aaaa = true;
@@ -184,6 +230,7 @@ body{
   margin: 0 auto;
   color: white;
   margin-top: 20px;
+  cursor: pointer;
 }
 .verify {
   width: 400px;

@@ -85,9 +85,7 @@ export default {
   },
   created(){
         for(let i=0;i<10;i++){
-          
             this.dsffdf.push(this.tableData[i])
-          
         }
   },
   methods: {

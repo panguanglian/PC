@@ -1,26 +1,26 @@
 <template>
   <div class="home">
     <div class="nav">
-      <router-link tag="div" to="/navbars/home" class="logo">
+      <router-link tag="div" to="/system/operation" class="logo">
         <div class="img">
           <img src="" alt />
         </div>
         <div style="font-size:30px;">管理后台</div>
       </router-link>
       <div class="operation">
-        <router-link tag="div" to="/navbars/home">站内信</router-link>|
-        <router-link tag="div" to="/navbars/home">客服平台</router-link>|
-        <router-link tag="div" to="/navbars/home">联系海露</router-link>|
-        <router-link tag="div" to="/navbars/home">规则中心</router-link>|
-        <router-link tag="div" to="/navbars/home">帮助中心</router-link>|
-        <router-link tag="div" to="/navbars/home">下载客户端</router-link>
+        <router-link tag="div" to="/system/information">站内信</router-link>|
+        <router-link tag="div" to="/system/Customerservice">客服平台</router-link>|
+        <router-link tag="div" to="/system/Contactus">联系海露</router-link>|
+        <router-link tag="div" to="/system/RuleCenter">规则中心</router-link>|
+        <router-link tag="div" to="/system/helpcenter">帮助中心</router-link>|
+        <router-link tag="div" to="/system/Downloadclient">下载客户端</router-link>
         <div class="user" @click="usre">
           <div class="head">
-              <img src="" alt="">
+              <img src="../../../assets/touxiang.png" alt="">
           </div>
           <div class="info">
-            <div class="merchant">丝之莎内衣旗舰店</div>
-            <div class="idInfo">Hailu98563544</div>
+            <div class="merchant">{{shopName}}</div>
+            <div class="idInfo">{{Accountnumber}}</div>
           </div>
           <div>
             <i class="el-icon-caret-bottom"></i>
@@ -28,7 +28,7 @@
         </div>
         <div class="hint" v-if="hint">
           <div @click="userInfo">账号信息</div>
-          <div @click="dialogVisible = true">退出</div>
+          <div @click="tuichu">退出</div>
         </div>
         <!-- <div class="login" @click="dialogVisible = true">退出</div> -->
         <!-- <div class="login">登录</div>|<div class="login">注册</div> -->
@@ -50,9 +50,25 @@ export default {
     return {
       dialogVisible: false,
       hint:false,
+      shopName:''+localStorage.getItem('names')+'',//店铺名称
+      Accountnumber:''+localStorage.getItem('numni')+'',//账号名称
     };
   },
+
   methods: {
+    tuichu(){
+      let params = new URLSearchParams;
+      params.append('Access_token',localStorage.getItem("Access_token"))
+      this.axios({
+        method:'post',
+        url:'/pc/merchantlogin/outlogin',
+        data:params,
+      })
+      this.dialogVisible = true;
+      localStorage.removeItem("Access_token");
+      this.$router.push({name:'login'})
+      
+    },
     signout() {
       this.dialogVisible = false;
       this.hint=false
@@ -67,6 +83,7 @@ export default {
     },
     userInfo(){
        this.hint=false
+       this.$router.push({name:'accountinformation'})
     }
   }
 };
@@ -105,6 +122,7 @@ body{
 .operation > div {
   margin: 0 30px;
   font-size: 20px;
+  cursor: pointer;
 }
 .login {
   border: 1px solid white;
@@ -147,7 +165,7 @@ body{
 }
 .hint {
   position: absolute;
-  width: 210px;
+  width: 150px;
   height: 100px;
   top: 50px;
   right: 0px;
@@ -162,7 +180,7 @@ body{
 .hint>div{
     font-size: 14px;
     text-align: center;
-    width: 210px;
+    width: 150px;
     height: 50px;
     line-height: 50px;
 }

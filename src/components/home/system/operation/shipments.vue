@@ -56,19 +56,6 @@
               </div>
             </div>
           </div>
-          <div class="modity">
-            <div class="comSeek">
-              <el-input v-model="input" size="small" placeholder="请输入内容">
-                <i slot="suffix" class="el-input__icon el-icon-search"></i>
-              </el-input>
-            </div>
-            <div class="comList">
-              <div class="list">
-                <div class="isdetails"></div>
-                <div class="comIcon"></div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <div class="inform">
@@ -140,6 +127,12 @@ export default {
         }
       ]
     };
+  },
+  mounted(){
+    this.axios.get('/merchant/goods/categorys')
+        .then((res)=>{
+            console.log(res.data.data)
+        })
   },
   methods: {
     oneList(index) {
@@ -286,6 +279,7 @@ export default {
   margin-top: 20px;
   height: 290px;
   overflow: auto;
+  cursor: pointer;
 }
 .comList .list {
   display: flex;
@@ -315,6 +309,7 @@ export default {
 }
 .alter span {
   color: #225af6;
+  cursor: pointer;
 }
 .blue {
   background: #dbdbdb;

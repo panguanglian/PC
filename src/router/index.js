@@ -29,7 +29,6 @@ export default new Router({
         path: '/',
         redirect: '/home',
     },
-   
             {
                 path: '/home',
                 name: 'home',
@@ -44,6 +43,9 @@ export default new Router({
                 name: 'system',
                 component: system,
                 redirect:'/system/operation',
+                meta:{
+                    requireAuth:true,
+                },
                 children:[
                     {
                         path: 'operation',
@@ -55,23 +57,54 @@ export default new Router({
                                 name: 'shipments',
                                 component: () => import('@/components/home/system/operation/shipments'),
                             },
-                            {
-                                path: 'goods',
-                                name: 'goods',
-                                component: () => import('@/components/home/system/operation/goods'),
-                            },
+                            // {
+                            //     path: 'goods',
+                            //     name: 'goods',
+                            //     component: () => import('@/components/home/system/operation/goods'),
+                            // },
                             {
                                 path: 'shopInfo',
                                 name: 'shopInfo',
                                 component: () => import('@/components/home/system/operation/shopInfo'),
                             },
                         ]
-                    }
+                    },
+                    {
+                        path: 'information',
+                        name: 'information',
+                        component: ()=>import('@/components/home/system/information/information'),
+                    },
+                    {
+                        path: 'Customerservice',
+                        name: 'Customerservice',
+                        component: ()=>import('@/components/home/system/Customerservice/Customerservice'),
+                    },
+                    {
+                        path: 'Contactus',
+                        name: 'Contactus',
+                        component: ()=>import('@/components/home/system/Contactus/Contactus'),
+                    },
+                    {
+                        path: 'Downloadclient',
+                        name: 'Downloadclient',
+                        component: ()=>import('@/components/home/system/Downloadclient/Downloadclient'),
+                    },
+                    {
+                        path: 'helpcenter',
+                        name: 'helpcenter',
+                        component: ()=>import('@/components/home/system/helpcenter/helpcenter'),
+                    },
+                    {
+                        path: 'RuleCenter',
+                        name: 'RuleCenter',
+                        component: ()=>import('@/components/home/system/RuleCenter/RuleCenter'),
+                    },
+                    {
+                        path: 'accountinformation',
+                        name: 'accountinformation',
+                        component: ()=>import('@/components/home/system/accountinformation/accountinformation'),
+                    },
                 ]
-                // meta: {
-                //     keepAlive: true,
-                //     requireAuth: true, // 判断是否需要登录
-                // }
             },
             
             {
