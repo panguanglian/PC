@@ -265,6 +265,7 @@ export default {
                       },
                       data:params
                     }).then((res)=>{
+                      console.log(res.data)
                       if(res.data.code==0){
                         this.$message({
                           message:"提交信息成功",
@@ -285,7 +286,7 @@ export default {
                       method:'post',
                       url:'/pc/merchantsettledin/updEntryInformation',
                       headers: { 
-                        'Access-token' : localStorage.getItem('accessToken')
+                        'Access-token' : localStorage.getItem('Access_token')
                       },
                       data:params
                     }).then((res)=>{
@@ -356,7 +357,7 @@ export default {
                       method:'post',
                       url:'/pc/merchantsettledin/updEntryInformation',
                       headers: { 
-                        'Access-token' : localStorage.getItem('accessToken')
+                        'Access-token' : localStorage.getItem('Access_token')
                       },
                       data:params
                     }).then((res)=>{
@@ -429,7 +430,7 @@ export default {
                       method:'post',
                       url:'/pc/merchantsettledin/updEntryInformation',
                       headers: { 
-                        'Access-token' : localStorage.getItem('accessToken')
+                        'Access-token' : localStorage.getItem('Access_token')
                       },
                       data:params
                     }).then((res)=>{
@@ -499,7 +500,7 @@ export default {
                       method:'post',
                       url:'/pc/merchantsettledin/updEntryInformation',
                       headers: { 
-                        'Access-token' : localStorage.getItem('accessToken')
+                        'Access-token' : localStorage.getItem('Access_token')
                       },
                       data:params
                     }).then((res)=>{
