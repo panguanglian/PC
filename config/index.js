@@ -8,11 +8,13 @@ module.exports = {
   dev: {
 
     // Paths
-    assetsSubDirectory: 'static',
+    assetsSubDirectory: 'static', 
     assetsPublicPath: '/',
     proxyTable: {
       "/":{
         target:'http://192.168.10.179:8082/api/v1',//代理地址
+        // target:'http://192.168.10.243:8082/api/v1',//代理地址
+        
         changeorigin:true,//是否跨域
         // secure:false,//
         pathRewrite:{

@@ -3,7 +3,7 @@
     <div class="nav">
       <router-link tag="div" to="/navbars/home" class="logo">
         <div class="img">
-          <img src="" alt />
+          <img src="../../../assets/hailu.png" alt />
         </div>
         <div style="font-size:30px;">管理后台</div>
       </router-link>

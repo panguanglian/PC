@@ -14,7 +14,12 @@
         <el-tab-pane>
           <div slot="label">企业店</div>
           <div slot="label" class="aa">适合公司/企业开店提供营业执照等资料即可开店</div>
-          <p>暂无内容，请谅解</p>
+          <p>暂无内容，请谅解
+            <el-select v-model="value8" filterable placeholder="请选择" value-key="id" @change="currentSel">
+    <el-option v-for="item in options" :key="item.code" :label="item.label" :value="item"></el-option>
+ </el-select>
+          </p>
+          
           <div class="individual" v-for="(item, i) in firm" :key="`firm${ i }`" @click="idinfo(item)">
             <div>{{ item.title }}</div>
             <div>{{ item.text }}</div>
@@ -32,6 +37,40 @@ export default {
   name: "home",
   data() {
     return {
+      options: [
+        {
+          value: "选项1",
+          id: 1,
+          code: "xuanxiang1",
+          label: "黄金糕"
+        },
+        {
+          code: "xuanxiang2",
+          id: 2,
+          value: "选项2",
+          label: "双皮奶"
+        },
+        {
+          id: 3,
+          value: "选项3",
+          code: "xuanxiang3",
+          label: "蚵仔煎"
+        },
+        {
+          value: "选项4",
+          id: 4,
+          code: "xuanxiang4",
+          label: "龙须面"
+        },
+        {
+          value: "选项5",
+          label: "北京烤鸭",
+          id: 5,
+          code: "xuanxiang5"
+        },
+        
+      ],
+      value8:'',
       personal: [
         {
           title: '个体工商店',
@@ -74,7 +113,13 @@ export default {
     },
      idinfo(data){
       this.$router.push({path: data.link})
-    }
+    },
+    currentSel(selVal) {
+       this.code = selVal.code;
+       this.name = selVal.label;
+       console.log("选择的name为：" + this.name, "选择的code为:" + this.code);
+       console.log(selVal);
+     },
   }
 };
 </script>

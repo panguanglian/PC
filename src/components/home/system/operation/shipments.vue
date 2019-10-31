@@ -113,10 +113,24 @@ export default {
   },
   mounted() {
     var _this = this;
-    this.axios.get("/merchant/goods/categorys").then(res => {
-      console.log(res.data.data);
-      _this.list = res.data.data;
-    });
+    // this.axios.get("/merchant/goods/categorys").then(res => {
+    //   console.log(res.data.data);
+    //   console.log(res);
+    //   _this.list = res.data.data;
+    // });
+     this.axios({
+        method: "get",
+        url: "/merchant/goods/categorys",
+        headers:{
+          'Access-token': '42f2d9acb8c64f99b7795ab1208516e0'
+        },
+        data: {
+
+        }
+      }).then(res => {
+        console.log(res.data);
+        _this.list = res.data.data;
+      });
   },
   methods: {
     oneList(index) {
