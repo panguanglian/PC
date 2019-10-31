@@ -23,7 +23,7 @@
                 @click="oneList(index)"
                 :class="{blue:oneHue===index}"
               >
-                <div class="isdetails">{{item.content}}</div>
+                <div class="isdetails">{{item.gcName}}</div>
                 <div class="comIcon">
                   <i class="el-icon-caret-right"></i>
                 </div>
@@ -44,12 +44,12 @@
             <div class="comList" v-if="oneIndex=='a'? false : true">
               <div
                 class="list"
-                v-for="(item,index) in list[oneIndex].children"
+                v-for="(item,index) in list[oneIndex].classList"
                 :key="index"
                 @click="twoList(index)"
                 :class="{blue:twoHue===index}"
               >
-                <div class="isdetails">{{item.label}}</div>
+                <div class="isdetails">{{item.gcName}}</div>
                 <div class="comIcon">
                   <!-- <i class="el-icon-caret-right"></i> -->
                 </div>
@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -80,53 +81,43 @@ export default {
       twoIndex: "a",
       i: false,
       information: [{ oneList: "", twoList: "" }],
-      list: [
-        {
-          content: "食品/生鲜",
-          children: [
-            {
-              label: "新鲜水果"
-            },
-            {
-              label: "蔬菜蛋类"
-            },
-            {
-              label: "精选肉类"
-            }
-          ]
-        },
-        {
-          content: "家居/家具",
-          children: [
-            {
-              label: "家具"
-            },
-            {
-              label: "厨具"
-            }
-          ]
-        },
-        {
-          content: "男装/女装",
-          children: [
-            {
-              label: "男装"
-            },
-            {
-              label: "女装"
-            }
-          ]
-        },
-        {
-          content: "房产/汽车",
-          children: [
-            {
-              label: "汽车品牌"
-            }
-          ]
-        }
-      ]
+      list: [],
+      gcId: ""
     };
+  },
+  created() {
+    // depot.get({
+    //   url: "/merchant/goods/categorys",
+    //   data: {},
+    //   cb: res => {
+    //     console.log(res);
+    //   }
+    // });
+    //     this.axios.get('/merchant/goods/categorys')
+    //         .then((res)=>{
+    //             console.log(res.data.data)
+    //         })
+  },
+  mounted() {
+    var _this = this;
+    // this.axios.get("/merchant/goods/categorys").then(res => {
+    //   console.log(res.data.data);
+    //   console.log(res);
+    //   _this.list = res.data.data;
+    // });
+     this.axios({
+        method: "get",
+        url: "/merchant/goods/categorys",
+        headers:{
+          'Access-token': '42f2d9acb8c64f99b7795ab1208516e0'
+        },
+        data: {
+
+        }
+      }).then(res => {
+        console.log(res.data);
+        _this.list = res.data.data;
+      });
   },
   mounted(){
     this.axios.get('/merchant/goods/categorys')
@@ -145,7 +136,7 @@ export default {
         this.i = false;
         this.twoHue = "";
 
-        this.information[0].oneList = this.list[index].content;
+        this.information[0].oneList = this.list[index].gcName;
         this.oneIndex = index;
       }
       this.oneIndex = index;
@@ -156,9 +147,10 @@ export default {
       this.twoHue = index;
 
       this.i = true;
-      this.information[0].twoList = this.list[this.oneIndex].children[
+      this.gcId = this.list[this.oneIndex].classList[index].gcId;
+      this.information[0].twoList = this.list[this.oneIndex].classList[
         index
-      ].label;
+      ].gcName;
     },
     // threeList(index) {
     //   this.threeHue = index;
@@ -171,16 +163,16 @@ export default {
       if (this.i == false) {
       } else {
         console.log(this.information);
-        
+
         sessionStorage.setItem("genre", JSON.stringify(this.information));
-        this.$router.push({ name: "shopInfo" });
+        this.$router.push({ name: "shopInfo", params: { gcIds: this.gcId } });
       }
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .shipments {
   width: 90%;
   height: 700px;

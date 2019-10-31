@@ -12,7 +12,7 @@
           <div class="title">商品名称:</div>
           <div>
             <div class="int">
-              <input type="text" />
+              <input type="text" v-model="goodsName" />
             </div>
             <div class="explain">商品标题名称长度至少3个字符，最长50个汉字</div>
           </div>
@@ -21,7 +21,7 @@
           <div class="title">商品副标题:</div>
           <div>
             <div class="int">
-              <input type="text" />
+              <input type="text" v-model="goodsSubtitle" />
             </div>
             <div class="explain">商品副标题做商品特殊说明，位于详情页商品名称下面</div>
           </div>
@@ -30,7 +30,7 @@
           <div class="title">商品价格:</div>
           <div>
             <div class="int" style="width: 200px;">
-              <input type="text" />
+              <input type="text" v-model="goodsStorePrice" />
             </div>
             <div class="explain">
               <p>商品价格必须是0.01~1000000之间的数字</p>
@@ -39,33 +39,95 @@
             </div>
           </div>
         </div>
-        <div class="variety" v-if="genre.length">
-          <div class="title">配件类型:</div>
+        <!-- <div class="variety">
+          <div class="title">商品会员价格:</div>
           <div>
-            <div style="width: 800px;">
-              <el-checkbox-group v-model="checkList">
-                <el-checkbox v-for="(item,index) in genre" :key="index" :label="item.name"></el-checkbox>
-              </el-checkbox-group>
+            <div class="int" style="width: 200px;">
+              <input type="text" v-model="goodsStoreVipPrice" />
             </div>
-            <div class="explain">必须添加一条规格，否则在前台不显示！</div>
+            <div class="explain">
+              <p>商品价格必须是0.01~1000000之间的数字</p>
+              <p>若启用了库存配置，请在下方商品库存区域进行管理</p>
+              <p>商品规格库存表中如有价格差异，店铺价格显示为价格区间形式</p>
+            </div>
           </div>
-        </div>
+        </div> -->
         <div class="variety">
-          <div class="title">规格:</div>
+          <div class="title">是否推荐到购物车:</div>
           <div>
-            <div style="width: 800px;">
-              <el-checkbox-group v-model="specification">
-                <el-checkbox v-for="(item,index) in genres" :key="index" :label="item.name"></el-checkbox>
-              </el-checkbox-group>
+            <div>
+              <el-radio v-model="isCartRecommend" label="1">是</el-radio>
+              <el-radio v-model="isCartRecommend" label="2">否</el-radio>
             </div>
-            <div class="explain">必须添加一条规格，否则在前台不显示！</div>
           </div>
         </div>
+        <!-- 1213 -->
+        <div v-for="(item,index) in genre" :key="index">
+          <div class="variety">
+            <div class="title">{{item.spName}}:</div>
+            <div>
+              <div style="width: 800px;">
+                <el-checkbox-group v-model="checkList[index].value">
+                  <el-checkbox
+                    v-for="(items,sum) in item.specValueList"
+                    :key="sum"
+                    :label="items.spValueName"
+                    @change="format($event,index,sum)"
+                  ></el-checkbox>
+                </el-checkbox-group>
+              </div>
+              <div class="explain">必须添加一条规格，否则在前台不显示！</div>
+            </div>
+          </div>
+        </div>
+        <div class="variety" v-if="configuration==''?false:true">
+          <div class="title">库存配置</div>
+          <div>
+            <div class="deploy">
+              <div>
+                <div v-for="(item,index) in genre" :key="index">{{item.spName}}</div>
+                <div>价格</div>
+                <div>会员价格</div>
+                <div>库存</div>
+                <div>商品货号</div>
+                <div>重量(kg)</div>
+                <div>体积(L)</div>
+                <div>是否开启</div>
+              </div>
+              <div class="deployinput" v-for="(item,index) in configuration" :key="index">
+                <!-- <div v-for="(items,inde) in item" :key="inde">{{items}}</div> -->
+                <div v-if="genre.length==1?false : true">{{item[0]}}</div>
+                <div v-if="genre.length==1?false : true">{{item[1]}}</div>
+                <div v-if="genre.length==1?true : false">{{item[0]}}</div>
+                <div class="inp">
+                  <input type="text" v-model="item[2].price" />
+                </div>
+                <div class="inp">
+                  <input type="text" v-model="item[2].member" />
+                </div>
+                <div class="inp">
+                  <input type="text" v-model="item[2].inventory" @change="isInventory(item)" />
+                </div>
+                <div class="inp">
+                  <input type="text" v-model="item[2].mark" />
+                </div>
+                <div class="inp">
+                  <input type="text" v-model="item[2].weight" />
+                </div>
+                <div class="inp">
+                  <input type="text" v-model="item[2].bulk" />
+                </div>
+                <el-checkbox v-model="item[2].open">开启规格</el-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="variety">
           <div class="title">商品库存:</div>
           <div>
             <div class="int" style="width: 200px;">
-              <input type="text" />
+              <input type="text" v-model="goodsTotalStorage" @click="leave" />
             </div>
             <div class="explain">
               <p>商铺库存数量必须为1~1000000000之间的整数</p>
@@ -77,7 +139,7 @@
           <div class="title">商品货号:</div>
           <div>
             <div class="int" style="width: 200px;">
-              <input type="text" />
+              <input type="text" v-model="serial" />
             </div>
             <div class="explain">
               <p>商品货号是指卖家个人管理商品的编号，买家不可见</p>
@@ -87,7 +149,9 @@
         </div>
 
         <div class="variety">
-          <div class="title">商品图片:</div>
+          <div
+            class="title"
+          >商品图片： 商品主图：白底正方形图片800*800 提示： 1、图片尺寸为800*800，单张大小不超过 1024K。仅支持 jpg，jpeg，png 格式。 2、图片质量要清晰，不能虚化。建议主图为白色背景正面图。 3.商品列表展示图片默认是第一张</div>
           <div>
             <div class="shopImg">
               <form action name="fileinfo">
@@ -120,7 +184,62 @@
             </div>
           </div>
         </div>
-
+        <div class="variety">
+          <div class="title">商品PC描述:</div>
+          <div>
+            <div class="guarantees">
+              <UEditor :config="config" ref="ueditor"></UEditor>
+            </div>
+          </div>
+        </div>
+        <div class="variety">
+          <div class="title">PC商品售后保障描述:</div>
+          <div>
+            <div class="guarantees">
+              <div class="textareas">
+                <textarea name id cols="30" rows="10" v-model="goodsPcServerBody"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 122 -->
+        <div class="variety">
+          <div
+            class="title"
+          >商品APP描述：1、每张宽度建议750像素，所有图片宽度一致； 2、每张高度小于等于960像素； 3、每张图片容量应小于等于1024KB； 4、图片格式为：JPG\GIF\PNG ； 5、图片总张数建议大于5张，但不超过30张； 6、为了更好的视觉呈现，图片上的文字字号建议不小于20号</div>
+          <div>
+            <div class="shopImg">
+              <form action name="fileinfo">
+                <div class="img_box">
+                  <div
+                    class="img_size"
+                    v-for="(item,index) of appimgList"
+                    :key="index"
+                    v-show="appimgList.length!=0"
+                  >
+                    <img v-if="item.file.type.indexOf('image') !== -1" :src="item.file.src" />
+                    <div class="pxove_logo" @click="appfileDel">×</div>
+                  </div>
+                  <div class="add_img" @click="appfileClick" v-show="addStateapp">
+                    <span>+</span>
+                  </div>
+                  <div @click="appuploadImage"></div>
+                  <input
+                    id="inpus"
+                    name="files"
+                    style="display: none;"
+                    @change="appfileChange($event)"
+                    type="file"
+                    ref="file"
+                    accept="image/*"
+                    multiple
+                  />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- 123 -->
         <div class="variety">
           <div class="title">商品参数:</div>
           <div class="operations">
@@ -162,142 +281,278 @@
         <div class="variety">
           <div class="title">所在地:</div>
           <div>
-            <el-select v-model="sheng" @change="choseProvince" placeholder="省级地区">
+            <el-select v-model="townValue" placeholder="请选择" value-key="areaId" @change="townVal">
               <el-option
-                v-for="item in province"
-                :key="item.id"
-                :label="item.value"
-                :value="item.id"
+                v-for="item in town"
+                :key="item.areaId"
+                :label="item.areaName"
+                :value="item"
               ></el-option>
             </el-select>
-            <el-select v-model="shi" @change="choseCity" placeholder="市级地区">
-              <el-option v-for="item in shi1" :key="item.id" :label="item.value" :value="item.id"></el-option>
+            <el-select
+              v-model="districtValue"
+              placeholder="请选择"
+              value-key="areaId"
+              @change="districtVal"
+            >
+              <el-option
+                v-for="item in district"
+                :key="item.areaId"
+                :label="item.areaName"
+                :value="item"
+              ></el-option>
             </el-select>
-            <el-select v-model="qu" @change="choseBlock" placeholder="区级地区">
-              <el-option v-for="item in qu1" :key="item.id" :label="item.value" :value="item.id"></el-option>
-            </el-select>
+          </div>
+        </div>
+        
+
+        <div class="head">其他信息</div>
+        <div class="variety">
+          <div class="title">商品发布</div>
+          <div class="publishChoice">
+            <div>
+              <el-radio v-model="publish" label="1" @change="publishEvent">立即发布</el-radio>
+            </div>
+            <div class="publishTime">
+              <div>
+                <el-radio v-model="publish" label="2" @change="publishEvent">发布时间</el-radio>
+              </div>
+              <div class="int">
+                <input type="text" :disabled="publishTimes" :class="{forbid:publishTimes==true}" />
+              </div>
+            </div>
+            <div>
+              <el-radio v-model="publish" label="3" @change="publishEvent">放入仓库</el-radio>
+            </div>
           </div>
         </div>
         <div class="variety">
-          <div class="title">运费:</div>
-          <div class="freight">
-            <div>
-              <el-radio v-model="radio" label="1" @change="buy">卖家承担运费</el-radio>
-            </div>
-            <div>
-              <el-radio v-model="radio" label="2" @change="buy">买家承担运费</el-radio>
-            </div>
-            <div class="money">
-              <div>满额免邮金额</div>
-              <div class="moneyInput">
-                <input type="text" />
-              </div>
-            </div>
-            <div class="template" v-if="deal">
-              <div>运费模板</div>
-              <div class="examine">
-                <div>{{modGenre}}</div>
-                <div class="examineBtn" @click="dialogVisible = true">查看我的运费模板</div>
-              </div>
+          <div class="title">积分：</div>
+          <div>
+            <div class="int">
+              <input type="text" v-model="goodsIntegral" />
             </div>
           </div>
         </div>
-
-        <div class="head">
-          <div class="putin">提交</div>
-        </div>
-
-        <div>
-          <el-dialog title="提示" :visible.sync="dialogVisible" :before-close="handleClose">
-            <div>
-              <div
-                class="modules"
-                v-for="(item,index) in modules"
-                :key="index"
-                @click="ismodule(index)"
-              >
-                <div class="circle" :class="{bgblue:isbgblue===index}"></div>
-                <div>
-                  <div style="border: 1px solid #dddddd;">{{item.wayL}}</div>
-                  <div class="grid">
-                    <div>计量方式</div>
-                    <div>快递</div>
-                    <div>运送到</div>
-                    <div>首件(kg/L)</div>
-                    <div>运费(元)</div>
-                    <div>续件(kg/L)</div>
-                    <div>运费(元)</div>
-                  </div>
-                  <div class="grid">
-                    <div>{{item.measure}}</div>
-                    <div>{{item.carriage}}</div>
-                    <div>{{item.site}}</div>
-                    <div>{{item.first}}</div>
-                    <div>{{item.cost}}</div>
-                    <div>{{item.extend}}</div>
-                    <div>{{item.costs}}</div>
-                  </div>
-                </div>
-              </div>
+        <div class="variety">
+          <div class="title">SEO关键字(Keywords)：</div>
+          <div>
+            <div class="int">
+              <input type="text" v-model="goodsKeywordss" />
             </div>
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="dialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="confirms">确 定</el-button>
-            </span>
-          </el-dialog>
+          </div>
         </div>
+        <!-- <div class="head">服务与承诺</div>
+        <div class="variety">
+          <div class="title">是否二手:</div>
+          <div>
+            <el-radio v-model="second" label="1">非二手</el-radio>
+            <el-radio v-model="second" label="2">二手</el-radio>
+          </div>
+        </div>
+        <div class="variety">
+          <div class="title">是否预售:</div>
+          <div>
+            <el-radio v-model="presell" label="1">非预售</el-radio>
+            <el-radio v-model="presell" label="2">预售</el-radio>
+          </div>
+        </div>
+        <div class="variety">
+          <div class="title">发货时间承诺:</div>
+          <div>
+            <el-radio v-model="shoptime" label="1">当日发货</el-radio>
+            <el-radio v-model="shoptime" label="2">24小时</el-radio>
+            <el-radio v-model="shoptime" label="3">48小时</el-radio>
+          </div>
+        </div>
+        <div class="variety">
+          <div class="title">发票:</div>
+          <div>
+            <el-checkbox v-model="invoice">有</el-checkbox>
+          </div>
+        </div>
+        <div class="variety">
+          <div class="title">承诺:</div>
+          <div>
+            <div>
+              <el-checkbox v-model="reimburse">七天无理由退货</el-checkbox>
+            </div>
+            <div>
+              <el-checkbox v-model="install">海露会员可以免费安装、免费检测水质</el-checkbox>
+            </div>
+            <div>
+              <el-checkbox v-model="change">免费包换两次滤芯</el-checkbox>
+            </div>
+            <div>
+              <el-checkbox v-model="guarantee">免费售后免费售后保障</el-checkbox>
+            </div>
+            <div>
+              <el-checkbox v-model="ban" disabled>假一赔十 该类商品，必须支持假一赔十服务</el-checkbox>
+            </div>
+          </div>
+        </div> -->
+        <div class="head">
+          <div class="putin" @click="present">提交</div>
+        </div>
+
+        
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import UEditor from "@/components/UE/ue.vue";
 import axios from "axios";
 export default {
+  components: { UEditor },
   data() {
+    function Map() {
+      return {
+        // 存储选中的数据
+        cache: {},
+        // 缓存的数据量
+        size: 0,
+        // 添加
+        add(key, data) {
+          this.cache[key] = data;
+          this.size++;
+        },
+        // 删除
+        remove(key) {
+          if (this.cache[key] == undefined) {
+            return;
+          }
+          this.cache[key] = undefined;
+          this.size--;
+        },
+        // 匹配key前缀删除
+        removePrefix(key) {
+          for (var arr in this.cache) {
+            if (!arr.startsWith(key)) {
+              continue;
+            }
+            this.remove(arr);
+          }
+        },
+        // 匹配key后缀删除
+        removeSuffix(key) {
+          for (var arr in this.cache) {
+            if (!arr.endsWith(key)) {
+              continue;
+            }
+            this.remove(arr);
+          }
+        },
+        // 是否包含key
+        hasKey(key) {
+          return this.cache[key] == undefined ? false : true;
+        },
+        // 是否包含key
+        getValue(key) {
+          return this.cache[key];
+        },
+        // 清空所有数据
+        clear() {
+          this.cache = {};
+          this.size = 0;
+        },
+        // 转换成Array
+        converList() {
+          var result = [];
+          for (var arr in this.cache) {
+            let data = this.cache[arr];
+            if (data == undefined) {
+              continue;
+            }
+            result.push(data);
+          }
+          return result;
+        }
+      };
+    }
     return {
+      // 1
+      abolish: [],
+      pitchon: [],
+      configuration: "",
+      skuMapping: new Map(),
+      num: "",
+      Version: [
+        //库存配置
+      ],
+      sub: "",
+      typeAs: [],
+      typeBs: [],
+      goodsIntegral: [],
+      shopName: "",
+      lengths: "0",
+      isIndeterminate: true,
+      goodsName: "", //商品名称
+      goodsSubtitle: "", //商品副标题
+      goodsStorePrice: "", //商品价格
+      goodsStoreVipPrice: "", //商品会员价格
+      checkList: [], //配件类型
+      isCartRecommend: "1",
+      goodsTotalStorage: 0, //商品总库存
+      serial: "", //商品货号
+      imgList: [], //商品图片
+      appimgList: [], //商品APP
+      appimg:'',
+      regionalAgentCommission: "", //区域代理提成(元)
+      serviceProviderCommission: "", //服务商提成
+      second: "1",
+      presell: "1",
+      shoptime: "1",
+      goodsKeywordss: "", //关键字
+      ban: true,
+      invoice: true,
+      guarantee: true,
+      reimburse: true,
+      install: true,
+      change: true,
+      goodsStorePriceInterval: "", //区间价格
+      // addfreight: false,
+      //1
+
+      publishTimes: true,
       isbgblue: "",
       dialogVisible: false,
       deal: false,
-      radios: "1",
-      mapJson: "../../../static/json/map.json",
-      province: "",
-      sheng: "",
-      shi: "",
-      shi1: [],
-      qu: "",
-      qu1: [],
-      city: "",
-      block: "",
-      checkList: [],
-      specification: [],
+      town: [],
+      district: [],
+      townValue: "",
+      districtValue: "",
+      speci: true,
       operationPar: [{ name: "", value: "" }],
       packAfter: [{ name: "", value: "" }],
       radio: "1",
       modGenre: "",
-      genre: [
-        { name: "制氧机" },
-        { name: "净水器" },
-        { name: "雾化器" },
-        { name: "按摩枕" },
-        { name: "电动牙刷" },
-        { name: "颈椎按摩仪" }
-      ],
-      genres: [
-        { name: "3.5cm" },
-        { name: "1.5cm" },
-        { name: "50cm" },
-        { name: "3米" },
-        { name: "德达制氧机通用" },
-        { name: "直径5.5mm" },
-        { name: "耳挂式" },
-
-        { name: "DEDAKJ通用" },
-        { name: "德达DEDA 1L机" },
-
-        { name: "积水器+水箱胶塞" },
-        { name: "雾化通用配件" }
-      ],
+      genre: [],
+      publish: "1",
+      isShare: "1",
+      transportId: "0",
+      goodsCommend: "0",
+      goodsShow: "1", //商品上架
+      prepareUp: "", //上架时间
+      oneCommission: "",
+      specOpen: "1", //规格开关
+      goodsPcServerBody: "", //PC商品售后保障描述
+      brandId: "",
+      brandName: "",
+      goodsColImg: "",
+      fullFreeMail: "",
+      goodsTransfeeCharge: "0", //商品运费承担方式 默认 0为买家承担 1为卖家承担
+      cityName: "", //市
+      cityId: "", //市id
+      provinceId: "", //省id
+      provinceName: "", //省
+      goodsBody: "",
+      volumes:'',
+      weights:'',
+      specName:'',
+      isimg:[],
+      saveType:'0',
       modules: [
         {
           measure: "重量",
@@ -321,23 +576,98 @@ export default {
         }
       ],
 
-      imgList: [],
       addState: true,
+      addStateapp: true,
       imgLen: 0,
       addshow: "",
-      classification:''
+      classification: "",
+      typeId: "",
+      //富文本
+
+      config: {
+        /*//可以在此处定义工具栏的内容
+            toolbars: [
+              ['fullscreen', 'source','|', 'undo', 'redo','|','bold', 'italic', 'underline', 'fontborder', 'strikethrough',
+                '|','superscript','subscript','|', 'forecolor', 'backcolor','|', 'removeformat','|', 'insertorderedlist', 'insertunorderedlist',
+                '|','selectall', 'cleardoc','fontfamily','fontsize','justifyleft','justifyright','justifycenter','justifyjustify','|',
+                'link','unlink']
+            ],*/
+        autoHeightEnabled: false,
+        autoFloatEnabled: true, //是否工具栏可浮动
+        initialContent: "请输入内容", //初始化编辑器的内容,也可以通过textarea/script给值，看官网例子
+        autoClearinitialContent: true, //是否自动清除编辑器初始内容，注意：如果focus属性设置为true,这个也为真，那么编辑器一上来就会触发导致初始化的内容看不到了
+        initialFrameWidth: null,
+        initialFrameHeight: 450,
+        BaseUrl: "",
+        UEDITOR_HOME_URL: "static/ueditor/"
+      },
+      addFormVisible: false,
+      //富文本
+
+      initMapObject: function() {
+        return new Map();
+      }
     };
   },
-  mounted(){
-    this.classification=JSON.parse(sessionStorage.getItem('genre'))
-    console.log(this.classification[0].twoList)
+
+  mounted() {
+  
+    this.classification = JSON.parse(sessionStorage.getItem("genre"));
+ 
+
+    var _this = this;
+    this.axios({
+      method: "post",
+      url:
+        "/merchant/goods/initPublishPageData?gcId=" + this.$route.params.gcIds,
+      headers: {
+        "Access-token": "42f2d9acb8c64f99b7795ab1208516e0"
+      },
+      data: {}
+    }).then(res => {
+      console.log(res.data);
+      _this.typeId = res.data.data.typeId;
+      _this.genre = res.data.data.specs;
+      _this.town = res.data.data.areas;
+      for (var i = 0; i < _this.genre.length; i++) {
+        
+        _this.checkList.push({ value: [] });
+      }
+    });
+    // this.axios
+    //   .post(
+    //     "/merchant/goods/initPublishPageData?gcId=" + this.$route.params.gcIds
+    //   )
+    //   .then(res => {
+    //     // console.log(res);
+    //     console.log(res.data.data);
+    //     _this.typeId = res.data.data.typeId;
+    //     _this.genre = res.data.data.specs;
+    //     _this.town = res.data.data.areas;
+    //     for (var i = 0; i < _this.genre.length; i++) {
+    //       // _this.genre[i].push({a:[]})
+    //       // console.log(_this.genre[i])
+    //       _this.checkList.push({ value: [] });
+    //     }
+    //     console.log(_this.genre);
+    //   });
   },
   methods: {
-   
-    fileClick() {
-      document.getElementById("inpu").click();
+    openWindow: function() {
+      this.addFormVisible = true;
     },
-    fileChange(el) {
+    //获取文档内容
+    getContent: function() {
+      let content = this.$refs.ueditor.getUEContent();
+      // console.log(content);
+      alert(content);
+    }, //123
+    //图片管理
+    appfileClick() {
+      document.getElementById("inpus").click();
+    },
+    appfileChange(el) {
+      
       const list = this.$refs.file;
       // console.log(this.$refs.file.files)
       // 通过DOM取文件数据
@@ -353,10 +683,139 @@ export default {
       }
 
       if (!el.target.files[0].size) return;
+      this.appfileList(el.target);
+      el.target.value = "";
+      console.log(this.appimgList);
+      // console.log(this.appimgList.length);
+    },
+    appfileList(fileList) {
+      let files = fileList.files;
+      for (let i = 0; i < files.length; i++) {
+        //判断是否为文件夹
+        if (files[i].type != "") {
+          this.appfileAdd(files[i]);
+        } else {
+          //文件夹处理
+          this.appfolders(fileList.items[i]);
+        }
+      }
+    },
+    //文件夹处理
+    appfolders(files) {
+      let _this = this;
+      //判断是否为原生file
+      if (files.kind) {
+        files = files.webkitGetAsEntry();
+      }
+      files.createReader().readEntries(function(file) {
+        for (let i = 0; i < file.length; i++) {
+          if (file[i].isFile) {
+            _this.appfoldersAdd(file[i]);
+          } else {
+            _this.appfolders(file[i]);
+          }
+        }
+      });
+    },
+    appfoldersAdd(entry) {
+      let _this = this;
+      entry.file(function(file) {
+        _this.appfileAdd(file);
+      });
+    },
+    appfileAdd(file) {
+      //总大小
+      let then = this;
+      this.size = this.size + file.size;
+      let reader = new FileReader();
+      reader.vue = this;
+      reader.readAsDataURL(file);
+      reader.onload = function() {
+        file.src = this.result;
+        this.vue.appimgList.push({
+          file
+        });
+        let form = new FormData();
+        form.append('file', file, file.name);
+        console.log(form);  
+        then.axios({
+            method: "post",
+            url: "http://192.168.10.158:8082/api/v1/pc/merchantsettledin/save.do",
+            data:form,
+            headers: {
+						  'Content-Type': 'multipart/form-data'
+					  }
+          }).then(res => {
+            console.log(res);
+            let img =res.data.data.path
+            then.appimg.push(img)
+          });
+        console.log(then.appimgList.length);
+        if (then.appimgList.length < 10) {
+          then.addStateapp = true;
+        } else {
+          then.addStateapp = false;
+          then.appimgList.length = 10;
+          then.$message({
+            message: "最多上传10张图片",
+            type: "warning"
+          });
+          console.log(then.appimgList);
+        }
+      };
+    },
+    appfileDel(index) {
+      this.appimgList.splice(index, 1);
+      if (this.appimgList.length < 3) {
+        this.addStateapp = true;
+      } else {
+        this.addStateapp = false;
+      }
+    },
+    appbytesToSize(bytes) {
+      if (bytes === 0) return "0 B";
+      let k = 1000, // or 1024
+        sizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
+        i = Math.floor(Math.log(bytes) / Math.log(k));
+      return (bytes / Math.pow(k, i)).toPrecision(3) + " " + sizes[i];
+    },
+    appuploadImage: function() {
+      var form = document.forms.namedItem("fileinfo");
+      var formData = new FormData(form);
+      for (var i = 0; i < this.appimgList.length; i++) {
+        formData.append("file" + [i + 1], this.appimgList[i].file);
+        console.log(this.appimgList);
+      }
+    },
+    //图片管理
+
+    fileClick() {
+      document.getElementById("inpu").click();
+    },
+    fileChange(el) {
+      const list = this.$refs.file;
+      console.log(this.$refs.file.files);
+      // 通过DOM取文件数据
+      this.fil = list.files;
+      let filess = el.target.files
+      console.log(filess )
+      
+      let oldLen = this.imgLen;
+      let len = this.fil.length;
+      if (len > 10) {
+        this.$message({
+          message: "最多上传10张图片",
+          type: "warning"
+        });
+        return false;
+      }
+
+      if (!el.target.files[0].size) return;
       this.fileList(el.target);
       el.target.value = "";
       console.log(this.imgList);
-      console.log(this.imgList.length);
+      
+      // console.log(this.imgList.length);
     },
     fileList(fileList) {
       let files = fileList.files;
@@ -405,13 +864,28 @@ export default {
         this.vue.imgList.push({
           file
         });
-        console.log(then.imgList.length);
+        let form = new FormData();
+        form.append('file', file, file.name);
+        console.log(form);  
+        then.axios({
+            method: "post",
+            url: "http://192.168.10.158:8082/api/v1/pc/merchantsettledin/save.do",
+            data:form,
+            headers: {
+						  'Content-Type': 'multipart/form-data'
+					  }
+          }).then(res => {
+            console.log(res);
+            let img =res.data.data.path
+            then.isimg.push(img)
+          });
+        
         if (then.imgList.length < 10) {
           then.addState = true;
         } else {
           then.addState = false;
           then.imgList.length = 10;
-          this.$message({
+          then.$message({
             message: "最多上传10张图片",
             type: "warning"
           });
@@ -456,94 +930,7 @@ export default {
     },
 
     //123
-    getCityData: function() {
-      var that = this;
-      axios
-        .get(this.mapJson)
-        .then(function(response) {
-          if (response.status == 200) {
-            var data = response.data;
-            that.province = [];
-            that.city = [];
-            that.block = [];
-            // 省市区数据分类
-            for (var item in data) {
-              if (item.match(/0000$/)) {
-                //省
-                that.province.push({
-                  id: item,
-                  value: data[item],
-                  children: []
-                });
-              } else if (item.match(/00$/)) {
-                //市
-                that.city.push({ id: item, value: data[item], children: [] });
-              } else {
-                //区
-                that.block.push({ id: item, value: data[item] });
-              }
-            }
-            // 分类市级
-            for (var index in that.province) {
-              for (var index1 in that.city) {
-                if (
-                  that.province[index].id.slice(0, 2) ===
-                  that.city[index1].id.slice(0, 2)
-                ) {
-                  that.province[index].children.push(that.city[index1]);
-                }
-              }
-            }
-            // 分类区级
-            for (var item1 in that.city) {
-              for (var item2 in that.block) {
-                if (
-                  that.block[item2].id.slice(0, 4) ===
-                  that.city[item1].id.slice(0, 4)
-                ) {
-                  that.city[item1].children.push(that.block[item2]);
-                }
-              }
-            }
-          } else {
-            console.log(response.status);
-          }
-        })
-        .catch(function(error) {
-          console.log(typeof +error);
-        });
-    },
-    // 选省
-    choseProvince: function(e) {
-      for (var index2 in this.province) {
-        if (e === this.province[index2].id) {
-          console.log(this.province[index2].id); //你选择的省级编码
-          console.log(this.province[index2].value); //省级编码 对应的汉字
-          this.shi1 = this.province[index2].children;
-          this.shi = this.province[index2].children[0].value;
-          this.qu1 = this.province[index2].children[0].children;
-          this.qu = this.province[index2].children[0].children[0].value;
-          this.E = this.qu1[0].id;
-        }
-      }
-    },
-    // 选市
-    choseCity: function(e) {
-      for (var index3 in this.city) {
-        if (e === this.city[index3].id) {
-          this.qu1 = this.city[index3].children;
-          this.qu = this.city[index3].children[0].value;
-          this.E = this.qu1[0].id;
-          console.log(this.E);
-          // console.log(this.shi1[index3].value);
-        }
-      }
-    },
-    // 选区
-    choseBlock: function(e) {
-      this.E = e;
-      console.log(this.E);
-    },
+
     buy() {
       if (this.radio == 1) {
         this.deal = false;
@@ -565,20 +952,472 @@ export default {
       this.modGenre = this.modules[this.isbgblue].wayL;
       this.dialogVisible = false;
     },
-    amend(){
+    amend() {
       this.$router.push({ name: "shipments" });
+    },
+    productBtn(index) {
+      if (this.specification[index].foInput == "") {
+        this.$message({
+          message: "输入不能为空",
+          type: "warning"
+        });
+      } else {
+        this.specification[index].formatList.push(
+          this.specification[index].foInput
+        );
+        this.specification[index].foInput = "";
+      }
+    },
+
+    forIcon(index) {},
+    townVal(selVal) {
+      var _this = this;
+      
+      this.provinceId = selVal.areaId;
+      this.provinceName = selVal.areaName;
+
+      this.axios({
+        method: "get",
+        url: "/merchant/goods/getChildArea?id=" + selVal.areaId,
+        headers: {
+          "Access-token": "42f2d9acb8c64f99b7795ab1208516e0"
+        },
+        data: {}
+      }).then(res => {
+      
+        _this.district = res.data.data;
+      });
+    },
+    districtVal(selVal) {
+      
+      this.cityId = selVal.areaId;
+      this.cityName = selVal.areaName;
+    },
+    format(e, index, sum) {
+      let clickTarget = this.genre[index].specValueList[sum];
+      //库存配置
+      if (this.genre.length < 2) {
+        if (e == false) {
+          let removeKey = clickTarget.spValueName;
+          this.typeAs = this.checkList[index].value;
+          if (this.typeAs.length == 0) {
+            this.skuMapping.clear();
+          } else {
+            this.skuMapping.removePrefix(removeKey);
+          }
+        } else {
+          this.typeAs = this.checkList[index].value;
+          for (var i = 0; i < this.typeAs.length; i++) {
+            let key = this.typeAs[i];
+            if (this.skuMapping.hasKey(key)) {
+              continue;
+            }
+            this.skuMapping.add(key, [
+              this.typeAs[i],
+              {},
+              {
+                price: "",
+                member: "",
+                inventory: "0",
+                mark: "",
+                weight: "",
+                bulk: "",
+                open: true
+              }
+            ]);
+          }
+        }
+      } else {
+        if (e == false) {
+          // 需要删除的key前缀
+          let removeKey = clickTarget.spValueName;
+          if (index == 0) {
+            this.typeAs = this.checkList[index].value;
+            if (this.typeAs.length == 0) {
+              this.skuMapping.clear();
+            } else {
+              this.skuMapping.removePrefix(removeKey);
+            }
+          } else {
+            this.typeBs = this.checkList[index].value;
+            if (this.typeBs.length == 0) {
+              this.skuMapping.clear();
+            } else {
+              this.skuMapping.removeSuffix(removeKey);
+            }
+          }
+        } else {
+          if (index == 0) {
+            this.typeAs = this.checkList[index].value;
+          } else {
+            this.typeBs = this.checkList[index].value;
+          }
+          for (var i = 0; i < this.typeAs.length; i++) {
+            for (var j = 0; j < this.typeBs.length; j++) {
+              let key = this.typeAs[i] + this.typeBs[j];
+              if (this.skuMapping.hasKey(key)) {
+                continue;
+              }
+
+              this.skuMapping.add(key, [
+                this.typeAs[i],
+                this.typeBs[j],
+                {
+                  price: "",
+                  member: "",
+                  inventory: "0",
+                  mark: "",
+                  weight: "",
+                  bulk: "",
+                  open: true
+                }
+              ]);
+            }
+          }
+        }
+      }
+      this.configuration = this.pitchon = this.skuMapping.converList();
+      console.log(this.configuration);
+      console.log(this.genre);
+      var goodsSpecId = this.genre[index].spId;
+      var spValueId = clickTarget.spValueId;
+      var spValueName = clickTarget.spValueName;
+
+      console.log(goodsSpecId);
+      // for(var i=0;i<this.genre.length;i++){
+
+      // }
+    },
+    publishEvent() {
+      // console.log(this.publish);
+      if (this.publish == 2) {
+        this.publishTimes = false;
+      } else {
+        this.publishTimes = true;
+      }
+    },
+    leave() {
+      var a = 0;
+      if (this.configuration.length == 0) {
+      } else {
+        this.configuration.forEach(item => {
+          a = a + parseInt(item[2].inventory);
+        });
+      }
+      
+      this.goodsTotalStorage = a;
+    
+    },
+    getGoodsSpec() {
+      let that = this;
+      let goodsSpec = [];
+      this.genre.forEach(function(item, index) {
+        let spValue = {};
+        item.specValueList.forEach(function(subItem, subIndex) {
+          if (that.checkList[index].value.indexOf(subItem.spValueName) < 0) {
+            return;
+          }
+          spValue[subItem.spValueId] = subItem.spValueName;
+        });
+        let spData = {};
+        spData[item.spId] = spValue;
+        goodsSpec.push(spData);
+      });
+      return JSON.stringify(goodsSpec);
+    },
+    getGoodsSpecJson() {
+      let that = this;
+      let cache = [];
+      this.checkList.forEach(function(item, index) {
+        cache[index] = that.initMapObject();
+        let checkVal = item.value;
+        that.genre[index].specValueList.forEach(function(subItem, subIndex) {
+          if (checkVal.indexOf(subItem.spValueName) < 0) {
+            return;
+          }
+          let tmp = {};
+          tmp[subItem.spValueId] = subItem.spValueName;
+          cache[index].add(subItem.spValueId, tmp);
+        });
+      });
+      let _tmp = that.initMapObject();
+      if (cache.length >= 2) {
+        cache[0].converList().forEach(function(item) {
+          cache[1].converList().forEach(function(subItem) {
+            let keyVal0 = that.getObjectAttr(item, 0);
+            let keyVal1 = that.getObjectAttr(subItem, 0);
+            let obj = {};
+            obj[keyVal0[0]] = keyVal0[1];
+            obj[keyVal1[0]] = keyVal1[1];
+            _tmp.add(keyVal0[1] + keyVal1[1], JSON.stringify(obj));
+          });
+        });
+      } else if (cache.length == 1) {
+        cache[0].converList().forEach(function(item) {
+          let keyVal0 = that.getObjectAttr(item, 0);
+          _tmp.add(keyVal0[1], JSON.stringify(item));
+        });
+      }
+      let specNameObject = {}
+      that.genre.forEach(function(item, index){
+        specNameObject[item.spId] = item.spName;
+      })
+      let specName = JSON.stringify(specNameObject);
+      that.specName=specName
+      let result = [];
+      this.skuMapping.converList().forEach(function(item) {
+        let key = item[0] + item[1];
+        let specGoodsSpec = _tmp.getValue(key);
+        result.push({
+          specName: specName,
+          specGoodsPrice: item[2].price,
+          specGoodsVipPrice: item[2].member,
+          specGoodsSerial: item[2].mark,
+          weight: item[2].weight,
+          volume: item[2].bulk,
+          specGoodsStorage: item[2].inventory,
+          specGoodsSpec: specGoodsSpec,
+          specIsOpen: item[2].open ? "1" : "0"
+        });
+      });
+      return JSON.stringify(result);
+    },
+    getObjectAttr(obj, index) {
+      let currentIndex = 0;
+      for (var arr in obj) {
+        if (currentIndex == index) {
+          return [arr, obj[arr]];
+        }
+        currentIndex++;
+      }
+    },
+    isInventory(item) {
+     
+      if (item[2].inventory == "") {
+        item[2].inventory = 0;
+      }
+      this.leave();
+    },
+    present() {
+      var _this = this;
+      let goodsSpec = this.getGoodsSpec();
+      let goodsSpecJson = this.getGoodsSpecJson();
+      console.info(goodsSpec);
+      console.info(goodsSpecJson);
+      let isimg = JSON.stringify(this.isimg)
+      let firstimg = JSON.stringify(this.isimg[0])
+      let goodsbody=JSON.stringify(this.appimg)
+      let jpackges = JSON.stringify(this.packAfter)
+      let jparamss = JSON.stringify(this.operationPar)
+      //JSON.stringify(this.operationPar)
+      // var aa= ''
+      
+      // this.isimg.forEach(function(item, index){
+      //   aa+=item
+      // })
+      // console.log(aa)
+
+//判断
+      if (this.goodsName == "") {
+        this.$message({
+          message: "商品名称未填写",
+          type: "warning"
+        });
+      } else if (
+        this.goodsName.length < 3 ||
+        this.goodsName.length > 50 ||
+        /\s+/g.test(this.goodsName)
+      ) {
+        this.$message({
+          message: "商品名称不符合规范",
+          type: "warning"
+        });
+      } else if (this.goodsSubtitle == "") {
+        this.$message({
+          message: "商品副标题未填写",
+          type: "warning"
+        });
+      } else if (/\s+/g.test(this.goodsSubtitle)) {
+        this.$message({
+          message: "商品副标题不符合规范",
+          type: "warning"
+        });
+      } else if (this.configuration == "") {
+        this.$message({
+          message: "必须添加一条规格，否则在前台不显示",
+          type: "warning"
+        });
+      } else {
+        let isSubmit = true;
+        for (var i = 0; i < this.configuration.length; i++) {
+          if (this.configuration[i][2].price == "") {
+            this.$message({
+              message: "还有价格未填写",
+              type: "warning"
+            });
+            isSubmit = false;
+            break;
+          } else if (this.configuration[i][2].member == "") {
+            this.$message({
+              message: "还有会员价格未填写",
+              type: "warning"
+            });
+            isSubmit = false;
+            break;
+          } else if (this.configuration[i][2].inventory == "") {
+            this.$message({
+              message: "还有库存未填写",
+              type: "warning"
+            });
+            isSubmit = false;
+            break;
+          } else if (this.configuration[i][2].mark == "") {
+            this.$message({
+              message: "还有商品货号未填写",
+              type: "warning"
+            });
+            isSubmit = false;
+            break;
+          } else if (this.configuration[i][2].weight == "") {
+            this.$message({
+              message: "还有重量未填写",
+              type: "warning"
+            });
+            isSubmit = false;
+            break;
+          } else if (this.configuration[i][2].bulk == "") {
+            this.$message({
+              message: "还有体积未填写",
+              type: "warning"
+            });
+            isSubmit = false;
+            break;
+          } else if (this.imgList == "") {
+            this.$message({
+              message: "请上传商品图片",
+              type: "warning"
+            });
+            isSubmit = false;
+            break;
+          } else if (this.provinceId == "") {
+            this.$message({
+              message: "请选择所在地",
+              type: "warning"
+            });
+            isSubmit = false;
+            break;
+          } else if (this.cityName == "") {
+            this.$message({
+              message: "请选择所在地",
+              type: "warning"
+            });
+            break;
+            isSubmit = false;
+          } else {
+            for (var i = 0; i < this.operationPar.length; i++) {
+              if (this.operationPar[i].name == "") {
+                this.$message({
+                  message: "还有参数名称未填写",
+                  type: "warning"
+                });
+                isSubmit = false;
+                break;
+              } else if (this.operationPar[i].value == "") {
+                this.$message({
+                  message: "还有参数值未填写",
+                  type: "warning"
+                });
+                isSubmit = false;
+                break;
+              } else {
+                for (var i = 0; i < this.packAfter.length; i++) {
+                  if (this.packAfter[i].name == "") {
+                    this.$message({
+                      message: "还有包装售后名称未填写",
+                      type: "warning"
+                    });
+                    isSubmit = false;
+                    break;
+                  } else if (this.packAfter[i].value == "") {
+                    this.$message({
+                      message: "还有包装售后内容未填写",
+                      type: "warning"
+                    });
+                    isSubmit = false;
+                    break;
+                  }
+                }
+              }
+            }
+          }
+        }
+        if (isSubmit == true) {
+          
+//这里      
+          let params = new URLSearchParams;
+          params.append("goodsName",this.goodsName);
+          params.append("goodsDescription",this.goodsSubtitle);
+          params.append("gcId",this.$route.params.gcIds);
+          params.append("gcName",this.classification[0].twoList);
+          params.append("brandId",this.brandId);
+          params.append("typeId",this.typeId);
+          params.append("specOpen",this.specOpen);
+          params.append("specName",this.specName);
+          params.append("goodsImage",firstimg);
+          params.append("goodsImageMore",isimg);
+          params.append("goodsStorePrice",this.goodsStorePrice);
+          params.append("goodsStoreVipPrice",this.goodsStoreVipPrice);
+          params.append("goodsStorePriceInterval",this.goodsStorePriceInterval);
+          params.append("weight",this.weights);
+          params.append("volume",this.volumes);
+          params.append("goodsShow",this.goodsShow);
+          params.append("prepareUp",this.prepareUp);
+          params.append("goodsCommend",this.goodsCommend);
+          params.append("goodsKeywordss",this.goodsKeywordss);
+          params.append("goodsPcBody",this.config);
+          params.append("goodsPcServerBody",this.goodsPcServerBody);
+          params.append("goodsSpec",goodsSpec);
+          params.append("goodsSpecJson",goodsSpecJson);
+          params.append("isShare",this.isShare);
+          params.append("isCartRecommend",this.isCartRecommend);
+          params.append("transportId",this.transportId);
+          params.append("fullFreeMail",this.fullFreeMail);
+          params.append("goodsIntegral",this.goodsIntegral);
+          params.append("goodsBody",goodsbody);
+          params.append("cityId",this.cityId);
+          params.append("cityName",this.cityName);
+          params.append("provinceId",this.provinceId);
+          params.append("provinceName",this.provinceName);
+          params.append("goodsTransfeeCharge",this.goodsTransfeeCharge);
+          params.append("oneCommission",this.oneCommission);
+          params.append("goodsTotalStorage",this.goodsTotalStorage);
+          params.append("jpackge",jpackges);
+          params.append("jparams",jparamss);
+          params.append("saveType",this.saveType)
+          this.axios({
+            method: "post",
+            url: "/merchant/goods/saveGoods",
+            headers: {
+              "Access-token": "42f2d9acb8c64f99b7795ab1208516e0"
+            },
+            
+            data: params
+             
+            
+          }).then(res => {
+            console.log(res);
+          });
+        }
+      }
     }
-  },
-  created: function() {
-    this.getCityData();
   }
 };
 </script>
 
 <style>
-/* .shopImg {
-  
-} */
+.shopImg {
+  width: 900px;
+}
 .el-dialog {
   width: 60%;
 }
@@ -712,7 +1551,7 @@ export default {
   color: #9f9f9f;
 }
 .title {
-  width: 100px;
+  width: 120px;
   text-align: right;
 }
 
@@ -806,5 +1645,170 @@ export default {
   color: white;
   text-align: center;
   margin: 0 auto;
+}
+.shoparea {
+  width: 800px;
+  border: 1px solid #dddddd;
+  overflow: hidden;
+}
+.shoparea textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  outline: none;
+  padding: 10px;
+}
+.format {
+  width: 800px;
+  margin-top: 10px;
+}
+.isSelect {
+  width: 90%;
+  padding: 5px;
+  background: #f1f1f1;
+}
+.isSelect > div {
+  display: inline-block;
+}
+.isSelect > div:first-child {
+  width: 200px;
+  background: white;
+}
+.isSelect > div:last-child {
+  float: right;
+  line-height: 40px;
+  margin-right: 20px;
+  color: #2e7bee;
+}
+.isRests {
+  width: 90%;
+  padding: 5px;
+  background: rgb(252, 249, 249);
+}
+.product {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+.productInt {
+  border: 1px solid #dddddd;
+  width: 120px;
+  border-radius: 5px;
+  padding: 2px;
+  background: white;
+}
+.productBtn {
+  margin-left: 20px;
+  color: #2e7bee;
+}
+.formatList {
+  padding: 3px 20px;
+  border: 1px solid #dddddd;
+  font-size: 14px;
+  border-radius: 5px;
+  margin-left: 20px;
+  position: relative;
+}
+.forIcon {
+  width: 5px;
+  height: 5px;
+  position: absolute;
+  top: -2px;
+  right: 10px;
+}
+
+.basicsInfo {
+  width: 100%;
+}
+.basicsInfo > div {
+  display: flex;
+  /* align-items: center; */
+  margin-top: 20px;
+}
+.basicsInfo > div > div:first-child {
+  width: 120px;
+  text-align: right;
+}
+.basicsInfo input {
+  border: none;
+  width: 100%;
+  outline: none;
+  height: 100%;
+  padding: 0 10px;
+}
+.infoName > div:last-child {
+  width: 500px;
+  border: 1px solid #dddddd;
+  margin-left: 20px;
+  border-radius: 5px;
+  height: 28px;
+  overflow: hidden;
+}
+.infoSite > div:last-child {
+  width: 500px;
+  border: 1px solid #dddddd;
+  margin-left: 20px;
+  border-radius: 5px;
+  height: 28px;
+  overflow: hidden;
+}
+.contract > div:last-child {
+  width: 60%;
+  border: 1px solid #dddddd;
+  padding: 10px;
+  background: #f5f5f5;
+  margin-left: 20px;
+}
+.deploy {
+  border: 1px solid #dddddd;
+  padding: 10px;
+  border-radius: 5px;
+}
+.deployinput {
+  border-top: 1px solid #dddddd;
+  padding-top: 10px;
+}
+.deploy > div {
+  /* display: flex; */
+  margin-top: 10px;
+}
+.deploy > div div {
+  display: inline-block;
+  margin-right: 15px;
+  width: 122px;
+}
+.deploy > div div:first-child {
+  width: 80px;
+}
+.deploy .inp {
+  width: 120px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+}
+.publishTime {
+  display: flex;
+}
+.publishTime div {
+  margin-right: 10px;
+}
+.publishChoice > div {
+  margin-top: 10px;
+}
+.forbid {
+  cursor: no-drop;
+}
+.guarantees {
+  width: 1000px;
+}
+.textareas {
+  width: 100%;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+}
+.textareas textarea {
+  width: 99%;
+  resize: none;
+  outline: none;
+  border: none;
 }
 </style>

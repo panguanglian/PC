@@ -5,12 +5,19 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import axios from 'axios'
+import $ from 'jquery'
+import '../static/ueditor/ueditor.config.js'
+import '../static/ueditor/ueditor.all.min.js'
+import '../static/ueditor/lang/zh-cn/zh-cn.js'
+import '../static/ueditor/ueditor.parse.min'
+
 import 'element-ui/lib/theme-chalk/index.css'
-import './assets/styles/iconfont.css' //使用icon
+import './assets/styles/iconfont.css'
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.prototype.axios = axios;
+// depot();
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(r => r.meta.requireAuth)) {

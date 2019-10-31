@@ -233,7 +233,11 @@ export default new Router({
         component: () => import('@/components/home/Choiceoption')
     },
     
-    
+    {
+        path: '/ue',
+        name: 'ue',
+        component: () => import('@/components/UE/ue')
+    },
 
     ]
 
