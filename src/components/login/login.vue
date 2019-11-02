@@ -21,14 +21,12 @@
           <router-link tag="div" class="button logins shou" to='enroll'>注册账号，免费入住</router-link>
           <!-- <router-link tag="p" class="p shou" to="Forgetpassword">忘记密码</router-link> -->
         </div>
-
          <div v-else>
           <div class="qrcode">
               <img src="../../assets/logo.png">
               <p style="width:100%;text-align:center;font-size:14px;">请使用微信扫描二维码登录</p>
           </div>
         </div>
-
       </div>
     </div>
     <p class="pclolr"><span>网站地图</span><span>︱法律声明</span><span>︱友情链接</span></p>
