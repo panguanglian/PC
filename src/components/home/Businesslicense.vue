@@ -207,7 +207,6 @@ export default {
   created(){
     this.numid=sessionStorage.getItem('numid')
   },
-  
   methods: {
    creatshop(){
      var kong = /\s/;//含有空格正则
@@ -256,9 +255,8 @@ export default {
                 params.append('realname',this.name);
                 params.append('shopname',this.shopName);
                 params.append('businesslicensenumber',this.resourcenumber);
-                  // console.log(this.numid)
+
                 if(!this.numid){
-                    // console.log(1)
                     this.axios({
                       method:'post',
                       url:'/pc/merchantsettledin/entryInformation',
@@ -329,7 +327,7 @@ export default {
                 params.append('realname',this.name);
                 params.append('shopname',this.shopName);
                 params.append('businesslicensenumber',this.resourcenumber);
-                
+
                 if(!this.numid){
                     this.axios({
                       method:'post',
@@ -614,11 +612,7 @@ export default {
         })
         
       }
-  },
-  beforeDestroy(){
-      sessionStorage.removeItem('numid')
-  },
-
+  }
 };
 </script>
 
