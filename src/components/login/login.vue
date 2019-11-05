@@ -1,7 +1,7 @@
 <template>
   <div style="background: white; height: 100%;">
     <div class="color">
-      <img src="../../assets/logo.png" />
+      <img src="../../assets/tu.png" />
       <span>商家后台管理</span>
     </div>
     <div class="divbox">
@@ -155,8 +155,9 @@ html{
   font-weight: bold;
 }
 .color img {
-  width: 50px;
-  height: 50px;
+  width: 150px;
+  height: 70px;
+  margin-right: 10px;
 }
 .divbox {
   height: 500px;
