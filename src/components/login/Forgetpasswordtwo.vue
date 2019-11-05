@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="color">
-      <img src="../../assets/logo.png" />
+      <img src="../../assets/tu.png" />
       <span>商家入驻</span>
     </div>
 
@@ -150,8 +150,9 @@ export default {
   background: #FFF;
 }
 .color img {
-  width: 50px;
-  height: 50px;
+ width: 150px;
+  height: 70px;
+  margin-right: 10px;
 }
 .divbox {
   height: 700px;

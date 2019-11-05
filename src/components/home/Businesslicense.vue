@@ -1,7 +1,7 @@
 <template>
 <div style="height:100%;background:#EFF8FB;">
   <div class="color">
-      <img src="../../assets/logo.png" />
+      <img src="../../assets/tu.png" />
       <span>商家后台管理</span>
   </div>
 
@@ -639,8 +639,9 @@ export default {
   background: #fff;
 }
 .color img {
-  width: 50px;
-  height: 50px;
+  width: 150px;
+  height: 70px;
+  margin-right: 10px;
 }
 .imgstrwi{
     width: 80%;

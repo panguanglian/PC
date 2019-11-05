@@ -1,7 +1,7 @@
 <template>
   <div class="enroll">
     <div class="color">
-      <img src="../../assets/logo.png" />
+      <img src="../../assets/tu.png" />
       <span>海露后台管理</span>
     </div>
     <div class="contents">
@@ -183,8 +183,9 @@ body{
   background: white;
 }
 .color img {
-  width: 50px;
-  height: 50px;
+  width: 150px;
+  height: 70px;
+  margin-right: 10px;
 }
 .contents {
   width: 1366px;
