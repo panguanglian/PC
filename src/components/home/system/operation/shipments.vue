@@ -3,17 +3,17 @@
     <div class="shipments">
       <div class="classify">
         <div class="seek">
-          <div class="seekInput">
+          <!-- <div class="seekInput">
             <input type="text" placeholder="请输入关键词搜索分类" />
           </div>
-          <div class="seekBtn">快速搜索分类</div>
+          <div class="seekBtn">快速搜索分类</div> -->
         </div>
         <div class="commodity">
           <div class="modity">
             <div class="comSeek">
-              <el-input v-model="input" size="small" placeholder="请输入内容">
+              <!-- <el-input v-model="input" size="small" placeholder="请输入内容">
                 <i slot="suffix" class="el-input__icon el-icon-search"></i>
-              </el-input>
+              </el-input> -->
             </div>
             <div class="comList">
               <div
@@ -37,9 +37,9 @@
           </div>
           <div class="modity">
             <div class="comSeek">
-              <el-input v-model="input" size="small" placeholder="请输入内容">
+              <!-- <el-input v-model="input" size="small" placeholder="请输入内容">
                 <i slot="suffix" class="el-input__icon el-icon-search"></i>
-              </el-input>
+              </el-input> -->
             </div>
             <div class="comList" v-if="oneIndex=='a'? false : true">
               <div
@@ -100,31 +100,25 @@ export default {
   },
   mounted() {
     var _this = this;
-    // this.axios.get("/merchant/goods/categorys").then(res => {
-    //   console.log(res.data.data);
-    //   console.log(res);
-    //   _this.list = res.data.data;
-    // });
+   
      this.axios({
         method: "get",
         url: "/merchant/goods/categorys",
-        headers:{
-          'Access-token': '42f2d9acb8c64f99b7795ab1208516e0'
-        },
+       
         data: {
 
         }
       }).then(res => {
-        console.log(res.data);
+        console.log(res);
         _this.list = res.data.data;
       });
   },
-  mounted(){
-    this.axios.get('/merchant/goods/categorys')
-        .then((res)=>{
-            console.log(res.data.data)
-        })
-  },
+  // mounted(){
+  //   this.axios.get('/merchant/goods/categorys')
+  //       .then((res)=>{
+  //           console.log(res.data.data)
+  //       })
+  // },
   methods: {
     oneList(index) {
       console.log(index);
@@ -182,7 +176,7 @@ export default {
 }
 
 .classify {
-  width: 70%;
+  width: 60%;
   height: 600px;
   background: #f3f3f3;
 }

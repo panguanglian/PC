@@ -1,7 +1,7 @@
 <template>
   <div style="background: white; height: 100%;">
     <div class="color">
-      <img src="../../assets/logo.png" />
+      <!-- <img src="" /> -->
       <span>商家后台管理</span>
     </div>
     <div class="divbox">
@@ -51,7 +51,7 @@
 export default {
   data() {
     return {
-      arr: ["账户登录", "扫码登录"],
+      arr: ["账户登录" ],//"扫码登录"
       arrnum: 0,
       username: "",
       password:'',

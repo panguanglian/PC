@@ -27,7 +27,7 @@ Vue.use(Router)
 export default new Router({
     routes: [{
         path: '/',
-        redirect: '/home',
+        redirect: '/login',
     },
             {
                 path: '/home',
@@ -57,15 +57,20 @@ export default new Router({
                                 name: 'shipments',
                                 component: () => import('@/components/home/system/operation/shipments'),
                             },
-                            // {
-                            //     path: 'goods',
-                            //     name: 'goods',
-                            //     component: () => import('@/components/home/system/operation/goods'),
-                            // },
+                            {
+                                path: 'goods',
+                                name: 'goods',
+                                component: () => import('@/components/home/system/operation/goods'),
+                            },
                             {
                                 path: 'shopInfo',
                                 name: 'shopInfo',
                                 component: () => import('@/components/home/system/operation/shopInfo'),
+                            },
+                            {
+                                path: 'modification',
+                                name: 'modification',
+                                component: () => import('@/components/home/system/operation/modification'),
                             },
                         ]
                     },

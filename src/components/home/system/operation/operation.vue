@@ -65,7 +65,7 @@ export default {
         {
           name: "发货管理",
           list: [
-            // { name: "订单查询", url: "/system/operation/goods" },
+            { name: "发货查询", url: "/system/operation/goods" },
             { name: "发货中心", url: "/system/operation/shipments" },
             // { name: "物流工具", url: "/system/operation/shipments" },
             // { name: "物流概况", url: "/system/operation/shipments" },
@@ -213,7 +213,7 @@ body {
 }
 .navs {
   margin-left: 30px;
-  width: 1600px;
+  width: 1800px;
 }
 .hello {
   width: 200px;
@@ -271,5 +271,6 @@ body {
   width: 100%;
   height: 800px;
   background: white;
+  position: relative;
 }
 </style>

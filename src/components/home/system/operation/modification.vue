@@ -4,8 +4,8 @@
       <div class="head">商品基本信息</div>
       <div class="lists">
         <div class="variety">
-          <div>商品分类:</div>
-          <div v-if="classification==''?false : true">{{classification[0].twoList}}</div>
+          <div class="title">商品分类:</div>
+          <div>{{gsName}}</div>
           <div class="amend" @click="amend">修改分类</div>
         </div>
         <div class="variety">
@@ -17,7 +17,7 @@
             <div class="explain">商品标题名称长度至少3个字符，最长50个汉字</div>
           </div>
         </div>
-         <div class="variety">
+        <div class="variety">
           <div class="title">是否参与推广:</div>
           <div>
             <div>
@@ -37,7 +37,7 @@
             <div class="explain">商品副标题做商品特殊说明，位于详情页商品名称下面</div>
           </div>
         </div>
-       
+
         <div class="variety">
           <div class="title">是否推荐到购物车:</div>
           <div>
@@ -88,10 +88,10 @@
                 <div v-if="genre.length==1?false : true">{{item[1]}}</div>
                 <div v-if="genre.length==1?true : false">{{item[0]}}</div>
                 <div class="inp">
-                  <input type="text" v-model="item[2].price" />
+                  <input type="text" v-model="item[2].specGoodsPrice" />
                 </div>
                 <div class="inp">
-                  <input type="text" v-model="item[2].member" />
+                  <input type="text" v-model="item[2].specGoodsVipPrice" />
                 </div>
                 <div class="inp">
                   <input type="text" v-model="item[2].specGoodsPurchasePrice" />
@@ -100,25 +100,25 @@
                   <input type="text" v-model="item[2].commission" />
                 </div>
                 <div class="inp">
-                  <input type="text" v-model="item[2].inventory" @change="isInventory(item)" />
+                  <input type="text" v-model="item[2].specGoodsStorage" @change="isInventory(item)" />
                 </div>
                 <div class="inp">
-                  <input type="text" v-model="item[2].mark" />
+                  <input type="text" v-model="item[2].specGoodsSerial" />
                 </div>
                 <div class="inp">
                   <input type="text" v-model="item[2].weight" />
                 </div>
                 <div class="inp">
-                  <input type="text" v-model="item[2].bulk" />
+                  <input type="text" v-model="item[2].volume" />
                 </div>
-                <el-checkbox v-model="item[2].open">开启规格</el-checkbox>
+                <el-checkbox v-model="item[2].specIsOpen">开启规格</el-checkbox>
               </div>
             </div>
           </div>
         </div>
 
         <div class="variety">
-          <div class="title">商品库存:</div>
+          <div class="title">总商品库存:</div>
           <div>
             <div class="int" style="width: 200px;">
               <input type="text" v-model="goodsTotalStorage" @click="leave" />
@@ -140,7 +140,7 @@
               <p>最多可输入20个字符，支持输入中文、字母、数字、_、/、-和小数点</p>
             </div>
           </div>
-        </div> -->
+        </div>-->
 
         <div class="variety">
           <div
@@ -150,14 +150,16 @@
             <div class="shopImg">
               <form action name="fileinfo">
                 <div class="img_box">
+                  <!-- <img src="http://192.168.10.179:8082/api/v1//2019/11/3//27UdAb1572765295849df3f5766de215dbfc988428ca9a37fa.jpg" alt=""> -->
                   <div
                     class="img_size"
-                    v-for="(item,index) of imgList"
+                    v-for="(item,index) of isimg"
                     :key="index"
-                    v-show="imgList.length!=0"
+                    v-show="isimg.length!=0"
                   >
-                    <img v-if="item.file.type.indexOf('image') !== -1" :src="item.file.src" />
-                    <div class="pxove_logo" @click="fileDel">×</div>
+                    <img :src="iiimg+item" />
+                    <!-- <img v-if="item.file.type.indexOf('image') !== -1" :src="item.file.src" /> -->
+                    <div class="pxove_logo" @click="fileDel(index)">×</div>
                   </div>
                   <div class="add_img" @click="fileClick" v-show="addState">
                     <span>+</span>
@@ -179,7 +181,9 @@
           </div>
         </div>
         <div class="variety">
-          <div class="title">商品PC描述： 1、每张宽度建议1920像素，所有图片宽度一致； 2、每张高度小于等于960像素； 3、每张图片容量应小于等于1024KB； 4、图片格式为：JPG\GIF\PNG ； 5、图片总张数建议大于5张，但不超过30张； 6、为了更好的视觉呈现，图片上的文字字号建议不小于20号</div>
+          <div
+            class="title"
+          >商品PC描述： 1、每张宽度建议1920像素，所有图片宽度一致； 2、每张高度小于等于960像素； 3、每张图片容量应小于等于1024KB； 4、图片格式为：JPG\GIF\PNG ； 5、图片总张数建议大于5张，但不超过30张； 6、为了更好的视觉呈现，图片上的文字字号建议不小于20号</div>
           <div>
             <div class="guarantees">
               <UEditor :config="config" id="ueditor1" ref="ueditor"></UEditor>
@@ -191,9 +195,6 @@
           <div>
             <div class="guarantees">
               <UEditor :config="config" id="ueditor2" ref="ueditorDesc"></UEditor>
-              <!-- <div class="textareas">
-                <textarea name id cols="30" rows="10" v-model="goodsPcServerBody"></textarea>
-              </div> -->
             </div>
           </div>
         </div>
@@ -208,12 +209,12 @@
                 <div class="img_box">
                   <div
                     class="img_size"
-                    v-for="(item,index) of appimgList"
+                    v-for="(item,index) of appimg"
                     :key="index"
-                    v-show="appimgList.length!=0"
+                    v-show="appimg.length!=0"
                   >
-                    <img v-if="item.file.type.indexOf('image') !== -1" :src="item.file.src" />
-                    <div class="pxove_logo" @click="appfileDel">×</div>
+                    <img :src="iiimg+item" />
+                    <div class="pxove_logo" @click="appfileDel(index)">×</div>
                   </div>
                   <div class="add_img" @click="appfileClick" v-show="addStateapp">
                     <span>+</span>
@@ -299,7 +300,6 @@
             </el-select>
           </div>
         </div>
-        
 
         <div class="head">其他信息</div>
         <div class="variety">
@@ -333,7 +333,7 @@
           <div class="title">SEO关键字(Keywords)：</div>
           <div>
             <div class="int">
-              <input type="text" v-model="goodsKeywordss" />
+              <input type="text" v-model="goodsKeywords" />
             </div>
           </div>
         </div>
@@ -385,14 +385,79 @@
               <el-checkbox v-model="ban" disabled>假一赔十 该类商品，必须支持假一赔十服务</el-checkbox>
             </div>
           </div>
-        </div> -->
+        </div>-->
         <div class="head">
           <div class="putin" @click="present">提交</div>
         </div>
-
-        
       </div>
     </div>
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="70%" :before-close="handleClose">
+      <div class="shipments">
+        <div class="classify">
+          <div class="seek">
+            <!-- <div class="seekInput">
+            <input type="text" placeholder="请输入关键词搜索分类" />
+          </div>
+            <div class="seekBtn">快速搜索分类</div>-->
+          </div>
+          <div class="commodity">
+            <div class="modity">
+              <div class="comSeek">
+                <!-- <el-input v-model="input" size="small" placeholder="请输入内容">
+                <i slot="suffix" class="el-input__icon el-icon-search"></i>
+                </el-input>-->
+              </div>
+              <div class="comList">
+                <div
+                  class="list"
+                  v-for="(item,index) in list"
+                  :key="index"
+                  @click="oneList(index)"
+                  :class="{blue:oneHue===index}"
+                >
+                  <div class="isdetails">{{item.gcName}}</div>
+                  <div class="comIcon">
+                    <i class="el-icon-caret-right"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="alter">
+                找不到想要的分类？可
+                <span>修改主营类目</span>或
+                <span>一键开新店</span>
+              </div>
+            </div>
+            <div class="modity">
+              <div class="comSeek">
+                <!-- <el-input v-model="input" size="small" placeholder="请输入内容">
+                <i slot="suffix" class="el-input__icon el-icon-search"></i>
+                </el-input>-->
+              </div>
+              <div class="comList" v-if="oneIndex=='a'? false : true">
+                <div
+                  class="list"
+                  v-for="(item,index) in list[oneIndex].classList"
+                  :key="index"
+                  @click="twoList(index)"
+                  :class="{blue:twoHue===index}"
+                >
+                  <div class="isdetails">{{item.gcName}}</div>
+                  <div class="comIcon">
+                    <!-- <i class="el-icon-caret-right"></i> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="inform">
+          <span>发布须知:</span> 准确选择类目有利于商品
+          曝光，促进转化；若错放类目将会导
+          致流量降权或下架整改。
+        </div>
+        <div class="shibtn" :class="{shibtns:i==true}" @click="shibtn">我已阅读发布须知，确认创建该类商品</div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -468,6 +533,20 @@ export default {
     }
     return {
       // 1
+      //2
+      input: "",
+      oneHue: "",
+      twoHue: "",
+      threeHue: "",
+      oneIndex: "a",
+      twoIndex: "a",
+      i: false,
+      information: [{ oneList: "", twoList: "" }],
+      list: [],
+      sgcId: "",
+      //2
+      dialogVisible: false,
+      iiimg: "http://192.168.10.179:8082/api/v1",
       abolish: [],
       pitchon: [],
       configuration: "",
@@ -476,10 +555,11 @@ export default {
       Version: [
         //库存配置
       ],
+      gsName: "",
       sub: "",
       typeAs: [],
       typeBs: [],
-      goodsIntegral: '',
+      goodsIntegral: "",
       shopName: "",
       lengths: "0",
       isIndeterminate: true,
@@ -493,13 +573,13 @@ export default {
       serial: "", //商品货号
       imgList: [], //商品图片
       appimgList: [], //商品APP
-      appimg:[],
+      appimg: [],
       regionalAgentCommission: "", //区域代理提成(元)
       serviceProviderCommission: "", //服务商提成
       second: "1",
       presell: "1",
       shoptime: "1",
-      goodsKeywordss: "", //关键字
+      goodsKeywords: "", //关键字
       ban: true,
       invoice: true,
       guarantee: true,
@@ -509,7 +589,7 @@ export default {
       goodsStorePriceInterval: "", //区间价格
       // addfreight: false,
       //1
-
+      isPopularize: "1",
       publishTimes: true,
       isbgblue: "",
       dialogVisible: false,
@@ -519,9 +599,8 @@ export default {
       townValue: "",
       districtValue: "",
       speci: true,
-      isPopularize:'1',
-      operationPar: [{ name: "", value: "" }],
-      packAfter: [{ name: "", value: "" }],
+      operationPar: [],
+      packAfter: [],
       radio: "1",
       modGenre: "",
       genre: [],
@@ -544,11 +623,11 @@ export default {
       provinceId: "", //省id
       provinceName: "", //省
       goodsBody: "",
-      volumes:'',
-      weights:'',
-      specName:'',
-      isimg:[],
-      saveType:'0',
+      volumes: "",
+      weights: "",
+      specName: "",
+      isimg: [],
+      saveType: "1",
       modules: [
         {
           measure: "重量",
@@ -605,50 +684,191 @@ export default {
       }
     };
   },
-
+  beforeDestroy() {
+    this.$refs.ueditor.ueDestoryed();
+    this.$refs.ueditorDesc.ueDestoryed();
+  },
   mounted() {
-    
     this.classification = JSON.parse(sessionStorage.getItem("genre"));
- 
+    // console.log(this.$route.params.sgcId);
+    // console.log(this.$route.params.sgoodids);
+    // this.original = this.$route.params.row;
+    // console.log(JSON.parse(this.original.goodsSpec));
+    // console.log(JSON.parse(this.original.goodsImageMore));
+    this.gsName = this.$route.params.row.gcName;
 
     var _this = this;
+    let params = new URLSearchParams();
+    // params.append("gcId", this.$route.params.sgcId);
+    params.append("goodsId", this.$route.params.sgoodids);
     this.axios({
       method: "post",
-      url:
-        "/merchant/goods/initPublishPageData?gcId=" + this.$route.params.gcIds,
-      // headers: {
-      //   "Access-token": "94bf44b8096b43b3b41f086b4db8607a"
-      // },
-      data: {}
+      url: "/merchant/goods/detail",
+
+      data: params
     }).then(res => {
-      console.log(res.data);
-      _this.typeId = res.data.data.typeId;
+      console.log(res.data.data);
       _this.genre = res.data.data.specs;
-      _this.town = res.data.data.areas;
       for (var i = 0; i < _this.genre.length; i++) {
-        
         _this.checkList.push({ value: [] });
       }
+
+      _this.original = res.data.data.goods;
+      // 给编辑器赋值
+      let ueditorObject = this.$refs.ueditor;
+      let ueditorDescObject = this.$refs.ueditorDesc;
+      setTimeout(function() {
+        ueditorObject.setUEContent(_this.original.goodsPcBody);
+        ueditorDescObject.setUEContent(_this.original.goodsPcServerBody);
+      }, 1000);
+      _this.sgcId = _this.original.gcId;
+      //   console.log(JSON.parse(_this.original.goodsSpec));
+      var gko = JSON.parse(_this.original.goodsSpec);
+      for (var skuArr in gko) {
+        // sku选项
+        let skuArray = gko[skuArr];
+        // console.log(skuArray);
+
+        let specValueList;
+        for (var i = 0; i < this.genre.length; i++) {
+          if (this.genre[i].spId == skuArr) {
+            specValueList = this.genre[i].specValueList;
+            break;
+          }
+        }
+
+        for (var itemArr in skuArray) {
+          for (var i = 0; i < specValueList.length; i++) {
+            if (specValueList[i].spValueId == itemArr) {
+              specValueList[i].checked = true;
+              break;
+            }
+          }
+        }
+      }
+      //   console.info(this.genre)
+      for (var i = 0; i < this.genre.length; i++) {
+        for (var j = 0; j < this.genre[i].specValueList.length; j++) {
+          if (this.genre[i].specValueList[j].checked == true) {
+            //   console.log(this.genre[i].specValueList[j])
+            //   console.log(this.checkList[i])
+            this.checkList[i].value.push(
+              this.genre[i].specValueList[j].spValueName
+            );
+            if (i == 0) {
+              this.typeAs.push(this.genre[0].specValueList[j].spValueName);
+            } else {
+              this.typeBs.push(this.genre[1].specValueList[j].spValueName);
+            }
+            //   console.log(this.typeAs,this.typeBs)
+          }
+        }
+      }
+      this.appimg = _this.original.goodsBody.split(",");
+      let opers = res.data.data.packagingVoList;
+      for (var item in opers) {
+        this.packAfter.push({ name: "", value: "", id: "", goodsId: "" });
+        this.packAfter[item].name = opers[item].name;
+        this.packAfter[item].value = opers[item].context;
+        this.packAfter[item].id = opers[item].id;
+        this.packAfter[item].goodsId = opers[item].goodsId;
+        console.log(opers[item]);
+      }
+      //   this.packAfter = res.data.data.packagingVoList;
+      let oper = res.data.data.parameterVoList;
+      for (var item in oper) {
+        this.operationPar.push({ name: "", value: "", id: "", goodsId: "" });
+        this.operationPar[item].name = oper[item].parameterName;
+        this.operationPar[item].value = oper[item].parameterValue;
+        this.operationPar[item].id = oper[item].id;
+        this.operationPar[item].goodsId = oper[item].goodsId;
+      }
+      //   this.operationPar = res.data.data.parameterVoList;
+      console.log(this.operationPar);
+      this.isimg = _this.original.goodsImageMore.split(",");
+
+      _this.town = res.data.data.areas;
+      //   console.log(res.data.data.goodsSpecs);
+      var substitute = [];
+      for (var i = 0; i < res.data.data.goodsSpecs.length; i++) {
+        var gkd = JSON.parse(res.data.data.goodsSpecs[i].specGoodsSpec);
+
+        if (this.checkList.length > 1) {
+          for (var x = 0; x < this.checkList[0].value.length; x++) {
+            for (var j = 0; j < this.checkList[1].value.length; j++) {
+              let key = this.checkList[0].value[x] + this.checkList[1].value[j];
+              if (this.skuMapping.hasKey(key)) {
+                continue;
+              }
+
+              this.skuMapping.add(key, [
+                this.checkList[0].value[x],
+                this.checkList[1].value[j],
+                res.data.data.goodsSpecs[i]
+              ]);
+            }
+          }
+        } else {
+          for (var x = 0; x < this.checkList[0].value.length; x++) {
+            let key = this.checkList[0].value[x];
+            if (this.skuMapping.hasKey(key)) {
+              continue;
+            }
+            this.skuMapping.add(key, [
+              this.checkList[0].value[x],
+              {},
+              res.data.data.goodsSpecs[i]
+            ]);
+          }
+        }
+
+        //   substitute.push([this.checkList[0].value[i],this.checkList[1].value[i],res.data.data.goodsSpecs[i]])
+      }
+      //   console.log(this.checkList)
+      //   console.log(this.skuMapping.converList())
+      _this.configuration = this.skuMapping.converList();
+      //   console.log(_this.configuration)
+      _this.former();
     });
-    // this.axios
-    //   .post(
-    //     "/merchant/goods/initPublishPageData?gcId=" + this.$route.params.gcIds
-    //   )
-    //   .then(res => {
-    //     // console.log(res);
-    //     console.log(res.data.data);
-    //     _this.typeId = res.data.data.typeId;
-    //     _this.genre = res.data.data.specs;
-    //     _this.town = res.data.data.areas;
-    //     for (var i = 0; i < _this.genre.length; i++) {
-    //       // _this.genre[i].push({a:[]})
-    //       // console.log(_this.genre[i])
-    //       _this.checkList.push({ value: [] });
-    //     }
-    //     console.log(_this.genre);
-    //   });
+    // this.axios({
+    //   method: "post",
+    //   url:
+    //     "/merchant/goods/initPublishPageData?gcId=" +
+    //     this.$route.params.row.gcId,
+    //   // headers: {
+    //   //   "Access-token": "94bf44b8096b43b3b41f086b4db8607a"
+    //   // },
+    //   data: {}
+    // }).then(res => {
+    //   console.log(res.data);
+    //   _this.typeId = res.data.data.typeId;
+    //   _this.genre = res.data.data.specs;
+    //   console.log(_this.genre);
+    //   _this.town = res.data.data.areas;
+    //   for (var i = 0; i < _this.genre.length; i++) {
+    //     _this.checkList.push({ value: [] });
+    //   }
+    // });
   },
   methods: {
+    former() {
+      this.goodsName = this.original.goodsName; //商品名称
+      this.goodsSubtitle = this.original.goodsDescription; //副标题
+      this.isCartRecommend = this.original.isCartRecommend; //是否推荐到购物车
+      this.goodsPcServerBody = this.original.goodsPcServerBody; //PC商品售后保障描述
+      this.townValue = this.original.provinceName; //显示区名
+      this.provinceId = this.original.provinceId; //区id
+      this.provinceName = this.original.provinceName; //区名
+      this.districtValue = this.original.cityName; //显示市名
+      this.cityName = this.original.cityName; //市名
+      this.cityId = this.original.cityId; //市id
+      this.typeId = this.original.typeId;
+      this.goodsIntegral = this.original.goodsIntegral;
+      this.goodsKeywords = this.original.goodsKeywords;
+      //  this.goodsName=this.original.goodsName
+      //  this.goodsName=this.original.goodsName
+      //  this.goodsName=this.original.goodsName
+    },
     openWindow: function() {
       this.addFormVisible = true;
     },
@@ -663,7 +883,6 @@ export default {
       document.getElementById("inpus").click();
     },
     appfileChange(el) {
-      
       const list = this.$refs.file;
       // console.log(this.$refs.file.files)
       // 通过DOM取文件数据
@@ -681,7 +900,7 @@ export default {
       if (!el.target.files[0].size) return;
       this.appfileList(el.target);
       el.target.value = "";
-      // console.log(this.appimgList);
+      console.log(this.appimgList);
       // console.log(this.appimgList.length);
     },
     appfileList(fileList) {
@@ -732,19 +951,21 @@ export default {
           file
         });
         let form = new FormData();
-        form.append('file', file, file.name);
-        console.log(form);  
-        then.axios({
+        form.append("file", file, file.name);
+        // console.log(form);
+        then
+          .axios({
             method: "post",
             url: "/pc/merchantsettledin/save.do",
-            data:form,
+            data: form,
             headers: {
-						  'Content-Type': 'multipart/form-data'
-					  }
-          }).then(res => {
+              "Content-Type": "multipart/form-data"
+            }
+          })
+          .then(res => {
             console.log(res);
-            let img =res.data.data.path
-            then.appimg.push(img)
+            let img = res.data.data.path;
+            then.appimg.push(img);
           });
         // console.log(then.appimgList.length);
         if (then.appimgList.length < 10) {
@@ -756,11 +977,12 @@ export default {
             message: "最多上传10张图片",
             type: "warning"
           });
-          // console.log(then.appimgList);
+          //   console.log(then.appimgList);
         }
       };
     },
     appfileDel(index) {
+      this.appimg.splice(index, 1);
       this.appimgList.splice(index, 1);
       if (this.appimgList.length < 3) {
         this.addStateapp = true;
@@ -790,12 +1012,12 @@ export default {
     },
     fileChange(el) {
       const list = this.$refs.file;
-      // console.log(this.$refs.file.files);
+      //   console.log(this.$refs.file.files);
       // 通过DOM取文件数据
       this.fil = list.files;
-      let filess = el.target.files
-      // console.log(filess )
-      
+      let filess = el.target.files;
+      //   console.log(filess);
+
       let oldLen = this.imgLen;
       let len = this.fil.length;
       if (len > 10) {
@@ -809,8 +1031,8 @@ export default {
       if (!el.target.files[0].size) return;
       this.fileList(el.target);
       el.target.value = "";
-      // console.log(this.imgList);
-      
+      //   console.log(this.imgList);
+
       // console.log(this.imgList.length);
     },
     fileList(fileList) {
@@ -861,21 +1083,23 @@ export default {
           file
         });
         let form = new FormData();
-        form.append('file', file, file.name);
-        // console.log(form);  
-        then.axios({
+        form.append("file", file, file.name);
+        // console.log(form);
+        then
+          .axios({
             method: "post",
             url: "/pc/merchantsettledin/save.do",
-            data:form,
+            data: form,
             headers: {
-						  'Content-Type': 'multipart/form-data'
-					  }
-          }).then(res => {
-            // console.log(res);
-            let img =res.data.data.path
-            then.isimg.push(img)
+              "Content-Type": "multipart/form-data"
+            }
+          })
+          .then(res => {
+            console.log(res);
+            let img = res.data.data.path;
+            then.isimg.push(img);
           });
-        
+        console.log(then.isimg.join(","));
         if (then.imgList.length < 10) {
           then.addState = true;
         } else {
@@ -885,12 +1109,14 @@ export default {
             message: "最多上传10张图片",
             type: "warning"
           });
-          // console.log(then.imgList);
+          //   console.log(then.imgList);
         }
       };
     },
     fileDel(index) {
       this.imgList.splice(index, 1);
+      this.isimg.splice(index, 1);
+
       if (this.imgList.length < 3) {
         this.addState = true;
       } else {
@@ -949,8 +1175,89 @@ export default {
       this.dialogVisible = false;
     },
     amend() {
-      this.$router.push({ name: "shipments" });
+      var _this = this;
+
+      this.axios({
+        method: "get",
+        url: "/merchant/goods/categorys",
+
+        data: {}
+      }).then(res => {
+        console.log(res);
+        _this.list = res.data.data;
+      });
+      //   this.$router.push({ name: "shipments" });
+      this.dialogVisible = true;
     },
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    },
+    //88888
+    oneList(index) {
+      //   console.log(index);
+
+      if (this.oneIndex == index) {
+        this.oneIndex = index;
+      } else {
+        this.twoIndex = "a";
+        this.i = false;
+        this.twoHue = "";
+
+        this.information[0].oneList = this.list[index].gcName;
+        this.oneIndex = index;
+      }
+      this.oneIndex = index;
+      this.oneHue = index;
+    },
+    twoList(index) {
+      this.twoIndex = index;
+      this.twoHue = index;
+
+      this.i = true;
+      this.sgcId = this.list[this.oneIndex].classList[index].gcId;
+      this.information[0].twoList = this.list[this.oneIndex].classList[
+        index
+      ].gcName;
+    },
+    // threeList(index) {
+    //   this.threeHue = index;
+    //   this.i = true;
+    //   this.information[0].threeList = this.list[this.oneIndex].children[
+    //     this.twoIndex
+    //   ].children[index].value;
+    // },
+    shibtn() {
+      if (this.i == false) {
+      } else {
+        var _this = this;
+        this.axios({
+          method: "post",
+          url: "/merchant/goods/initPublishPageData?gcId=" + this.sgcId,
+
+          data: {}
+        }).then(res => {
+          //   console.log(res.data);
+          if (res.data.code == 0) {
+            _this.typeId = res.data.data.typeId;
+            _this.genre = res.data.data.specs;
+            _this.checkList = [];
+            for (var i = 0; i < _this.genre.length; i++) {
+              _this.checkList.push({ value: [] });
+            }
+            _this.dialogVisible = false;
+            _this.gsName = this.information[0].twoList;
+            this.skuMapping.clear();
+            _this.configuration = "";
+            // console.log(_this.configuration)
+          }
+        });
+      }
+    },
+    //88888
     productBtn(index) {
       if (this.specification[index].foInput == "") {
         this.$message({
@@ -968,7 +1275,7 @@ export default {
     forIcon(index) {},
     townVal(selVal) {
       var _this = this;
-      
+
       this.provinceId = selVal.areaId;
       this.provinceName = selVal.areaName;
 
@@ -980,13 +1287,11 @@ export default {
         // },
         data: {}
       }).then(res => {
-      
         _this.district = res.data.data;
-        // console.log(_this.district)
+        // console.log(_this.district);
       });
     },
     districtVal(selVal) {
-      
       this.cityId = selVal.areaId;
       this.cityName = selVal.areaName;
     },
@@ -1013,15 +1318,15 @@ export default {
               this.typeAs[i],
               {},
               {
-                price: "",
-                member: "",
+                specGoodsPrice: "",
+                specGoodsVipPrice: "",
                 specGoodsPurchasePrice: "",
                 commission: "",
-                inventory: "0",
-                mark: "",
+                specGoodsStorage: "0",
+                specGoodsSerial: "",
                 weight: "",
-                bulk: "",
-                open: true
+                volume: "",
+                specIsOpen: true
               }
             ]);
           }
@@ -1062,15 +1367,15 @@ export default {
                 this.typeAs[i],
                 this.typeBs[j],
                 {
-                  price: "",
-                  member: "",
-                  specGoodsPurchasePrice:'',
-                  commission:'',
-                  inventory: "0",
-                  mark: "",
+                  specGoodsPrice: "",
+                  specGoodsVipPrice: "",
+                  specGoodsPurchasePrice: "",
+                  commission: "",
+                  specGoodsStorage: "0",
+                  specGoodsSerial: "",
                   weight: "",
-                  bulk: "",
-                  open: true
+                  volume: "",
+                  specIsOpen: true
                 }
               ]);
             }
@@ -1078,13 +1383,13 @@ export default {
         }
       }
       this.configuration = this.pitchon = this.skuMapping.converList();
-      // console.log(this.configuration);
-      // console.log(this.genre);
+      //   console.log(this.configuration);
+      //   console.log(this.genre);
       var goodsSpecId = this.genre[index].spId;
       var spValueId = clickTarget.spValueId;
       var spValueName = clickTarget.spValueName;
 
-      // console.log(goodsSpecId);
+      //   console.log(goodsSpecId);
       // for(var i=0;i<this.genre.length;i++){
 
       // }
@@ -1102,18 +1407,17 @@ export default {
       if (this.configuration.length == 0) {
       } else {
         this.configuration.forEach(item => {
-          a = a + parseInt(item[2].inventory);
+          a = a + parseInt(item[2].specGoodsStorage);
         });
       }
-      
+
       this.goodsTotalStorage = a;
-    
     },
     getGoodsSpec() {
       let that = this;
       // let goodsSpec = [];
-      let goodsSpec = {}
-      
+      let goodsSpec = {};
+
       this.genre.forEach(function(item, index) {
         let spValue = {};
         item.specValueList.forEach(function(subItem, subIndex) {
@@ -1162,28 +1466,28 @@ export default {
           _tmp.add(keyVal0[1], JSON.stringify(item));
         });
       }
-      let specNameObject = {}
-      that.genre.forEach(function(item, index){
+      let specNameObject = {};
+      that.genre.forEach(function(item, index) {
         specNameObject[item.spId] = item.spName;
-      })
+      });
       let specName = JSON.stringify(specNameObject);
-      that.specName=specName
+      that.specName = specName;
       let result = [];
       this.skuMapping.converList().forEach(function(item) {
         let key = item[0] + item[1];
         let specGoodsSpec = _tmp.getValue(key);
         result.push({
           specName: specName,
-          specGoodsPrice: item[2].price,
-          specGoodsVipPrice: item[2].member,
+          specGoodsPrice: item[2].specGoodsPrice,
+          specGoodsVipPrice: item[2].specGoodsVipPrice,
           specGoodsPurchasePrice: item[2].specGoodsPurchasePrice,
-          commission:item[2].commission,
-          specGoodsSerial: item[2].mark,
+          commission: item[2].commission,
+          specGoodsSerial: item[2].specGoodsSerial,
           weight: item[2].weight,
-          volume: item[2].bulk,
-          specGoodsStorage: item[2].inventory,
+          volume: item[2].volume,
+          specGoodsStorage: item[2].specGoodsStorage,
           specGoodsSpec: specGoodsSpec,
-          specIsOpen: item[2].open ? "1" : "0"
+          specIsOpen: item[2].specIsOpen ? "1" : "0"
         });
       });
       return JSON.stringify(result);
@@ -1198,38 +1502,37 @@ export default {
       }
     },
     isInventory(item) {
-     
-      if (item[2].inventory == "") {
-        item[2].inventory = 0;
+      if (item[2].specGoodsStorage == "") {
+        item[2].specGoodsStorage = 0;
       }
       this.leave();
     },
     present() {
-     
       var _this = this;
       let goodsSpec = this.getGoodsSpec();
       let goodsSpecJson = this.getGoodsSpecJson();
-      // console.info(goodsSpec);
-      // console.info(goodsSpecJson);
-      let isimg = this.isimg
-      let firstimg = JSON.stringify(this.isimg[0])
-      let goodsbody=this.appimg
-      let jpackges = JSON.stringify(this.packAfter)
-      let jparamss = JSON.stringify(this.operationPar)
-      if(this.publish==1||this.publish==2){
-        this.goodsShow=1
-      }else if(this.publish==3){
-        this.goodsShow=2
+      //   console.info(goodsSpec);
+      //   console.info(goodsSpecJson);
+      let isimg = this.isimg;
+      console.log(this.isimg.join(","));
+      let firstimg = JSON.stringify(this.isimg[0]);
+      let goodsbody = this.appimg;
+      let jpackges = JSON.stringify(this.packAfter);
+      let jparamss = JSON.stringify(this.operationPar);
+      if (this.publish == 1 || this.publish == 2) {
+        this.goodsShow = 1;
+      } else if (this.publish == 3) {
+        this.goodsShow = 2;
       }
       //JSON.stringify(this.operationPar)
       // var aa= ''
-      
+
       // this.isimg.forEach(function(item, index){
       //   aa+=item
       // })
       // console.log(aa)
 
-//判断
+      //判断
       if (this.goodsName == "") {
         this.$message({
           message: "商品名称未填写",
@@ -1262,42 +1565,42 @@ export default {
       } else {
         let isSubmit = true;
         for (var i = 0; i < this.configuration.length; i++) {
-          if (this.configuration[i][2].price == "") {
+          if (this.configuration[i][2].specGoodsPrice == "") {
             this.$message({
               message: "还有价格未填写",
               type: "warning"
             });
             isSubmit = false;
             break;
-          } else if (this.configuration[i][2].member == "") {
+          } else if (this.configuration[i][2].specGoodsVipPrice == "") {
             this.$message({
               message: "还有会员价格未填写",
               type: "warning"
             });
             isSubmit = false;
             break;
-          }else if (this.configuration[i][2].specGoodsPurchasePrice == "") {
+          } else if (this.configuration[i][2].specGoodsPurchasePrice == "") {
             this.$message({
               message: "还有进货价格未填写",
               type: "warning"
             });
             isSubmit = false;
             break;
-          }else if (this.configuration[i][2].commission == "") {
+          } else if (this.configuration[i][2].commission == "") {
             this.$message({
               message: "还有提成未填写",
               type: "warning"
             });
             isSubmit = false;
             break;
-          } else if (this.configuration[i][2].inventory == "") {
+          } else if (this.configuration[i][2].specGoodsStorage == "") {
             this.$message({
               message: "还有库存未填写",
               type: "warning"
             });
             isSubmit = false;
             break;
-          } else if (this.configuration[i][2].mark == "") {
+          } else if (this.configuration[i][2].specGoodsSerial == "") {
             this.$message({
               message: "还有商品货号未填写",
               type: "warning"
@@ -1311,14 +1614,14 @@ export default {
             });
             isSubmit = false;
             break;
-          } else if (this.configuration[i][2].bulk == "") {
+          } else if (this.configuration[i][2].volume == "") {
             this.$message({
               message: "还有体积未填写",
               type: "warning"
             });
             isSubmit = false;
             break;
-          } else if (this.imgList == "") {
+          } else if (this.isimg == "") {
             this.$message({
               message: "请上传商品图片",
               type: "warning"
@@ -1378,70 +1681,74 @@ export default {
           }
         }
         if (isSubmit == true) {
-          
-//这里      
-          let params = new URLSearchParams;
-          params.append("goodsName",this.goodsName);
-          params.append("goodsDescription",this.goodsSubtitle);
-          params.append("gcId",this.$route.params.gcIds);
-          params.append("gcName",this.classification[0].twoList);
-          params.append("brandId",this.brandId);
-          params.append("typeId",this.typeId);
-          params.append("specOpen",this.specOpen);
-          params.append("specName",this.specName);
-          params.append("goodsImage",firstimg);
-          params.append("goodsImageMore",isimg.join(","));
-          params.append("goodsStorePrice",this.goodsStorePrice);
-          params.append("goodsStoreVipPrice",this.goodsStoreVipPrice);
-          params.append("goodsStorePriceInterval",this.goodsStorePriceInterval);
-          params.append("weight",this.weights);
-          params.append("volume",this.volumes);
-          params.append("goodsShow",this.goodsShow);
-          params.append("prepareUp",this.prepareUp);
-          params.append("goodsCommend",this.goodsCommend);
-          params.append("goodsKeywords",this.goodsKeywordss);
-          params.append("goodsPcBody",this.$refs.ueditor.getUEContent());
-          params.append("goodsPcServerBody",this.$refs.ueditorDesc.getUEContent());
-          params.append("goodsSpec",goodsSpec);
-          params.append("goodsSpecJson",goodsSpecJson);
-          params.append("isShare",this.isShare);
-          params.append("isCartRecommend",this.isCartRecommend);
-          params.append("transportId",this.transportId);
-          params.append("fullFreeMail",this.fullFreeMail);
-          params.append("goodsIntegral",this.goodsIntegral);
-          params.append("goodsBody",goodsbody.join(","));
-          params.append("cityId",this.cityId);
-          params.append("cityName",this.cityName);
-          params.append("provinceId",this.provinceId);
-          params.append("provinceName",this.provinceName);
-          params.append("goodsTransfeeCharge",this.goodsTransfeeCharge);
-          params.append("oneCommission",this.oneCommission);
-          params.append("goodsTotalStorage",this.goodsTotalStorage);
-          params.append("jpackge",jpackges);
-          params.append("jparams",jparamss);
-          params.append("saveType",this.saveType);
-          params.append('isPopularize',this.isPopularize);
+          //这里
+          let params = new URLSearchParams();
+          params.append("goodsName", this.goodsName);
+          params.append("goodsDescription", this.goodsSubtitle);
+          params.append("gcId", this.sgcId);
+          params.append("gcName", this.gsName);
+          params.append("brandId", this.brandId);
+          params.append("typeId", this.typeId);
+          params.append("specOpen", this.specOpen);
+          params.append("specName", this.specName);
+          params.append("goodsImage", firstimg);
+          params.append("goodsImageMore", isimg.join(","));
+          params.append("goodsStorePrice", this.goodsStorePrice);
+          params.append("goodsStoreVipPrice", this.goodsStoreVipPrice);
+          params.append(
+            "goodsStorePriceInterval",
+            this.goodsStorePriceInterval
+          );
+          params.append("weight", this.weights);
+          params.append("volume", this.volumes);
+          params.append("goodsShow", this.goodsShow);
+          params.append("prepareUp", this.prepareUp);
+          params.append("goodsCommend", this.goodsCommend);
+          params.append("goodsKeywords", this.goodsKeywords);
+          params.append("goodsPcBody", this.$refs.ueditor.getUEContent());
+          params.append(
+            "goodsPcServerBody",
+            this.$refs.ueditorDesc.getUEContent()
+          );
+          params.append("goodsSpec", goodsSpec);
+          params.append("goodsSpecJson", goodsSpecJson);
+          params.append("isShare", this.isShare);
+          params.append("isCartRecommend", this.isCartRecommend);
+          params.append("transportId", this.transportId);
+          params.append("fullFreeMail", this.fullFreeMail);
+          params.append("goodsIntegral", this.goodsIntegral);
+          params.append("goodsBody", goodsbody.join(","));
+          params.append("cityId", this.cityId);
+          params.append("cityName", this.cityName);
+          params.append("provinceId", this.provinceId);
+          params.append("provinceName", this.provinceName);
+          params.append("goodsTransfeeCharge", this.goodsTransfeeCharge);
+          params.append("oneCommission", this.oneCommission);
+          params.append("goodsTotalStorage", this.goodsTotalStorage);
+          params.append("jpackge", jpackges);
+          params.append("jparams", jparamss);
+          params.append("saveType", this.saveType);
+          params.append("isPopularize", this.isPopularize);
+          params.append("goodsId", this.$route.params.sgoodids);
           this.axios({
             method: "post",
             url: "/merchant/goods/saveGoods",
-            // headers: {
-            //   "Access-token": "94bf44b8096b43b3b41f086b4db8607a"
-            // },
-            
+
             data: params
-             
-            
           }).then(res => {
             console.log(res);
-            if(res.data.code==103){
+            if (res.data.code == 0) {
+              this.$router.push({ name: "goods" });
               this.$message({
-                      message: res.data.msg,
-                      type: "warning"
-                    });
-            }else if(res.data.code==0){
-              this.$router.push({ name: "goods",});
+                message: '修改成功',
+                type: "success"
+              });
+            } else {
+              this.$message({
+                message: res.data.msg,
+                type: "warning"
+              });
             }
-            
           });
         }
       }
@@ -1451,6 +1758,10 @@ export default {
 </script>
 
 <style>
+.sblock {
+  border: 1px solid #dddddd;
+  height: 40px;
+}
 .shopImg {
   width: 900px;
 }
@@ -1846,5 +2157,143 @@ export default {
   resize: none;
   outline: none;
   border: none;
+}
+/* 888 */
+.shipments {
+  width: 90%;
+  height: 700px;
+
+  margin: 0 auto;
+  position: relative;
+}
+
+.classify {
+  width: 60%;
+  height: 600px;
+  background: #f3f3f3;
+}
+.inform {
+  width: 250px;
+
+  height: 70px;
+  background: #f3f3f3;
+  position: absolute;
+  right: 3%;
+  top: 0px;
+  padding: 30px;
+  color: #6a6a6a;
+}
+.inform span {
+  color: #225af6;
+}
+.shibtn {
+  width: 380px;
+  height: 40px;
+  background: #d2d2d2;
+  text-align: center;
+  line-height: 40px;
+  margin: 0 auto;
+  border-radius: 5px;
+  color: white;
+  margin-top: 40px;
+
+  cursor: no-drop;
+}
+.seek {
+  display: flex;
+  width: 90%;
+
+  margin: 0 auto;
+  padding-top: 20px;
+}
+.seekInput {
+  width: 80%;
+  height: 38px;
+  border: 1px solid #dddddd;
+  overflow: hidden;
+  border-radius: 5px;
+  background: white;
+}
+.seekInput input {
+  width: 100%;
+  height: 40px;
+  background: none;
+  outline: none;
+  border: none;
+  margin-left: 20px;
+}
+.seekBtn {
+  width: 20%;
+  height: 40px;
+  background: #2e7bee;
+  text-align: center;
+  line-height: 40px;
+  color: white;
+  border-radius: 5px;
+  margin-left: 20px;
+}
+.commodity {
+  width: 90%;
+  margin: 0 auto;
+  height: 500px;
+  background: white;
+  margin-top: 10px;
+  display: flex;
+}
+.commodity > div {
+  flex: 1;
+}
+.modity {
+  border: 1px solid #dbdbdb;
+}
+.comSeek {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.comList {
+  width: 75%;
+  margin: 0 auto;
+  margin-top: 20px;
+  height: 290px;
+  overflow: auto;
+  cursor: pointer;
+}
+.comList .list {
+  display: flex;
+  margin-top: 5px;
+  border-radius: 5px;
+  padding-left: 8px;
+}
+.comList .list .isdetails {
+  width: 80%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 20px;
+}
+.comIcon {
+  width: 18%;
+  text-align: right;
+}
+.alter {
+  width: 70%;
+  margin: 0 auto;
+  background: #f1f1f1;
+  padding: 10px;
+  height: 60px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+.alter span {
+  color: #225af6;
+  cursor: pointer;
+}
+.blue {
+  background: #dbdbdb;
+}
+.shibtns {
+  cursor: pointer;
+  background: #2e7bee;
 }
 </style>
