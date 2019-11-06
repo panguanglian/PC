@@ -49,7 +49,7 @@
 export default {
   data() {
     return {
-      arr: ["账户登录", "扫码登录"],
+      arr: ["账户登录" ],//"扫码登录"
       arrnum: 0,
       username: "",
       password:'',
