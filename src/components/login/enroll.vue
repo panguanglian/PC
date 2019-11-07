@@ -101,7 +101,7 @@ export default {
                message:'注册'+res.data.msg+'',
                type:'success'
              })
-             this.$router.push({name:'home'})
+             this.$router.push({name:'Choiceoption'})
            }else if(res.data.code==233){
               this.$message({
                message:''+res.data.msg+'',

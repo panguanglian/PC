@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="color">
-      <img src="../../assets/logo.png" />
+      <img src="../../assets/tu.png" />
       <span>商家后台管理</span>
     </div>
     <div class="divbox">
       <p class="optionhang">请选择您经营的行业</p>
 
       <div class="optioninfo">
-          <router-link v-for="(item,index) in arr" :key="index"  tag="div" class="items" :class="index==current?'active':''" to="" @mouseenter="enter(index)" @mouseleave="leave()" >
+          <router-link v-for="(item,index) in arr" :key="index"  tag="div" class="items" :class="index==current?'active':''" :to="item.url"  >
             <img :src="item.img">
             <p >{{item.title}}</p>
           </router-link>
@@ -24,13 +24,13 @@ export default {
     return {
       current:0,
       arr:[
-          {img:'../../assets/logo.png',title:'美食'},
-          {img:'../../assets/logo.png',title:'百货购物'},
-          {img:'../../assets/logo.png',title:'酒店住宿'},
-          {img:'../../assets/logo.png',title:'旅游景点'},
-          {img:'../../assets/logo.png',title:'休闲娱乐'},
-          {img:'../../assets/logo.png',title:'生活服务'},
-          {img:'../../assets/logo.png',title:'厂商联盟'},
+          {img:require('../../assets/bai.png'),title:'百货购物',url:'/home'},
+          // {img:'../../assets/logo.png',title:'美食'},
+          // {img:'../../assets/logo.png',title:'酒店住宿'},
+          // {img:'../../assets/logo.png',title:'旅游景点'},
+          // {img:'../../assets/logo.png',title:'休闲娱乐'},
+          // {img:'../../assets/logo.png',title:'生活服务'},
+          // {img:'../../assets/logo.png',title:'厂商联盟'},
       ]
     };
   },
@@ -38,20 +38,20 @@ export default {
       
   },
   methods: {
-    enter(index){
-    this.current = index;
-   },
-   leave(){
-    this.current = null;
-   }
+  //   enter(index){
+  //   this.current = index;
+  //  },
+  //  leave(){
+  //   this.current = null;
+  //  }
       
   }
 };
 </script>
 <style  scoped>
 .items img{
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
 }
 .items{
     width: 150px;
@@ -67,6 +67,7 @@ export default {
 .items p{
     text-align: center;
     width: 100%;
+    font-size: 20px;
 }
 .items.active{
     box-shadow: 5px 5px 15px #73A8F6;
@@ -106,8 +107,9 @@ export default {
   font-weight: bold;
 }
 .color img {
-  width: 50px;
-  height: 50px;
+  width: 150px;
+  height: 70px;
+  margin-right:10px;
 }
 .divbox {
   height: 600px;
