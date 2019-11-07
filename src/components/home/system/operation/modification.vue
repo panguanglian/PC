@@ -58,7 +58,8 @@
                     v-for="(items,sum) in item.specValueList"
                     :key="sum"
                     :label="items.spValueName"
-                    @change="format($event,index,sum)"
+                    @change="format($event,index,sum,items)"
+                    :value="items"
                   ></el-checkbox>
                 </el-checkbox-group>
               </div>
@@ -66,10 +67,11 @@
             </div>
           </div>
         </div>
-        <div class="variety" v-if="configuration==''?false:true">
+        <div class="variety" v-if="gathertype.length==0?false:true">
           <div class="title">库存配置</div>
           <div>
-            <div class="deploy">
+           <div class="encircle">
+              <div class="deploy">
               <div>
                 <div v-for="(item,index) in genre" :key="index">{{item.spName}}</div>
                 <div>价格</div>
@@ -82,38 +84,36 @@
                 <div>体积(L)</div>
                 <div>是否开启</div>
               </div>
-              <div class="deployinput" v-for="(item,index) in configuration" :key="index">
-                <!-- <div v-for="(items,inde) in item" :key="inde">{{items}}</div> -->
-                <div v-if="genre.length==1?false : true">{{item[0]}}</div>
-                <div v-if="genre.length==1?false : true">{{item[1]}}</div>
-                <div v-if="genre.length==1?true : false">{{item[0]}}</div>
+              <div class="deployinput" v-for="(item,index) in gathertype" :key="index">
+                <div v-for="(items,index) in item[0]" :key="index">{{items[1]}}</div>
                 <div class="inp">
-                  <input type="text" v-model="item[2].specGoodsPrice" />
+                  <input type="text" v-model="item[1].price" @blur.prevent="changeCount()"/>
                 </div>
                 <div class="inp">
-                  <input type="text" v-model="item[2].specGoodsVipPrice" />
+                  <input type="text" v-model="item[1].member" @blur.prevent="changeCount()"/>
                 </div>
                 <div class="inp">
-                  <input type="text" v-model="item[2].specGoodsPurchasePrice" />
+                  <input type="text" v-model="item[1].specGoodsPurchasePrice" @blur.prevent="changeCount()"/>
                 </div>
                 <div class="inp">
-                  <input type="text" v-model="item[2].commission" />
+                  <input type="text" v-model="item[1].commission" @blur.prevent="changeCount()"/>
                 </div>
                 <div class="inp">
-                  <input type="text" v-model="item[2].specGoodsStorage" @change="isInventory(item)" />
+                  <input type="text" v-model="item[1].inventory" @change="isInventory(item)" @blur.prevent="changeCount()"/>
                 </div>
                 <div class="inp">
-                  <input type="text" v-model="item[2].specGoodsSerial" />
+                  <input type="text" v-model="item[1].mark" @blur.prevent="changeCount()"/>
                 </div>
                 <div class="inp">
-                  <input type="text" v-model="item[2].weight" />
+                  <input type="text" v-model="item[1].weight" @blur.prevent="changeCount()"/>
                 </div>
                 <div class="inp">
-                  <input type="text" v-model="item[2].volume" />
+                  <input type="text" v-model="item[1].bulk" @blur.prevent="changeCount()"/>
                 </div>
-                <el-checkbox v-model="item[2].specIsOpen">开启规格</el-checkbox>
+                <el-checkbox v-model="item[1].open">开启规格</el-checkbox>  
               </div>
             </div>
+           </div>
           </div>
         </div>
 
@@ -534,6 +534,10 @@ export default {
     return {
       // 1
       //2
+      totaltype: [],
+      gathertype: [],
+      typeNameId: [],
+       saveInfo:[],
       input: "",
       oneHue: "",
       twoHue: "",
@@ -711,6 +715,8 @@ export default {
       _this.genre = res.data.data.specs;
       for (var i = 0; i < _this.genre.length; i++) {
         _this.checkList.push({ value: [] });
+        _this.totaltype.push([]); //总类型
+        _this.typeNameId.push([]); //总信息
       }
 
       _this.original = res.data.data.goods;
@@ -750,20 +756,51 @@ export default {
       for (var i = 0; i < this.genre.length; i++) {
         for (var j = 0; j < this.genre[i].specValueList.length; j++) {
           if (this.genre[i].specValueList[j].checked == true) {
-            //   console.log(this.genre[i].specValueList[j])
-            //   console.log(this.checkList[i])
-            this.checkList[i].value.push(
-              this.genre[i].specValueList[j].spValueName
-            );
-            if (i == 0) {
-              this.typeAs.push(this.genre[0].specValueList[j].spValueName);
-            } else {
-              this.typeBs.push(this.genre[1].specValueList[j].spValueName);
-            }
-            //   console.log(this.typeAs,this.typeBs)
+              // console.log(this.genre[i].specValueList[j].spValueName)
+              // console.log(this.checkList[i].value)
+              this.checkList[i].value.push(this.genre[i].specValueList[j].spValueName)
+               this.typeNameId[i].push([
+          this.genre[i].specValueList[j].spValueId,
+          this.genre[i].specValueList[j].spValueName,
+        ]);
+        
           }
         }
       }
+      //
+      //
+      //
+      function serialArray(arr) {
+        var lengthArr = [];
+        var productArr = [];
+        var result = [];
+        var length = 1;
+        for (var i = 0; i < arr.length; i++) {
+          var len = arr[i].length;
+          lengthArr.push(len);
+          // console.log(lengthArr)
+          var product = i === 0 ? 1 : arr[i - 1].length * productArr[i - 1];
+          productArr.push(product);
+          // console.log(productArr)
+          length *= len;
+        }
+        for (var i = 0; i < length; i++) {
+          var resultItem = [];
+          for (var j = 0; j < arr.length; j++) {
+            resultItem.push(
+              arr[j][Math.floor(i / productArr[j]) % lengthArr[j]]
+            );
+          }
+
+          result.push(resultItem);
+          // console.log(result);
+        }
+        return result;
+      }
+      //
+      //
+      //
+      
       this.appimg = _this.original.goodsBody.split(",");
       let opers = res.data.data.packagingVoList;
       for (var item in opers) {
@@ -788,46 +825,32 @@ export default {
       this.isimg = _this.original.goodsImageMore.split(",");
 
       _this.town = res.data.data.areas;
-      //   console.log(res.data.data.goodsSpecs);
+        console.log(res.data.data.goodsSpecs);
+      var goodsSpecs=res.data.data.goodsSpecs
       var substitute = [];
-      for (var i = 0; i < res.data.data.goodsSpecs.length; i++) {
+      var key = serialArray(this.typeNameId);
+      for (var i = 0; i < key.length; i++) {
         var gkd = JSON.parse(res.data.data.goodsSpecs[i].specGoodsSpec);
-
-        if (this.checkList.length > 1) {
-          for (var x = 0; x < this.checkList[0].value.length; x++) {
-            for (var j = 0; j < this.checkList[1].value.length; j++) {
-              let key = this.checkList[0].value[x] + this.checkList[1].value[j];
-              if (this.skuMapping.hasKey(key)) {
-                continue;
-              }
-
-              this.skuMapping.add(key, [
-                this.checkList[0].value[x],
-                this.checkList[1].value[j],
-                res.data.data.goodsSpecs[i]
-              ]);
-            }
-          }
-        } else {
-          for (var x = 0; x < this.checkList[0].value.length; x++) {
-            let key = this.checkList[0].value[x];
-            if (this.skuMapping.hasKey(key)) {
-              continue;
-            }
-            this.skuMapping.add(key, [
-              this.checkList[0].value[x],
-              {},
-              res.data.data.goodsSpecs[i]
-            ]);
-          }
-        }
-
-        //   substitute.push([this.checkList[0].value[i],this.checkList[1].value[i],res.data.data.goodsSpecs[i]])
+        // this.gathertype.push()
+       console.log(gkd,1)
+      
+        this.gathertype[i] = [key[i],{
+            price: goodsSpecs[i].specGoodsPrice,
+            member: goodsSpecs[i].specGoodsVipPrice,
+            specGoodsPurchasePrice: goodsSpecs[i].specGoodsPurchasePrice,
+            commission: goodsSpecs[i].commission,
+            inventory: goodsSpecs[i].specGoodsStorage,
+            mark: goodsSpecs[i].specGoodsSerial,
+            weight: goodsSpecs[i].weight,
+            bulk: goodsSpecs[i].volume,
+            open: true
+          }];
+       
       }
-      //   console.log(this.checkList)
-      //   console.log(this.skuMapping.converList())
+         console.log( this.gathertype)
+         this.saveInfo=this.gathertype
       _this.configuration = this.skuMapping.converList();
-      //   console.log(_this.configuration)
+
       _this.former();
     });
     // this.axios({
@@ -1185,6 +1208,9 @@ export default {
       }).then(res => {
         console.log(res);
         _this.list = res.data.data;
+        _this.gathertype=[]
+        _this.saveInfo=[]
+        
       });
       //   this.$router.push({ name: "shipments" });
       this.dialogVisible = true;
@@ -1244,9 +1270,14 @@ export default {
           if (res.data.code == 0) {
             _this.typeId = res.data.data.typeId;
             _this.genre = res.data.data.specs;
+            console.log(_this.genre)
             _this.checkList = [];
+            _this.totaltype=[];
+            _this.typeNameId=[]
             for (var i = 0; i < _this.genre.length; i++) {
               _this.checkList.push({ value: [] });
+              _this.totaltype.push([]); //总类型
+        _this.typeNameId.push([]); //总信息
             }
             _this.dialogVisible = false;
             _this.gsName = this.information[0].twoList;
@@ -1295,104 +1326,141 @@ export default {
       this.cityId = selVal.areaId;
       this.cityName = selVal.areaName;
     },
-    format(e, index, sum) {
-      let clickTarget = this.genre[index].specValueList[sum];
-      //库存配置
-      if (this.genre.length < 2) {
-        if (e == false) {
-          let removeKey = clickTarget.spValueName;
-          this.typeAs = this.checkList[index].value;
-          if (this.typeAs.length == 0) {
-            this.skuMapping.clear();
-          } else {
-            this.skuMapping.removePrefix(removeKey);
-          }
-        } else {
-          this.typeAs = this.checkList[index].value;
-          for (var i = 0; i < this.typeAs.length; i++) {
-            let key = this.typeAs[i];
-            if (this.skuMapping.hasKey(key)) {
-              continue;
-            }
-            this.skuMapping.add(key, [
-              this.typeAs[i],
-              {},
-              {
-                specGoodsPrice: "",
-                specGoodsVipPrice: "",
-                specGoodsPurchasePrice: "",
-                commission: "",
-                specGoodsStorage: "0",
-                specGoodsSerial: "",
-                weight: "",
-                volume: "",
-                specIsOpen: true
-              }
-            ]);
-          }
+     changeCount(){
+      this.saveInfo=this.gathertype//飞雷神
+      
+    },
+    format(e, index, sum,items) {
+     let clickTarget = this.genre[index].specValueList[sum];
+      //数组排列组合
+      function serialArray(arr) {
+        var lengthArr = [];
+        var productArr = [];
+        var result = [];
+        var length = 1;
+        for (var i = 0; i < arr.length; i++) {
+          var len = arr[i].length;
+          lengthArr.push(len);
+          // console.log(lengthArr)
+          var product = i === 0 ? 1 : arr[i - 1].length * productArr[i - 1];
+          productArr.push(product);
+          // console.log(productArr)
+          length *= len;
         }
-      } else {
-        if (e == false) {
-          // 需要删除的key前缀
-          let removeKey = clickTarget.spValueName;
-          if (index == 0) {
-            this.typeAs = this.checkList[index].value;
-            if (this.typeAs.length == 0) {
-              this.skuMapping.clear();
-            } else {
-              this.skuMapping.removePrefix(removeKey);
-            }
-          } else {
-            this.typeBs = this.checkList[index].value;
-            if (this.typeBs.length == 0) {
-              this.skuMapping.clear();
-            } else {
-              this.skuMapping.removeSuffix(removeKey);
-            }
+        for (var i = 0; i < length; i++) {
+          var resultItem = [];
+          for (var j = 0; j < arr.length; j++) {
+            resultItem.push(
+              arr[j][Math.floor(i / productArr[j]) % lengthArr[j]]
+            );
           }
-        } else {
-          if (index == 0) {
-            this.typeAs = this.checkList[index].value;
-          } else {
-            this.typeBs = this.checkList[index].value;
-          }
-          for (var i = 0; i < this.typeAs.length; i++) {
-            for (var j = 0; j < this.typeBs.length; j++) {
-              let key = this.typeAs[i] + this.typeBs[j];
-              if (this.skuMapping.hasKey(key)) {
-                continue;
-              }
 
-              this.skuMapping.add(key, [
-                this.typeAs[i],
-                this.typeBs[j],
-                {
-                  specGoodsPrice: "",
-                  specGoodsVipPrice: "",
-                  specGoodsPurchasePrice: "",
-                  commission: "",
-                  specGoodsStorage: "0",
-                  specGoodsSerial: "",
-                  weight: "",
-                  volume: "",
-                  specIsOpen: true
-                }
-              ]);
-            }
-          }
+          result.push(resultItem);
+          // console.log(result);
         }
+        return result;
       }
-      this.configuration = this.pitchon = this.skuMapping.converList();
-      //   console.log(this.configuration);
-      //   console.log(this.genre);
-      var goodsSpecId = this.genre[index].spId;
-      var spValueId = clickTarget.spValueId;
-      var spValueName = clickTarget.spValueName;
+      //数组排列组合
+      //重构
+      if (e == false) {//飞雷神
+        this.gathertype = [];
+        // console.log(1)
+        this.totaltype[index] = this.checkList[index].value;
+        console.log(this.saveInfo)
+        for (var i = 0; i < this.typeNameId[index].length; i++) {
+          // console.log(this.typeNameId[index][i][0],items.spValueId)
+          if (this.typeNameId[index][i][0] == items.spValueId) {
+            // console.log(i)
+            this.typeNameId[index].splice(i, 1);
+          }
+        }
+        // console.log(this.saveInfo[index][0][0][0])
+        for(var j=0;j<this.saveInfo.length;j++){
+          if(this.saveInfo[j][0][index][0]==items.spValueId){
+            console.log(j)
+            this.saveInfo.splice(j, 1);
+            console.log(this.saveInfo)
+          }
+        }
+        // console.log(this.typeNameId)
+        var key = serialArray(this.typeNameId);
+        for (var i = 0; i < key.length; i++) {
+         if(this.saveInfo==''){//判断是否填写过
+              this.gathertype[i] = [key[i],{
+            price: "",
+            member: "",
+            specGoodsPurchasePrice: "",
+            commission: "",
+            inventory: "0",
+            mark: "",
+            weight: "",
+            bulk: "",
+            open: true
+          }];
+        }else{
+          console.log(this.saveInfo[i])
+          this.gathertype[i] = [key[i],{
+            price: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].price,
+            member: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].member,
+            specGoodsPurchasePrice: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].specGoodsPurchasePrice,
+            commission: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].commission,
+            inventory: this.saveInfo[i]==undefined? '0':this.saveInfo[i][1].inventory,
+            mark: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].mark,
+            weight: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].weight,
+            bulk: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].bulk,
+            open: true
+          }];
+        }
+        }
+        console.log(this.gathertype);
+      } else {
+        this.gathertype = [];
+        // console.log(e, index, sum);
+        this.totaltype[index] = this.checkList[index].value;
+        console.log(this.totaltype)
+        this.typeNameId[index].push([
+          items.spValueId,
+          items.spValueName,
+        ]);
 
-      //   console.log(goodsSpecId);
-      // for(var i=0;i<this.genre.length;i++){
-
-      // }
+        console.log(serialArray(this.typeNameId));
+        var key = serialArray(this.typeNameId);
+        // console.log(key)
+        
+        for (var i = 0; i < key.length; i++) {
+            if(this.saveInfo==''){//判断是否填写过
+              this.gathertype[i] = [key[i],{
+            price: "",
+            member: "",
+            specGoodsPurchasePrice: "",
+            commission: "",
+            inventory: "0",
+            mark: "",
+            weight: "",
+            bulk: "",
+            open: true
+          }];
+        }else{
+          console.log(this.saveInfo[i])
+          this.gathertype[i] = [key[i],{
+            price: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].price,
+            member: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].member,
+            specGoodsPurchasePrice: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].specGoodsPurchasePrice,
+            commission: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].commission,
+            inventory: this.saveInfo[i]==undefined? '0':this.saveInfo[i][1].inventory,
+            mark: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].mark,
+            weight: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].weight,
+            bulk: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].bulk,
+            open: true
+          }];
+        }
+        
+          
+        }
+        
+        
+        console.log(this.gathertype);
+      }
     },
     publishEvent() {
       // console.log(this.publish);
@@ -1403,17 +1471,17 @@ export default {
       }
     },
     leave() {
-      var a = 0;
-      if (this.configuration.length == 0) {
+     var a = 0;
+      if (this.gathertype.length == 0) {
       } else {
-        this.configuration.forEach(item => {
-          a = a + parseInt(item[2].specGoodsStorage);
+        this.gathertype.forEach(item => {
+          a = a + parseInt(item[1].inventory);
         });
       }
 
       this.goodsTotalStorage = a;
     },
-    getGoodsSpec() {
+  getGoodsSpec() {
       let that = this;
       // let goodsSpec = [];
       let goodsSpec = {};
@@ -1426,16 +1494,20 @@ export default {
           }
           spValue[subItem.spValueId] = subItem.spValueName;
         });
+
         let spData = {};
         goodsSpec[item.spId] = spValue;
+
         // goodsSpec.push(spData);
         // goodsSpec[item.spId] = spData;
       });
+
       return JSON.stringify(goodsSpec);
     },
     getGoodsSpecJson() {
       let that = this;
       let cache = [];
+      var shuju = [];
       this.checkList.forEach(function(item, index) {
         cache[index] = that.initMapObject();
         let checkVal = item.value;
@@ -1447,51 +1519,57 @@ export default {
           tmp[subItem.spValueId] = subItem.spValueName;
           cache[index].add(subItem.spValueId, tmp);
         });
+
+        shuju.push(cache[index].cache);
+        //  console.log(cache[index].cache)
       });
-      let _tmp = that.initMapObject();
-      if (cache.length >= 2) {
-        cache[0].converList().forEach(function(item) {
-          cache[1].converList().forEach(function(subItem) {
-            let keyVal0 = that.getObjectAttr(item, 0);
-            let keyVal1 = that.getObjectAttr(subItem, 0);
-            let obj = {};
-            obj[keyVal0[0]] = keyVal0[1];
-            obj[keyVal1[0]] = keyVal1[1];
-            _tmp.add(keyVal0[1] + keyVal1[1], JSON.stringify(obj));
-          });
-        });
-      } else if (cache.length == 1) {
-        cache[0].converList().forEach(function(item) {
-          let keyVal0 = that.getObjectAttr(item, 0);
-          _tmp.add(keyVal0[1], JSON.stringify(item));
-        });
-      }
+
+      console.log(shuju);
+      console.log(this.typeNameId);
+
       let specNameObject = {};
       that.genre.forEach(function(item, index) {
         specNameObject[item.spId] = item.spName;
       });
       let specName = JSON.stringify(specNameObject);
       that.specName = specName;
+      console.info("===>" + specName);
+
       let result = [];
-      this.skuMapping.converList().forEach(function(item) {
-        let key = item[0] + item[1];
-        let specGoodsSpec = _tmp.getValue(key);
+      this.gathertype.forEach(function(item, index) {
+        let specGoodsSpecObject = {};
+        item[0].forEach(function(goodSpecItem) {
+          // goodSpecItem.forEach(function(subGoodSpecItem) {
+            specGoodsSpecObject[goodSpecItem[0]] = goodSpecItem[1];
+          // });
+         
+        });
+       
+        // that.typeNameId[index].forEach(function(item) {
+        //   specGoodsSpecObject[item[0]] = item[1];
+        // });
+        console.info(
+          "specGoodsSpecObject===>" + JSON.stringify(specGoodsSpecObject)
+        );
+        let specName = JSON.stringify(specNameObject);
+        console.info("specName===>" + specName);
         result.push({
           specName: specName,
-          specGoodsPrice: item[2].specGoodsPrice,
-          specGoodsVipPrice: item[2].specGoodsVipPrice,
-          specGoodsPurchasePrice: item[2].specGoodsPurchasePrice,
-          commission: item[2].commission,
-          specGoodsSerial: item[2].specGoodsSerial,
-          weight: item[2].weight,
-          volume: item[2].volume,
-          specGoodsStorage: item[2].specGoodsStorage,
-          specGoodsSpec: specGoodsSpec,
-          specIsOpen: item[2].specIsOpen ? "1" : "0"
+          specGoodsPrice: item[1].price,
+          specGoodsVipPrice:  item[1].member,
+          specGoodsPurchasePrice:  item[1].specGoodsPurchasePrice,
+          commission:  item[1].commission,
+          specGoodsSerial:  item[1].mark,
+          weight:  item[1].weight,
+          volume:  item[1].bulk,
+          specGoodsStorage:  item[1].inventory,
+          specGoodsSpec: JSON.stringify(specGoodsSpecObject),
+          specIsOpen:  item[1].open ? "1" : "0"
         });
       });
       return JSON.stringify(result);
-    },
+
+ },
     getObjectAttr(obj, index) {
       let currentIndex = 0;
       for (var arr in obj) {
@@ -1502,8 +1580,8 @@ export default {
       }
     },
     isInventory(item) {
-      if (item[2].specGoodsStorage == "") {
-        item[2].specGoodsStorage = 0;
+       if (item[1].inventory == "") {
+        item[1].inventory = 0;
       }
       this.leave();
     },
@@ -1557,64 +1635,64 @@ export default {
           message: "商品副标题不符合规范",
           type: "warning"
         });
-      } else if (this.configuration == "") {
+      } else if (this.gathertype == "") {
         this.$message({
           message: "必须添加一条规格，否则在前台不显示",
           type: "warning"
         });
       } else {
         let isSubmit = true;
-        for (var i = 0; i < this.configuration.length; i++) {
-          if (this.configuration[i][2].specGoodsPrice == "") {
+        for (var i = 0; i < this.gathertype.length; i++) {
+          if (this.gathertype[i][1].price == "") {
             this.$message({
               message: "还有价格未填写",
               type: "warning"
             });
             isSubmit = false;
             break;
-          } else if (this.configuration[i][2].specGoodsVipPrice == "") {
+          } else if (this.gathertype[i][1].member == "") {
             this.$message({
               message: "还有会员价格未填写",
               type: "warning"
             });
             isSubmit = false;
             break;
-          } else if (this.configuration[i][2].specGoodsPurchasePrice == "") {
+          } else if (this.gathertype[i][1].specGoodsPurchasePrice == "") {
             this.$message({
               message: "还有进货价格未填写",
               type: "warning"
             });
             isSubmit = false;
             break;
-          } else if (this.configuration[i][2].commission == "") {
+          } else if (this.gathertype[i][1].commission == "") {
             this.$message({
               message: "还有提成未填写",
               type: "warning"
             });
             isSubmit = false;
             break;
-          } else if (this.configuration[i][2].specGoodsStorage == "") {
+          } else if (this.gathertype[i][1].inventory == "") {
             this.$message({
               message: "还有库存未填写",
               type: "warning"
             });
             isSubmit = false;
             break;
-          } else if (this.configuration[i][2].specGoodsSerial == "") {
+          } else if (this.gathertype[i][1].mark == "") {
             this.$message({
               message: "还有商品货号未填写",
               type: "warning"
             });
             isSubmit = false;
             break;
-          } else if (this.configuration[i][2].weight == "") {
+          } else if (this.gathertype[i][1].weight == "") {
             this.$message({
               message: "还有重量未填写",
               type: "warning"
             });
             isSubmit = false;
             break;
-          } else if (this.configuration[i][2].volume == "") {
+          } else if (this.gathertype[i][1].bulk == "") {
             this.$message({
               message: "还有体积未填写",
               type: "warning"
@@ -2111,12 +2189,17 @@ export default {
   padding: 10px;
   border-radius: 5px;
 }
+.encircle{
+  width: 1500px;
+  overflow:scroll;
+  height: 200px;
+}
 .deployinput {
   border-top: 1px solid #dddddd;
   padding-top: 10px;
 }
 .deploy > div {
-  /* display: flex; */
+  display: flex;
   margin-top: 10px;
 }
 .deploy > div div {
@@ -2296,4 +2379,5 @@ export default {
   cursor: pointer;
   background: #2e7bee;
 }
+
 </style>

@@ -2,7 +2,7 @@
   <div class="navWeb">
     <!-- 查询搜索 -->
     <div>
-      <el-input placeholder="请输入查询发货" v-model="searchvalue" style="width:20%;min-width:150px;">
+      <el-input placeholder="可根据商品名称查询" v-model="searchvalue" style="width:20%;min-width:150px;">
         <i slot="prefix" class="el-input__icon el-icon-search"></i>
       </el-input>
       <el-button type="primary" icon="el-icon-search" @click="sreach">搜索</el-button>
