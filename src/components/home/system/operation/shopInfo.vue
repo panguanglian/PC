@@ -4,7 +4,7 @@
       <div class="head">商品基本信息</div>
       <div class="lists">
         <div class="variety">
-          <div>商品分类:</div>
+          <div class="title">商品分类:</div>
           <div v-if="classification==''?false : true">{{classification[0].twoList}}</div>
           <div class="amend" @click="amend">修改分类</div>
         </div>
