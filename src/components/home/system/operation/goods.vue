@@ -54,13 +54,15 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
+              type="primary"
               @click="handleEdit(scope.$index, scope.row)"
-              v-if="activeName=='first'?true:false"
+              v-if="activeName=='first'?true:(activeName=='second'?true:false)"
             >编辑</el-button>
             <el-button
               size="mini"
               type="danger"
               @click="handleDelete(scope.$index, scope.row)"
+              v-if="activeName=='second'?false:true"
             >{{activeName == "first" ? '下架' : '上架'}}</el-button>
             <el-button
               size="mini"

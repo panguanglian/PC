@@ -2008,9 +2008,9 @@ export default {
   top: 5px;
   right: 5px;
   text-align: center;
-  line-height: 15px;
+  line-height: 14px;
   font-size: 12px;
-  color: #777777;
+  color:white;
 }
 
 .add_img {

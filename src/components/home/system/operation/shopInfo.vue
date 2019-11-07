@@ -43,7 +43,7 @@
           <div>
             <div>
               <el-radio v-model="isCartRecommend" label="1">是</el-radio>
-              <el-radio v-model="isCartRecommend" label="2">否</el-radio>
+              <el-radio v-model="isCartRecommend" label="0">否</el-radio>
             </div>
           </div>
         </div>
@@ -1771,9 +1771,9 @@ export default {
   top: 5px;
   right: 5px;
   text-align: center;
-  line-height: 15px;
+  line-height: 14px;
   font-size: 12px;
-  color: #777777;
+  color: white;
 }
 
 .add_img {
