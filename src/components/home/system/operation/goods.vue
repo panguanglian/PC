@@ -13,12 +13,12 @@
           :value="item"
         ></el-option>
       </el-select>
-      <el-select v-model="classTwo" placeholder="请选择" clearable class="leSelect" @change="chooseTwo(classTwo)">
+      <el-select v-model="classTwo" placeholder="请选择" clearable class="leSelect" value-key="gcId" @change="chooseTwo">
         <el-option
           v-for="item in optionsTwo"
           :key="item.gcId"
           :label="item.gcName"
-          :value="item.gcId"
+          :value="item"
         ></el-option>
       </el-select>
       <el-button type="primary" icon="el-icon-search" @click="sreach">搜索</el-button>
@@ -119,7 +119,7 @@ export default {
       sreachs: false,
       totals: 0,
       pageNo: "1",
-      gcId: "",
+      gcId: "0",
       brandId:'',
       goodsName: "",
       goodsSerial: "",
@@ -135,6 +135,7 @@ export default {
       classTwo:[],
       optionsOne:[],
       optionsTwo:[],
+      gcBigId:'0',
     };
   },
   created() {},
@@ -163,7 +164,7 @@ export default {
       params.append("goodsSerial", _this.goodsSerial);
       params.append("storeId", _this.storeId);
       params.append("brandId",_this.brandId)
-
+      params.append('gcBigId',_this.gcBigId)
       this.axios({
         method: "post",
         url: "/merchant/goods/",
@@ -281,14 +282,24 @@ export default {
       console.log(row.goodsId);
     },
     choose(selVal){
-     
-      this.optionsTwo=selVal.classList
-      this.gcId=selVal.gcId
-      console.log(this.gcId)
+    //  console.log(selVal)
+    this.optionsTwo=selVal.classList
+    if(selVal.gcId==undefined){
+        this.gcBigId=0
+      }else{
+         this.gcBigId=selVal.gcId
+      }
     },
-    chooseTwo(optionsTwo){
-      console.log(optionsTwo)
-      this.gcId=optionsTwo
+    chooseTwo(selVal){
+      console.log(selVal.gcId)
+     
+      if(selVal.gcId==undefined){
+        this.gcId=0
+        console.log(this.gcId)
+      }else{
+         this.gcId=selVal.gcId
+      }
+      
     }
   }
 };

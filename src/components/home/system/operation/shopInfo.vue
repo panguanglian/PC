@@ -566,6 +566,10 @@ export default {
       }
     };
   },
+   beforeDestroy() {
+    this.$refs.ueditor.ueDestoryed();
+    this.$refs.ueditorDesc.ueDestoryed();
+  },
 
   mounted() {
     this.classification = JSON.parse(sessionStorage.getItem("genre"));
