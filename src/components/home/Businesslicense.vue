@@ -96,6 +96,26 @@
               </div>
               </div>  
           </div>
+          <div class="TableInput">
+            <div class="TableName">
+            
+            <p><span>*</span>是否为服务商</p>
+            </div>
+            <div class="subian">
+            <template>
+              <el-radio v-model="radios" label="1">是</el-radio>
+              <el-radio v-model="radios" label="0">否</el-radio>
+            </template>
+            </div>
+          </div>
+          <div class="TableInput">
+            <div class="TableName">
+            <p>备注</p>
+            </div>
+            <template>
+              <input type="text" placeholder="请输入请输入备注信息" v-model="Tips">
+            </template>
+          </div>
         </div>
 
     <!-- 营业执照信息 -->
@@ -201,6 +221,8 @@ export default {
         onesrcurl:'',//身份证正面照url 
         trwosrcurl:'',//身份证背面照url
         strwisrcurl:'',//营业执照url
+        radios:'1',//是否为服务商
+        Tips:'',//备注
         numid:'',
     }
   },
@@ -256,6 +278,8 @@ export default {
                 params.append('realname',this.name);
                 params.append('shopname',this.shopName);
                 params.append('businesslicensenumber',this.resourcenumber);
+                params.append('serviceProviderOrNot',this.radios);
+                params.append('remarks',this.Tips);
                   // console.log(this.numid)
                 if(!this.numid){
                     // console.log(1)
@@ -329,7 +353,8 @@ export default {
                 params.append('realname',this.name);
                 params.append('shopname',this.shopName);
                 params.append('businesslicensenumber',this.resourcenumber);
-                
+                params.append('serviceProviderOrNot',this.radios);
+                params.append('remarks',this.Tips);
                 if(!this.numid){
                     this.axios({
                       method:'post',
@@ -403,6 +428,8 @@ export default {
                 params.append('realname',this.name);
                 params.append('shopname',this.shopName);
                 params.append('businesslicensenumber',this.resourcenumber);
+                params.append('serviceProviderOrNot',this.radios);
+                params.append('remarks',this.Tips);
                 if(!this.numid){
                     this.axios({
                       method:'post',
@@ -473,6 +500,8 @@ export default {
                 params.append('realname',this.name);
                 params.append('shopname',this.shopName);
                 params.append('businesslicensenumber',this.resourcenumber);
+                params.append('serviceProviderOrNot',this.radios);
+                params.append('remarks',this.Tips);
                 if(!this.numid){
                     this.axios({
                       method:'post',
@@ -793,6 +822,10 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+    .subian{
+      margin-left: 10px;
+      width: 55%;
     }
    
 
