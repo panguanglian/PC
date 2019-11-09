@@ -2,9 +2,25 @@
   <div class="navWeb">
     <!-- 查询搜索 -->
     <div>
-      <el-input placeholder="请输入查询发货" v-model="searchvalue" style="width:20%;min-width:150px;">
+      <el-input placeholder="可根据商品名称查询" v-model="searchvalue" style="width:20%;min-width:150px;">
         <i slot="prefix" class="el-input__icon el-icon-search"></i>
       </el-input>
+      <el-select v-model="classOne" placeholder="请选择" class="leSelect" clearable value-key="gcId" @change="choose">
+        <el-option
+          v-for="item in optionsOne"
+          :key="item.gcId"
+          :label="item.gcName"
+          :value="item"
+        ></el-option>
+      </el-select>
+      <el-select v-model="classTwo" placeholder="请选择" clearable class="leSelect" value-key="gcId" @change="chooseTwo">
+        <el-option
+          v-for="item in optionsTwo"
+          :key="item.gcId"
+          :label="item.gcName"
+          :value="item"
+        ></el-option>
+      </el-select>
       <el-button type="primary" icon="el-icon-search" @click="sreach">搜索</el-button>
       <!-- <el-button @click="cancel" v-if="sreachs">取消搜索</el-button> -->
       <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -20,7 +36,7 @@
           <template>
            
           </template>
-        </el-table-column> -->
+        </el-table-column>-->
 
         <el-table-column label="商品名称" width="300">
           <template slot-scope="scope">
@@ -54,13 +70,15 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
+              type="primary"
               @click="handleEdit(scope.$index, scope.row)"
-              v-if="activeName=='first'?true:false"
+              v-if="activeName=='first'?true:(activeName=='second'?true:false)"
             >编辑</el-button>
             <el-button
               size="mini"
               type="danger"
               @click="handleDelete(scope.$index, scope.row)"
+              v-if="activeName=='second'?false:true"
             >{{activeName == "first" ? '下架' : '上架'}}</el-button>
             <el-button
               size="mini"
@@ -101,17 +119,23 @@ export default {
       sreachs: false,
       totals: 0,
       pageNo: "1",
-      gcId: "",
+      gcId: "0",
+      brandId:'',
       goodsName: "",
       goodsSerial: "",
       storeId: "",
       //选项框
-      goodsIdlength:[],
+      goodsIdlength: [],
       checkAll: false,
-      checkedCities: ['上海', '北京'],
+      checkedCities: ["上海", "北京"],
       // cities: cityOptions,
-      isIndeterminate: true
+      isIndeterminate: true,
       //选项框
+      classOne:[],
+      classTwo:[],
+      optionsOne:[],
+      optionsTwo:[],
+      gcBigId:'0',
     };
   },
   created() {},
@@ -139,7 +163,8 @@ export default {
       params.append("goodsName", _this.goodsName);
       params.append("goodsSerial", _this.goodsSerial);
       params.append("storeId", _this.storeId);
-
+      params.append("brandId",_this.brandId)
+      params.append('gcBigId',_this.gcBigId)
       this.axios({
         method: "post",
         url: "/merchant/goods/",
@@ -149,13 +174,15 @@ export default {
         data: params
       }).then(res => {
         console.log(res.data.data);
+        console.log(res);
         _this.shoplift = res.data.data.rows;
         _this.totals = res.data.data.total;
-        _this.goodsIdlength=[];
-        _this.shoplift.forEach(function(item,index){
-          _this.goodsIdlength.push(item.goodsId)
-        })
-        console.log(_this.goodsIdlength)
+        _this.goodsIdlength = [];
+        _this.shoplift.forEach(function(item, index) {
+          _this.goodsIdlength.push(item.goodsId);
+        });
+        _this.optionsOne=res.data.data.classList
+        // console.log(_this.goodsIdlength);
       });
     },
     // 取消搜索
@@ -234,29 +261,46 @@ export default {
       }
       console.log(row.goodsId);
     },
-   handDelete(index, row){
-     var _this = this;
-   
-     this.axios({
-        method: "get",
-        url: "/merchant/goods/deleteGoods?id="+row.goodsId,
-       
-        data: {
+    handDelete(index, row) {
+      var _this = this;
 
-        }
+      this.axios({
+        method: "get",
+        url: "/merchant/goods/deleteGoods?id=" + row.goodsId,
+
+        data: {}
       }).then(res => {
         console.log(res);
-        if(res.data.code==0){
+        if (res.data.code == 0) {
           this.$message({
-                    message: "删除成功",
-                    type: "success"
-                  });
-                  this.reqursts();
+            message: "删除成功",
+            type: "success"
+          });
+          this.reqursts();
         }
       });
-     console.log(row.goodsId)
-   }
-    
+      console.log(row.goodsId);
+    },
+    choose(selVal){
+    //  console.log(selVal)
+    this.optionsTwo=selVal.classList
+    if(selVal.gcId==undefined){
+        this.gcBigId=0
+      }else{
+         this.gcBigId=selVal.gcId
+      }
+    },
+    chooseTwo(selVal){
+      console.log(selVal.gcId)
+     
+      if(selVal.gcId==undefined){
+        this.gcId=0
+        console.log(this.gcId)
+      }else{
+         this.gcId=selVal.gcId
+      }
+      
+    }
   }
 };
 </script>
@@ -269,5 +313,8 @@ export default {
 .block {
   position: absolute;
   bottom: 10px;
+}
+.leSelect{
+  width: 130px;
 }
 </style>

@@ -29,11 +29,11 @@
                 </div>
               </div>
             </div>
-            <div class="alter">
+            <!-- <div class="alter">
               找不到想要的分类？可
               <span>修改主营类目</span>或
               <span>一键开新店</span>
-            </div>
+            </div> -->
           </div>
           <div class="modity">
             <div class="comSeek">
@@ -262,7 +262,7 @@ export default {
 .comList {
   width: 75%;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 50px;
   height: 290px;
   overflow: auto;
   cursor: pointer;
