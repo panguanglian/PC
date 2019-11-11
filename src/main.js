@@ -11,8 +11,8 @@ import '../static/ueditor/lang/zh-cn/zh-cn.js'
 import '../static/ueditor/ueditor.parse.min'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/styles/iconfont.css'
-axios.defaults.baseURL = "http://192.168.10.243:8082/api/v1/";
-axios.interceptors.request.use( 
+
+axios.interceptors.request.use(
     config => {
       let token = localStorage.getItem("Access_token");
       if (token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
@@ -32,7 +32,7 @@ Vue.prototype.axios = axios;
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(r => r.meta.requireAuth)) {
-        if (localStorage.getItem("Access_token")) {  
+        if (localStorage.getItem("Access_token")) {
             next();
         }else {
             next({

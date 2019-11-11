@@ -8,11 +8,11 @@ module.exports = {
   dev: {
 
     // Paths
-    assetsSubDirectory: 'static', 
-    assetsPublicPath: '/',
+    assetsSubDirectory: 'static',
+    assetsPublicPath: '/merchant/',
     proxyTable: {
       "/":{
-        target:"http://192.168.10.179:8082/api/v1",
+        target:"http://192.168.10.179:8082/api/v1/",
         changeOrigin: true,
     	}
     },
@@ -25,7 +25,7 @@ module.exports = {
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */
@@ -44,26 +44,17 @@ module.exports = {
   build: {
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
-
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
-    proxyTable: {
-      '/': {
-           target: 'http://192.168.10.179:8082/api/v1',// 请换成你的地址
-           changeOrigin: true,
-          
-       },
-   },
-
+    assetsPublicPath: '/merchant/',
     /**
      * Source Maps
      */
 
     productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
-    devtool: '#source-map',
+    devtool: false,
 
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
@@ -76,6 +67,6 @@ module.exports = {
     // View the bundle analyzer report after build finishes:
     // `npm run build --report`
     // Set to `true` or `false` to always turn it on or off
-    bundleAnalyzerReport: process.env.npm_config_report
-  }
+    bundleAnalyzerReport: true
+  },
 }
