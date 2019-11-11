@@ -71,51 +71,60 @@
           <div class="title">库存配置</div>
           <div>
             <div class="encircle">
-            <div class="deploy">
-              <div>
-                <div v-for="(item,index) in genre" :key="index">{{item.spName}}</div>
-                <div>价格</div>
-                <div>会员价格</div>
-                <div>进货价格</div>
-                <div>提成</div>
-                <div>库存</div>
-                <div>商品货号</div>
-                <div>重量(kg)</div>
-                <div>体积(L)</div>
-                <div>是否开启</div>
-              </div>
+              <div class="deploy">
+                <div>
+                  <div v-for="(item,index) in genre" :key="index">{{item.spName}}</div>
+                  <div>价格</div>
+                  <div>会员价格</div>
+                  <div>进货价格</div>
+                  <div>提成</div>
+                  <div>库存</div>
+                  <div>商品货号</div>
+                  <div>重量(kg)</div>
+                  <div>体积(L)</div>
+                  <div>是否开启</div>
+                </div>
 
-              <div class="deployinput" v-for="(item,index) in gathertype" :key="index">
-                <div v-for="(items,index) in item[0]" :key="index">{{items[1]}}</div>
+                <div class="deployinput" v-for="(item,index) in gathertype" :key="index">
+                  <div v-for="(items,index) in item[0]" :key="index">{{items[1]}}</div>
 
-                <div class="inp">
-                  <input type="text" v-model="item[1].price" @blur.prevent="changeCount()" />
-                  <!-- 飞雷神 -->
+                  <div class="inp">
+                    <input type="text" v-model="item[1].price" @blur.prevent="changeCount()" />
+                    <!-- 飞雷神 -->
+                  </div>
+                  <div class="inp">
+                    <input type="text" v-model="item[1].member" @blur.prevent="changeCount()" />
+                  </div>
+                  <div class="inp">
+                    <input
+                      type="text"
+                      v-model="item[1].specGoodsPurchasePrice"
+                      @blur.prevent="changeCount()"
+                    />
+                  </div>
+                  <div class="inp">
+                    <input type="text" v-model="item[1].commission" @blur.prevent="changeCount()" />
+                  </div>
+                  <div class="inp">
+                    <input
+                      type="text"
+                      v-model="item[1].inventory"
+                      @change="isInventory(item)"
+                      @blur.prevent="changeCount()"
+                    />
+                  </div>
+                  <div class="inp">
+                    <input type="text" v-model="item[1].mark" @blur.prevent="changeCount()" />
+                  </div>
+                  <div class="inp">
+                    <input type="text" v-model="item[1].weight" @blur.prevent="changeCount()" />
+                  </div>
+                  <div class="inp">
+                    <input type="text" v-model="item[1].bulk" @blur.prevent="changeCount()" />
+                  </div>
+                  <el-checkbox v-model="item[1].open">开启规格</el-checkbox>
                 </div>
-                <div class="inp">
-                  <input type="text" v-model="item[1].member" @blur.prevent="changeCount()" />
-                </div>
-                <div class="inp">
-                  <input type="text" v-model="item[1].specGoodsPurchasePrice" @blur.prevent="changeCount()" />
-                </div>
-                <div class="inp">
-                  <input type="text" v-model="item[1].commission" @blur.prevent="changeCount()" />
-                </div>
-                <div class="inp">
-                  <input type="text" v-model="item[1].inventory" @change="isInventory(item)" @blur.prevent="changeCount()" />
-                </div>
-                <div class="inp">
-                  <input type="text" v-model="item[1].mark" @blur.prevent="changeCount()"/>
-                </div>
-                <div class="inp">
-                  <input type="text" v-model="item[1].weight" @blur.prevent="changeCount()"/>
-                </div>
-                <div class="inp">
-                  <input type="text" v-model="item[1].bulk" @blur.prevent="changeCount()"/>
-                </div>
-                <el-checkbox v-model="item[1].open">开启规格</el-checkbox>
               </div>
-            </div>
             </div>
           </div>
         </div>
@@ -423,70 +432,70 @@ export default {
     return {
       // 1
       //总类型
-      totaltype: [],
-      gathertype: [],
-      typeNameId: [],
-      testData:[],
-      saveInfo:[],//飞雷神
+      totaltype: [], //勾选的类型
+      gathertype: [], //库存配置的属性
+      typeNameId: [], //勾选的类型id和类型名称
+      saveInfo: [], //库存配置填写过的数据
       //总类型
-      abolish: [],
-      pitchon: [],
-      configuration: "",
-      skuMapping: new Map(),
-      num: "",
-      Version: [
-        //库存配置
-      ],
-      sub: "",
-      typeAs: [],
-      typeBs: [],
-      goodsIntegral: "",
-      shopName: "",
-      lengths: "0",
-      isIndeterminate: true,
+      //飞雷神
+      // abolish: [],
+      // pitchon: [],
+      // configuration: "",
+      // skuMapping: new Map(),
+      // num: "",
+      // Version: [
+      //   //库存配置
+      // ],
+      // sub: "",
+      // typeAs: [],
+      // typeBs: [],
+      goodsIntegral: "", //积分
+      // shopName: "",
+      // lengths: "0",
+      // isIndeterminate: true,
       goodsName: "", //商品名称
       goodsSubtitle: "", //商品副标题
       goodsStorePrice: "", //商品价格
       goodsStoreVipPrice: "", //商品会员价格
       checkList: [], //配件类型
-      isCartRecommend: "1",
+      isCartRecommend: "1", //是否推荐到购物车
       goodsTotalStorage: 0, //商品总库存
       serial: "", //商品货号
       imgList: [], //商品图片
       appimgList: [], //商品APP
-      appimg: [],
+      appimg: [], //app商品图片
       regionalAgentCommission: "", //区域代理提成(元)
       serviceProviderCommission: "", //服务商提成
-      second: "1",
-      presell: "1",
-      shoptime: "1",
+      // second: "1",
+      // presell: "1",
+      // shoptime: "1",
       goodsKeywordss: "", //关键字
-      ban: true,
-      invoice: true,
-      guarantee: true,
-      reimburse: true,
-      install: true,
-      change: true,
+      // ban: true,
+      // invoice: true,
+      // guarantee: true,
+      // reimburse: true,
+      // install: true,
+      // change: true,
       goodsStorePriceInterval: "", //区间价格
       // addfreight: false,
       //1
 
-      publishTimes: true,
+      publishTimes: true, //发布时间
       isbgblue: "",
       dialogVisible: false,
       deal: false,
       town: [],
-      district: [],
-      townValue: "",
-      districtValue: "",
-      speci: true,
-      isPopularize: "1",
-      operationPar: [{ name: "", value: "" }],
-      packAfter: [{ name: "", value: "" }],
+      district: [], //子地区列表v-
+      townValue: "", //市v-model的值
+      districtValue: "", //区v-model的值
+      // speci: true,
+      isPopularize: "1", //是否参与推广
+      operationPar: [{ name: "", value: "" }], //参数数组
+      packAfter: [{ name: "", value: "" }], //包装数组
       radio: "1",
       modGenre: "",
-      genre: [],
-      publish: "1",
+      genre: [], //库存分类列表
+      publish: "1", //发布时间选择
       isShare: "1",
       transportId: "0",
       goodsCommend: "0",
@@ -495,49 +504,49 @@ export default {
       oneCommission: "",
       specOpen: "1", //规格开关
       goodsPcServerBody: "", //PC商品售后保障描述
-      brandId: "",
-      brandName: "",
-      goodsColImg: "",
+      brandId: "", //品牌id
+      brandName: "", //品牌名称
+      // goodsColImg: "",
       fullFreeMail: "",
       goodsTransfeeCharge: "0", //商品运费承担方式 默认 0为买家承担 1为卖家承担
       cityName: "", //市
       cityId: "", //市id
       provinceId: "", //省id
       provinceName: "", //省
-      goodsBody: "",
-      volumes: "",
-      weights: "",
+      goodsBody: "", //库存管理拼接的数据
+      volumes: "", //体积
+      weights: "", //重量
       specName: "",
-      isimg: [],
-      saveType: "0",
-      modules: [
-        {
-          measure: "重量",
-          carriage: "申通快递",
-          site: "全国",
-          first: "1",
-          cost: "12",
-          extend: "1",
-          costs: "3",
-          wayL: "按摩棒"
-        },
-        {
-          measure: "重量",
-          carriage: "申通快递",
-          site: "全国",
-          first: "1",
-          cost: "12",
-          extend: "1",
-          costs: "3",
-          wayL: "耗材"
-        }
-      ],
+      isimg: [], //商品图片
+      saveType: "0", //提交类型：新增
+      // modules: [
+      //   {
+      //     measure: "重量",
+      //     carriage: "申通快递",
+      //     site: "全国",
+      //     first: "1",
+      //     cost: "12",
+      //     extend: "1",
+      //     costs: "3",
+      //     wayL: "按摩棒"
+      //   },
+      //   {
+      //     measure: "重量",
+      //     carriage: "申通快递",
+      //     site: "全国",
+      //     first: "1",
+      //     cost: "12",
+      //     extend: "1",
+      //     costs: "3",
+      //     wayL: "耗材"
+      //   }
+      // ],
 
-      addState: true,
-      addStateapp: true,
-      imgLen: 0,
-      addshow: "",
-      classification: "",
+      addState: true, //图片上传显示
+      addStateapp: true, //app图片上传显示
+      imgLen: 0, //
+      // addshow: "",
+      classification: "", //分类
       typeId: "",
       //富文本
 
@@ -566,7 +575,7 @@ export default {
       }
     };
   },
-   beforeDestroy() {
+  beforeDestroy() {
     this.$refs.ueditor.ueDestoryed();
     this.$refs.ueditorDesc.ueDestoryed();
   },
@@ -925,6 +934,7 @@ export default {
       this.provinceName = selVal.areaName;
 
       this.axios({
+        //查询子地区
         method: "get",
         url: "/merchant/goods/getChildArea?id=" + selVal.areaId,
         // headers: {
@@ -940,9 +950,8 @@ export default {
       this.cityId = selVal.areaId;
       this.cityName = selVal.areaName;
     },
-    changeCount(){
-      this.saveInfo=this.gathertype//飞雷神
-      
+    changeCount() {
+      this.saveInfo = this.gathertype; //飞雷神
     },
     format(e, index, sum, items) {
       let clickTarget = this.genre[index].specValueList[sum];
@@ -976,11 +985,12 @@ export default {
       }
       //数组排列组合
       //重构
-      if (e == false) {//飞雷神
+      if (e == false) {
+        //飞雷神
         this.gathertype = [];
         // console.log(1)
         this.totaltype[index] = this.checkList[index].value;
-        console.log(this.saveInfo)
+        console.log(this.saveInfo);
         for (var i = 0; i < this.typeNameId[index].length; i++) {
           // console.log(this.typeNameId[index][i][0],items.spValueId)
           if (this.typeNameId[index][i][0] == items.spValueId) {
@@ -989,89 +999,137 @@ export default {
           }
         }
         // console.log(this.saveInfo[index][0][0][0])
-        for(var j=0;j<this.saveInfo.length;j++){
-          if(this.saveInfo[j][0][index][0]==items.spValueId){
-            console.log(j)
+        for (var j = 0; j < this.saveInfo.length; j++) {
+          if (this.saveInfo[j][0][index][0] == items.spValueId) {
+            console.log(j);
             this.saveInfo.splice(j, 1);
-            console.log(this.saveInfo)
+            console.log(this.saveInfo);
           }
         }
         // console.log(this.typeNameId)
         var key = serialArray(this.typeNameId);
         for (var i = 0; i < key.length; i++) {
-         if(this.saveInfo==''){//判断是否填写过
-              this.gathertype[i] = [key[i],{
-            price: "",
-            member: "",
-            specGoodsPurchasePrice: "",
-            commission: "",
-            inventory: "0",
-            mark: "",
-            weight: "",
-            bulk: "",
-            open: true
-          }];
-        }else{
-          console.log(this.saveInfo[i])
-          this.gathertype[i] = [key[i],{
-            price: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].price,
-            member: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].member,
-            specGoodsPurchasePrice: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].specGoodsPurchasePrice,
-            commission: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].commission,
-            inventory: this.saveInfo[i]==undefined? '0':this.saveInfo[i][1].inventory,
-            mark: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].mark,
-            weight: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].weight,
-            bulk: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].bulk,
-            open: true
-          }];
-        }
+          if (this.saveInfo == "") {
+            //判断是否填写过
+            this.gathertype[i] = [
+              key[i],
+              {
+                price: "",
+                member: "",
+                specGoodsPurchasePrice: "",
+                commission: "",
+                inventory: "0",
+                mark: "",
+                weight: "",
+                bulk: "",
+                open: true
+              }
+            ];
+          } else {
+            console.log(this.saveInfo[i]);
+            this.gathertype[i] = [
+              key[i],
+              {
+                price:
+                  this.saveInfo[i] == undefined
+                    ? ""
+                    : this.saveInfo[i][1].price,
+                member:
+                  this.saveInfo[i] == undefined
+                    ? ""
+                    : this.saveInfo[i][1].member,
+                specGoodsPurchasePrice:
+                  this.saveInfo[i] == undefined
+                    ? ""
+                    : this.saveInfo[i][1].specGoodsPurchasePrice,
+                commission:
+                  this.saveInfo[i] == undefined
+                    ? ""
+                    : this.saveInfo[i][1].commission,
+                inventory:
+                  this.saveInfo[i] == undefined
+                    ? "0"
+                    : this.saveInfo[i][1].inventory,
+                mark:
+                  this.saveInfo[i] == undefined ? "" : this.saveInfo[i][1].mark,
+                weight:
+                  this.saveInfo[i] == undefined
+                    ? ""
+                    : this.saveInfo[i][1].weight,
+                bulk:
+                  this.saveInfo[i] == undefined ? "" : this.saveInfo[i][1].bulk,
+                open: true
+              }
+            ];
+          }
         }
         console.log(this.gathertype);
       } else {
         this.gathertype = [];
         // console.log(e, index, sum);
         this.totaltype[index] = this.checkList[index].value;
-        this.typeNameId[index].push([
-          items.spValueId,
-          items.spValueName,
-        ]);
+        this.typeNameId[index].push([items.spValueId, items.spValueName]);
 
         console.log(serialArray(this.typeNameId));
         var key = serialArray(this.typeNameId);
         // console.log(key)
-        
+
         for (var i = 0; i < key.length; i++) {
-            if(this.saveInfo==''){//判断是否填写过
-              this.gathertype[i] = [key[i],{
-            price: "",
-            member: "",
-            specGoodsPurchasePrice: "",
-            commission: "",
-            inventory: "0",
-            mark: "",
-            weight: "",
-            bulk: "",
-            open: true
-          }];
-        }else{
-          console.log(this.saveInfo[i])
-          this.gathertype[i] = [key[i],{
-            price: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].price,
-            member: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].member,
-            specGoodsPurchasePrice: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].specGoodsPurchasePrice,
-            commission: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].commission,
-            inventory: this.saveInfo[i]==undefined? '0':this.saveInfo[i][1].inventory,
-            mark: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].mark,
-            weight: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].weight,
-            bulk: this.saveInfo[i]==undefined? '':this.saveInfo[i][1].bulk,
-            open: true
-          }];
+          if (this.saveInfo == "") {
+            //判断是否填写过
+            this.gathertype[i] = [
+              key[i],
+              {
+                price: "",
+                member: "",
+                specGoodsPurchasePrice: "",
+                commission: "",
+                inventory: "0",
+                mark: "",
+                weight: "",
+                bulk: "",
+                open: true
+              }
+            ];
+          } else {
+            console.log(this.saveInfo[i]);
+            this.gathertype[i] = [
+              key[i],
+              {
+                price:
+                  this.saveInfo[i] == undefined
+                    ? ""
+                    : this.saveInfo[i][1].price,
+                member:
+                  this.saveInfo[i] == undefined
+                    ? ""
+                    : this.saveInfo[i][1].member,
+                specGoodsPurchasePrice:
+                  this.saveInfo[i] == undefined
+                    ? ""
+                    : this.saveInfo[i][1].specGoodsPurchasePrice,
+                commission:
+                  this.saveInfo[i] == undefined
+                    ? ""
+                    : this.saveInfo[i][1].commission,
+                inventory:
+                  this.saveInfo[i] == undefined
+                    ? "0"
+                    : this.saveInfo[i][1].inventory,
+                mark:
+                  this.saveInfo[i] == undefined ? "" : this.saveInfo[i][1].mark,
+                weight:
+                  this.saveInfo[i] == undefined
+                    ? ""
+                    : this.saveInfo[i][1].weight,
+                bulk:
+                  this.saveInfo[i] == undefined ? "" : this.saveInfo[i][1].bulk,
+                open: true
+              }
+            ];
+          }
         }
-        
-          
-        }
-        
-        
+
         console.log(this.gathertype);
       }
 
@@ -1252,11 +1310,10 @@ export default {
         let specGoodsSpecObject = {};
         item[0].forEach(function(goodSpecItem) {
           // goodSpecItem.forEach(function(subGoodSpecItem) {
-            specGoodsSpecObject[goodSpecItem[0]] = goodSpecItem[1];
+          specGoodsSpecObject[goodSpecItem[0]] = goodSpecItem[1];
           // });
-         
         });
-       
+
         // that.typeNameId[index].forEach(function(item) {
         //   specGoodsSpecObject[item[0]] = item[1];
         // });
@@ -1268,79 +1325,78 @@ export default {
         result.push({
           specName: specName,
           specGoodsPrice: item[1].price,
-          specGoodsVipPrice:  item[1].member,
-          specGoodsPurchasePrice:  item[1].specGoodsPurchasePrice,
-          commission:  item[1].commission,
-          specGoodsSerial:  item[1].mark,
-          weight:  item[1].weight,
-          volume:  item[1].bulk,
-          specGoodsStorage:  item[1].inventory,
+          specGoodsVipPrice: item[1].member,
+          specGoodsPurchasePrice: item[1].specGoodsPurchasePrice,
+          commission: item[1].commission,
+          specGoodsSerial: item[1].mark,
+          weight: item[1].weight,
+          volume: item[1].bulk,
+          specGoodsStorage: item[1].inventory,
           specGoodsSpec: JSON.stringify(specGoodsSpecObject),
-          specIsOpen:  item[1].open ? "1" : "0"
+          specIsOpen: item[1].open ? "1" : "0"
         });
       });
       return JSON.stringify(result);
+    },
+    // console.log(result)
+    // let that = this;
+    // let cache = [];
+    // this.checkList.forEach(function(item, index) {
+    //   cache[index] = that.initMapObject();
+    //   let checkVal = item.value;
+    //   that.genre[index].specValueList.forEach(function(subItem, subIndex) {
+    //     if (checkVal.indexOf(subItem.spValueName) < 0) {
+    //       return;
+    //     }
+    //     let tmp = {};
+    //     tmp[subItem.spValueId] = subItem.spValueName;
+    //     cache[index].add(subItem.spValueId, tmp);
+    //   });
+    // });
+    // let _tmp = that.initMapObject();
+    // if (cache.length >= 2) {
+    //   cache[0].converList().forEach(function(item) {
+    //     cache[1].converList().forEach(function(subItem) {
+    //       let keyVal0 = that.getObjectAttr(item, 0);
+    //       let keyVal1 = that.getObjectAttr(subItem, 0);
+    //       let obj = {};
+    //       obj[keyVal0[0]] = keyVal0[1];
+    //       obj[keyVal1[0]] = keyVal1[1];
+    //       _tmp.add(keyVal0[1] + keyVal1[1], JSON.stringify(obj));
+    //     });
+    //   });
+    // } else if (cache.length == 1) {
+    //   cache[0].converList().forEach(function(item) {
+    //     let keyVal0 = that.getObjectAttr(item, 0);
+    //     _tmp.add(keyVal0[1], JSON.stringify(item));
+    //   });
+    // }
+    // let specNameObject = {};
+    // that.genre.forEach(function(item, index) {
+    //   specNameObject[item.spId] = item.spName;
+    // });
+    // let specName = JSON.stringify(specNameObject);
+    // that.specName = specName;
+    // let result = [];
+    // this.skuMapping.converList().forEach(function(item) {
+    //   let key = item[0] + item[1];
+    //   let specGoodsSpec = _tmp.getValue(key);
+    //   result.push({
+    //     specName: specName,
+    //     specGoodsPrice: item[2].price,
+    //     specGoodsVipPrice: item[2].member,
+    //     specGoodsPurchasePrice: item[2].specGoodsPurchasePrice,
+    //     commission: item[2].commission,
+    //     specGoodsSerial: item[2].mark,
+    //     weight: item[2].weight,
+    //     volume: item[2].bulk,
+    //     specGoodsStorage: item[2].inventory,
+    //     specGoodsSpec: specGoodsSpec,
+    //     specIsOpen: item[2].open ? "1" : "0"
+    //   });
+    // });
+    // return JSON.stringify(result);
 
- },
-      // console.log(result)
-      // let that = this;
-      // let cache = [];
-      // this.checkList.forEach(function(item, index) {
-      //   cache[index] = that.initMapObject();
-      //   let checkVal = item.value;
-      //   that.genre[index].specValueList.forEach(function(subItem, subIndex) {
-      //     if (checkVal.indexOf(subItem.spValueName) < 0) {
-      //       return;
-      //     }
-      //     let tmp = {};
-      //     tmp[subItem.spValueId] = subItem.spValueName;
-      //     cache[index].add(subItem.spValueId, tmp);
-      //   });
-      // });
-      // let _tmp = that.initMapObject();
-      // if (cache.length >= 2) {
-      //   cache[0].converList().forEach(function(item) {
-      //     cache[1].converList().forEach(function(subItem) {
-      //       let keyVal0 = that.getObjectAttr(item, 0);
-      //       let keyVal1 = that.getObjectAttr(subItem, 0);
-      //       let obj = {};
-      //       obj[keyVal0[0]] = keyVal0[1];
-      //       obj[keyVal1[0]] = keyVal1[1];
-      //       _tmp.add(keyVal0[1] + keyVal1[1], JSON.stringify(obj));
-      //     });
-      //   });
-      // } else if (cache.length == 1) {
-      //   cache[0].converList().forEach(function(item) {
-      //     let keyVal0 = that.getObjectAttr(item, 0);
-      //     _tmp.add(keyVal0[1], JSON.stringify(item));
-      //   });
-      // }
-      // let specNameObject = {};
-      // that.genre.forEach(function(item, index) {
-      //   specNameObject[item.spId] = item.spName;
-      // });
-      // let specName = JSON.stringify(specNameObject);
-      // that.specName = specName;
-      // let result = [];
-      // this.skuMapping.converList().forEach(function(item) {
-      //   let key = item[0] + item[1];
-      //   let specGoodsSpec = _tmp.getValue(key);
-      //   result.push({
-      //     specName: specName,
-      //     specGoodsPrice: item[2].price,
-      //     specGoodsVipPrice: item[2].member,
-      //     specGoodsPurchasePrice: item[2].specGoodsPurchasePrice,
-      //     commission: item[2].commission,
-      //     specGoodsSerial: item[2].mark,
-      //     weight: item[2].weight,
-      //     volume: item[2].bulk,
-      //     specGoodsStorage: item[2].inventory,
-      //     specGoodsSpec: specGoodsSpec,
-      //     specIsOpen: item[2].open ? "1" : "0"
-      //   });
-      // });
-      // return JSON.stringify(result);
-   
     getObjectAttr(obj, index) {
       let currentIndex = 0;
       for (var arr in obj) {
@@ -1356,10 +1412,10 @@ export default {
       }
       this.leave();
     },
-    
+
     present() {
-    //  console.log(this.gathertype)
-    //  this.getGoodsSpecJson();
+      //  console.log(this.gathertype)
+      //  this.getGoodsSpecJson();
       var _this = this;
       let goodsSpec = this.getGoodsSpec();
       let goodsSpecJson = this.getGoodsSpecJson();
@@ -1956,9 +2012,9 @@ export default {
   padding: 10px;
   border-radius: 5px;
 }
-.encircle{
+.encircle {
   width: 1500px;
-  overflow:scroll;
+  overflow: scroll;
   height: 200px;
 }
 .deployinput {

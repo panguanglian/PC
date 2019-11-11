@@ -631,7 +631,7 @@ export default {
       weights: "",
       specName: "",
       isimg: [],
-      saveType: "1",
+      saveType: "1",//提交类型：修改
       modules: [
         {
           measure: "重量",
