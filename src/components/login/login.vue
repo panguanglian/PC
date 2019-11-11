@@ -58,7 +58,7 @@ export default {
     };
   },
   created(){
-      
+
   },
   methods: {
     login_in(){
@@ -88,7 +88,7 @@ export default {
                 this.dialogVisible=true
               }else if(res.data.data.result==308){
                 localStorage.setItem('Access_token',res.data.data.Access_token)
-                sessionStorage.setItem("numid",res.data.data.mcmemberId)
+                sessionStorage.setItem("numid",res.data.data.mcMemberId)
                 this.$message({message:'该账号信息审核不通过,请重新填写',type:'warning'})
                 this.$router.push({name:'Businesslicense'})
                 this.dialogVisible=true
