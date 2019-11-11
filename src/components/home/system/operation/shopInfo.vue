@@ -519,6 +519,7 @@ export default {
       specName: "",
       isimg: [], //商品图片
       saveType: "0", //提交类型：新增
+      storeId:'',//商户/商店ID
       // modules: [
       //   {
       //     measure: "重量",
@@ -582,7 +583,8 @@ export default {
 
   mounted() {
     this.classification = JSON.parse(sessionStorage.getItem("genre"));
-
+    this.storeId = localStorage.getItem("numid");
+    
     var _this = this;
     this.axios({
       method: "post",
@@ -1636,6 +1638,7 @@ export default {
           params.append("jparams", jparamss);
           params.append("saveType", this.saveType);
           params.append("isPopularize", this.isPopularize);
+          params.append('storeId',this.storeId)
           this.axios({
             method: "post",
             url: "/merchant/goods/saveGoods",

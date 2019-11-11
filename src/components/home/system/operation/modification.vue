@@ -632,6 +632,7 @@ export default {
       specName: "",
       isimg: [],
       saveType: "1",//提交类型：修改
+      storeId:'',//商户id
       modules: [
         {
           measure: "重量",
@@ -694,6 +695,7 @@ export default {
   },
   mounted() {
     this.classification = JSON.parse(sessionStorage.getItem("genre"));
+    this.storeId = localStorage.getItem("numid");
     // console.log(this.$route.params.sgcId);
     // console.log(this.$route.params.sgoodids);
     // this.original = this.$route.params.row;
@@ -705,6 +707,7 @@ export default {
     let params = new URLSearchParams();
     // params.append("gcId", this.$route.params.sgcId);
     params.append("goodsId", this.$route.params.sgoodids);
+    params.append('storeId',this.storeId)
     this.axios({
       method: "post",
       url: "/merchant/goods/detail",
@@ -1808,6 +1811,7 @@ export default {
           params.append("saveType", this.saveType);
           params.append("isPopularize", this.isPopularize);
           params.append("goodsId", this.$route.params.sgoodids);
+          params.append("storeId",this.storeId)
           this.axios({
             method: "post",
             url: "/merchant/goods/saveGoods",

@@ -136,10 +136,12 @@ export default {
       optionsOne:[],
       optionsTwo:[],
       gcBigId:'0',
+      storeId:'',//商户/商店ID
     };
   },
   created() {},
   mounted() {
+    this.storeId = localStorage.getItem("numid");
     this.reqursts();
   },
   methods: {
@@ -165,6 +167,7 @@ export default {
       params.append("storeId", _this.storeId);
       params.append("brandId",_this.brandId)
       params.append('gcBigId',_this.gcBigId)
+      params.append('storeId',this.storeId)
       this.axios({
         method: "post",
         url: "/merchant/goods/",

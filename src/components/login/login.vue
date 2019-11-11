@@ -100,6 +100,8 @@ export default {
                   localStorage.setItem('Access_token',res.data.data.Access_token)
                   localStorage.setItem('names',res.data.data.netWorkName)
                   localStorage.setItem('numni',res.data.data.landingAccount)
+                  localStorage.setItem('numid',res.data.data.mcMemberId)
+                  console.log(res.data.data.mcMemberId)
                   this.$router.push({name:'system',})
               }
             }else if(res.data.code==801){
