@@ -1606,7 +1606,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .shopImg {
   width: 900px;
 }

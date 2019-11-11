@@ -422,7 +422,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .upImg {
   border: 1px solid #ddd;
   width: 200px;

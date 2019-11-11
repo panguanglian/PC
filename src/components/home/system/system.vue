@@ -20,7 +20,7 @@
           </div>
           <div class="info">
             <div class="merchant">{{shopName}}</div>
-            <div class="idInfo">{{Accountnumber}}</div>
+            <div class="idInfo_">{{Accountnumber}}</div>
           </div>
           <div>
             <i class="el-icon-caret-bottom"></i>

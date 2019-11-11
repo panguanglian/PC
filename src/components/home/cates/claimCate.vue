@@ -60,7 +60,7 @@
           <div>电话</div>
           <div>认领</div>
         </div>
-        <div class="option" v-for="(item,index) in option" :key="index">
+        <div class="options" v-for="(item,index) in option" :key="index">
           <div>{{item.name}}</div>
           <div>{{item.site}}</div>
           <div>{{item.phone}}</div>
@@ -322,7 +322,7 @@ body {
   line-height: 40px;
   color: #2F343C;
 }
-.option{
+.options{
   width: 1064px;
   display: flex;
   height: 40px;
@@ -330,7 +330,7 @@ body {
    border:1px solid #DADBE6;
   border-bottom: none;
 }
-.option>div{
+.options>div{
   flex: 1;
   text-align: center;
   line-height: 40px;

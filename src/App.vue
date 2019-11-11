@@ -15,16 +15,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 html{
-  height: 100%;
   background: #eff8fb;
 }
 body{
-  height: 100%;
+  
 }
 #app{
-  height: 100%;
+  
 }
 *{
   margin: 0;

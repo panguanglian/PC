@@ -1835,7 +1835,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .sblock {
   border: 1px solid #dddddd;
   height: 40px;

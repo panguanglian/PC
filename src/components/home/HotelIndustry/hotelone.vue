@@ -411,7 +411,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .dafd{
     margin: 50px 0;
     width: 100%;

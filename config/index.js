@@ -49,12 +49,19 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    proxyTable: {
+      '/': {
+           target: 'http://192.168.10.179:8082/api/v1',// 请换成你的地址
+           changeOrigin: true,
+          
+       },
+   },
 
     /**
      * Source Maps
      */
 
-    productionSourceMap: true,
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 
