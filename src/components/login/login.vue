@@ -5,6 +5,7 @@
       <span>商家后台管理</span>
     </div>
     <div class="divbox">
+      <img src="../../assets/login_img.png" class="box_img">
       <div class="loginin">
         <div class="change">
           <div
@@ -18,7 +19,7 @@
           <el-input placeholder="请输入账户名" prefix-icon="el-icon-user-solid" v-model="username" class="input"></el-input>
           <el-input type="password" placeholder="请输入密码" prefix-icon="el-icon-unlock" v-model="password" class="input"></el-input>
           <div class="button shou" @click="login_in">登录</div>
-          <router-link tag="div" class="button logins shou" to='enroll'>注册账号，免费入住</router-link>
+          <router-link tag="div" class="button logins shou" to='enroll'>注册账号，免费入驻</router-link>
           <!-- <router-link tag="p" class="p shou" to="Forgetpassword">忘记密码</router-link> -->
         </div>
          <div v-else>
@@ -126,6 +127,7 @@ export default {
 };
 </script>
 <style scoped>
+
 .shou{
   cursor: pointer;
 }
@@ -145,6 +147,7 @@ html{
   margin-top: 10px;
   color: #2e7bee;
   text-align: center;
+  font-size: 00.9rem
 
 }
 .color {
@@ -163,12 +166,20 @@ html{
 }
 .divbox {
   height: 500px;
-  background: #2e7bee;
+  background: #EFF8FB;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   padding-right: 200px;
   box-sizing: border-box;
+
+}
+.box_img{
+  position: absolute;
+  left: 200px;
+  top: 200px;
+  width: 400px;
+  height: 400px;
 }
 .loginin {
   width: 400px;
@@ -176,6 +187,7 @@ html{
   border-radius: 6px;
   height: 70%;
   padding: 10px 30px;
+  box-shadow: 1px 4px 25px -6px #8AB6F8;
 }
 .change {
   display: flex;

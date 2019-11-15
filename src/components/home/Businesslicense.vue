@@ -184,7 +184,7 @@
              </div>
           </div>
           <div class="TableAgreement">
-            <el-checkbox v-model="checkque">我已经阅读并同意<span>《异业联盟平台合作协议》</span></el-checkbox>
+            <!-- <el-checkbox v-model="checkque">我已经阅读并同意<span>《异业联盟平台合作协议》</span></el-checkbox> -->
           </div>
 
         </div>
@@ -206,7 +206,7 @@ export default {
         onesrc:[],//身份证正面
         trwosrc:[],//身份证背面面
         strwisrc:[],//营业执照照片
-        checkque:false,//同意平台协议
+        // checkque:false,//同意平台协议
         yeartime:false,//身份证是否长期
         yeartimes:false,//营业执照是否长期
         phonenumber:'',//手机号码
@@ -253,8 +253,6 @@ export default {
             this.$message({message: '执照名称含有为空格或者为空',type: 'warning'});
      }else if(!xing.test(this.legalperson)){
             this.$message({message: '法人姓名格式不正确',type: 'warning'});
-     }else if(!this.checkque){
-          this.$message({message: '请阅读同意平台协议',type: 'warning'});
      }else if(!this.yeartime){
         if(this.years.length==""){
           this.$message({message: '身份证年限为空',type: 'warning'});

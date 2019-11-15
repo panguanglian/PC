@@ -28,6 +28,9 @@
           </el-form-item>
         </el-form>
       </div>
+      <div class="verify">
+        <el-checkbox v-model="checked_xieyi">我已经阅读并同意<span class="color_xiyi" @click="link_xieyi">《海露异业联盟平台供应商入驻协议》</span><span class="color_xiyi" @click="link_xieyi_home">《商家入驻协议》</span></el-checkbox>
+      </div>
       <div class="btn" @click="next">注册并前往入驻</div>
     </div>
   </div>
@@ -45,10 +48,17 @@ export default {
       phone: "",//手机号码
       account:'',//用户账号
       password:'',//密码
-      passwords:''//二次密码
+      passwords:'',//二次密码
+      checked_xieyi:false,
     };
   },
   methods: {
+    link_xieyi(){
+        this.$router.push({name:"hailu_agreement"})
+    },
+    link_xieyi_home(){
+        this.$router.push({name:"merchant_agreement"})
+    },
     next() {
       var phones = /^1[34578]\d{9}$/; //手机号码格式验证
       var kong = /\s/; //含有空格正则
@@ -81,6 +91,11 @@ export default {
       }else if(kong.test(this.code)||this.code.length<4){
           this.$message({
                 message:'请输入验证码',
+                type:'warning'
+            })
+      }else if(!checked_xieyi){
+          this.$message({
+                message:'请同意平台协议',
                 type:'warning'
             })
       }else{
@@ -245,6 +260,9 @@ body{
   height: 38px;
   border-radius: 5px;
   border: 1px solid #dddddd;
+}
+.color_xiyi{
+  color: #2e7bee;
 }
 /* .vInput input {
   width: 288px;

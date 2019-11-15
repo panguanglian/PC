@@ -243,6 +243,16 @@ export default new Router({
         name: 'ue',
         component: () => import('@/components/UE/ue')
     },
+    {
+        path:'/hailu_agreement',
+        name:'hailu_agreement',
+        component:()=> import('@/components/agreement/hailu_agreement')
+    },
+    {
+        path:'/merchant_agreement',
+        name:'merchant_agreement',
+        component:()=> import('@/components/agreement/merchant_agreement')
+    },
 
     ]
 
