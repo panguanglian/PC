@@ -11,7 +11,7 @@ import '../static/ueditor/lang/zh-cn/zh-cn.js'
 import '../static/ueditor/ueditor.parse.min'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/styles/iconfont.css'
-
+// axios.defaults.baseURL = "http://192.168.10.243:8082/api/v1/";
 axios.interceptors.request.use(
     config => {
       let token = localStorage.getItem("Access_token");
