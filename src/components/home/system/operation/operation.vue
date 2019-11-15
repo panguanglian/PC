@@ -63,10 +63,10 @@ export default {
       curnum:null,
       headerData: [
         {
-          name: "发货管理",
+          name: "商品管理",
           list: [
-            { name: "发货查询", url: "/system/operation/goods" },
-            { name: "发货中心", url: "/system/operation/shipments" },
+            { name: "商品列表", url: "/system/operation/goods" },
+            { name: "商品发布", url: "/system/operation/shipments" },
             // { name: "物流工具", url: "/system/operation/shipments" },
             // { name: "物流概况", url: "/system/operation/shipments" },
             // { name: "物流工具", url: "/system/operation/shipments" },
@@ -253,8 +253,9 @@ body {
   color: #707070;
 }
 .option.active{
-  background: #2e7bee;
-  color: #ffffff;
+  /* background: #2e7bee;
+  color: #ffffff; */
+  color: #2e7bee;
 }
 .barOption {
   margin-top: 8px;

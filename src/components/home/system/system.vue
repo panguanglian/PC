@@ -8,12 +8,12 @@
         <div style="font-size:30px;">管理后台</div>
       </router-link>
       <div class="operation">
-        <router-link tag="div" to="/system/information">站内信</router-link>|
+        <!-- <router-link tag="div" to="/system/information">站内信</router-link>|
         <router-link tag="div" to="/system/Customerservice">客服平台</router-link>|
         <router-link tag="div" to="/system/Contactus">联系海露</router-link>|
         <router-link tag="div" to="/system/RuleCenter">规则中心</router-link>|
         <router-link tag="div" to="/system/helpcenter">帮助中心</router-link>|
-        <router-link tag="div" to="/system/Downloadclient">下载客户端</router-link>
+        <router-link tag="div" to="/system/Downloadclient">下载客户端</router-link> -->
         <div class="user" @click="usre">
           <div class="head">
               <img src="../../../assets/touxiang.png" alt="">
@@ -89,13 +89,7 @@ export default {
 };
 </script>
 <style scoped>
-html{
-  height: 100%;
-  
-}
-body{
-  height: 100%;
-}
+
 .home{
   height: 100%;
   background: #EFF8FB;
@@ -110,9 +104,9 @@ body{
   align-items: center;
   color: white;
 }
-.nav > div {
+/* .nav > div {
   flex: 1;
-}
+} */
 .operation {
   display: flex;
   position: absolute;
@@ -183,5 +177,15 @@ body{
     width: 150px;
     height: 50px;
     line-height: 50px;
+}
+</style>
+<style>
+html{
+ height: 100%;
+  /* background: #eff8fb; */
+  
+}
+body{
+  height: 100%;
 }
 </style>
